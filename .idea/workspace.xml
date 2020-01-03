@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="- funcion main pulida&#10;- modulos de extraccion de datos pulidos&#10;- borradas imagenes dañadas">
-      <change afterPath="$PROJECT_DIR$/1minuto.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/horario.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/imagen compra.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/imagen venta.jpg" afterDir="false" />
+    <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADX.py" beforeDir="false" afterPath="$PROJECT_DIR$/ADX.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_m1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_m1.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,7 +39,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="settings.editor.selected.configurable" value="configurable.group.project" />
   </component>
-  <component name="RunManager" selected="Python.analisis_y_estrategia">
+  <component name="RunManager" selected="Python.main">
     <configuration name="analisis_y_estrategia" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="bot binarias" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -86,8 +84,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.analisis_y_estrategia" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.analisis_y_estrategia" />
       </list>
     </recent_temporary>
   </component>
@@ -121,70 +119,78 @@
       <option name="project" value="LOCAL" />
       <updated>1578065281663</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="- modulo analisis_y_estrategia.py creado y añadidas funciones ejecucion y click image">
+      <created>1578072816015</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1578072816016</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="- funcion main pulida&#10;- modulos de extraccion de datos pulidos&#10;- borradas imagenes dañadas" />
-    <option name="LAST_COMMIT_MESSAGE" value="- funcion main pulida&#10;- modulos de extraccion de datos pulidos&#10;- borradas imagenes dañadas" />
+    <MESSAGE value="- modulo analisis_y_estrategia.py creado y añadidas funciones ejecucion y click image" />
+    <option name="LAST_COMMIT_MESSAGE" value="- modulo analisis_y_estrategia.py creado y añadidas funciones ejecucion y click image" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="179" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1578063180337" />
-    <state x="614" y="115" key="CommitChangelistDialog2" timestamp="1578072811685">
+    <state x="614" y="115" key="CommitChangelistDialog2" timestamp="1578090812032">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="614" y="115" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1578072811685" />
+    <state x="614" y="115" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1578090812032" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1578057868041">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="739" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1578057868041" />
-    <state width="1882" height="282" key="GridCell.Tab.0.bottom" timestamp="1578072511740">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1578090608390">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1882" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1578072511740" />
-    <state width="1882" height="282" key="GridCell.Tab.0.center" timestamp="1578072511739">
+    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1578090608390" />
+    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1578090608389">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1882" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1578072511739" />
-    <state width="1882" height="282" key="GridCell.Tab.0.left" timestamp="1578072511739">
+    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1578090608389" />
+    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1578090608388">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1882" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1578072511739" />
-    <state width="1882" height="282" key="GridCell.Tab.0.right" timestamp="1578072511740">
+    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1578090608388" />
+    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1578090608389">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1882" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1578072511740" />
-    <state x="540" y="255" key="IDE.errors.dialog" timestamp="1578071761632">
+    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1578090608389" />
+    <state x="540" y="255" key="IDE.errors.dialog" timestamp="1578087577117">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="540" y="255" key="IDE.errors.dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1578071761632" />
+    <state x="540" y="255" key="IDE.errors.dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1578087577117" />
     <state x="461" y="163" key="SettingsEditor" timestamp="1578071089294">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1578071089294" />
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1578064119345">
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1578086702699">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1578064119345" />
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1578086702699" />
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578071106605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1578071106605" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1578067527627">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1578088665457">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1578067527627" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1578088665457" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/analisis_y_estrategia.py</url>
-          <line>32</line>
+          <line>36</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

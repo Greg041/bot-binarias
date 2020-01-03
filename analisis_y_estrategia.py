@@ -1,8 +1,10 @@
 import cv2
-import numpy as np
+import matplotlib.pyplot as plt
 import pyautogui
 import random
 import time
+from ADX import ADX
+from RSI import RSI
 
 
 def r(num, rand):
@@ -20,6 +22,8 @@ pos : array containing the position of the top left corner of the image [x,y]
 action : button of the mouse to activate : "left" "right" "middle", see pyautogui.click documentation for more info
 time : time taken for the mouse to move from where it was to the new position
 '''
+
+
 def click_image(image, pos, action, timestamp, offset=5):
     img = cv2.imread(image)
     height, width, channels = img.shape
@@ -41,4 +45,48 @@ def ejecucion(signal):
         click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
 
 
-def analisis_y_estrategia(ohlc_5min):
+def analisis_y_estrategia(ohlc_5min, ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_5min, resistencia_max_1min,
+                          soporte_min_1min):
+    adx_5min = ADX(ohlc_5min, 14)
+    adx_1min = ADX(ohlc_1min, 21)
+    print("compra1", adx_5min.iloc[-1, 0] > 25.0 and adx_5min.iloc[-1, 2] > 25.0, adx_1min.iloc[-1, 0] > 25.0 and
+          adx_1min.iloc[-1, 2] > 25.0)
+    print("venta1", (adx_5min.iloc[-1, 0] > 25.0 and adx_5min.iloc[-1, 1] > 25.0), (adx_1min.iloc[-1, 0] > 25.0 and
+                                                                                    adx_1min.iloc[-1, 1] > 25.0))
+    if (adx_5min.iloc[-1, 0] > 25.0 and adx_5min.iloc[-1, 2] > 25.0) and (adx_1min.iloc[-1, 0] > 25.0 and
+                                                                          adx_1min.iloc[-1, 2] > 25.0):
+        rsi_100 = RSI(ohlc_5s, 100)
+        rsi_14 = RSI(ohlc_5s, 14)
+        print("compra2", (rsi_100.iloc[-1] > 70.0), (rsi_14.iloc[-2] < rsi_100.iloc[-2] and rsi_14.iloc[-1] > rsi_100.iloc[-1]),
+              (ohlc_5s["c"].iloc[-2] < ohlc_5s["c"].iloc[-1]), (resistencia_max_5min > resistencia_max_1min >\
+                                                                ohlc_5s["c"].iloc[-1] or resistencia_max_1min >\
+                                                                resistencia_max_5min > ohlc_5s["c"].iloc[-1]))
+        if (rsi_100.iloc[-1] > 70.0) and (rsi_14.iloc[-2] < rsi_100.iloc[-2] and rsi_14.iloc[-1] > rsi_100.iloc[-1]) and \
+                (ohlc_5s["c"].iloc[-2] < ohlc_5s["c"].iloc[-1]):
+            if resistencia_max_5min > resistencia_max_1min > ohlc_5s["c"].iloc[-1]:
+                return "compra"
+            elif resistencia_max_1min > resistencia_max_5min > ohlc_5s["c"].iloc[-1]:
+                return "compra"
+            else:
+                return ""
+        else:
+            return ""
+    elif (adx_5min.iloc[-1, 0] > 25.0 and adx_5min.iloc[-1, 1] > 25.0) and (adx_1min.iloc[-1, 0] > 25.0 and
+                                                                            adx_1min.iloc[-1, 1] > 25.0):
+        rsi_100 = RSI(ohlc_5s, 100)
+        rsi_14 = RSI(ohlc_5s, 14)
+        print((rsi_100.iloc[-1] < 30.0), (rsi_14.iloc[-2] > rsi_100.iloc[-2] and rsi_14.iloc[-1] < rsi_100.iloc[-1]),
+              (ohlc_5s["c"].iloc[-2] > ohlc_5s["c"].iloc[-1]), (soporte_min_5min < soporte_min_1min < ohlc_5s["c"].iloc[-1] or\
+              soporte_min_1min < soporte_min_5min < ohlc_5s["c"].iloc[-1]))
+        if (rsi_100.iloc[-1] < 30.0) and (rsi_14.iloc[-2] > rsi_100.iloc[-2] and rsi_14.iloc[-1] < rsi_100.iloc[-1]) and \
+                (ohlc_5s["c"].iloc[-2] > ohlc_5s["c"].iloc[-1]):
+            if soporte_min_5min < soporte_min_1min < ohlc_5s["c"].iloc[-1]:
+                return "venta"
+            elif soporte_min_1min < soporte_min_5min < ohlc_5s["c"].iloc[-1]:
+                return "venta"
+            else:
+                return ""
+        else:
+            return ""
+    else:
+        return ""

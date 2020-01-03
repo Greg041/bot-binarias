@@ -1,5 +1,6 @@
 from ExtraccionDatosFxcmpy import ExtraccionFxcmpy
 from ExtraccionDatosOanda import ExtraccionOanda
+from analisis_y_estrategia import analisis_y_estrategia, ejecucion
 import oandapyV20
 import oandapyV20.endpoints.instruments as instruments
 import oandapyV20.endpoints.pricing as pricing
@@ -16,10 +17,10 @@ def run(tiempo_de_ejecucion_minutos):
     timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
     time.sleep(25)
     datos_1min = pd.read_csv("datos_m1.csv", index_col="date")
-    soporte_max_1min = datos_1min["l"].rolling(150).min().iloc[-1]
-    resistencia_1min = datos_1min["h"].rolling(150).max().iloc[-1]
+    soporte_min_1min = datos_1min["l"].rolling(150).min().iloc[-1]
+    resistencia_max_1min = datos_1min["h"].rolling(150).max().iloc[-1]
     datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
-    soporte_max_5min = datos_5min["l"].rolling(50).min().iloc[-1]
+    soporte_min_5min = datos_5min["l"].rolling(50).min().iloc[-1]
     resistencia_max_5min = datos_5min["h"].rolling(50).max().iloc[-1]
     params = {"count": 500, "granularity": "S5"}  # granularity can be in seconds S5 -
     # S30, minutes M1 - M30, hours H1 - H12, days D, weeks W or months M
@@ -30,10 +31,10 @@ def run(tiempo_de_ejecucion_minutos):
     client.request(candles)
     ohlc_dict = candles.response["candles"]
     ohlc = pd.DataFrame(ohlc_dict)
-    ohlc_df = ohlc.mid.dropna().apply(pd.Series)
-    ohlc_df["volume"] = ohlc["volume"]
-    ohlc_df.index = ohlc["time"]
-    ohlc_df = ohlc_df.apply(pd.to_numeric)
+    datos_5s = ohlc.mid.dropna().apply(pd.Series)
+    datos_5s["volume"] = ohlc["volume"]
+    datos_5s.index = ohlc["time"]
+    datos_5s = datos_5s.apply(pd.to_numeric)
     live_data = []  # precios que recorre el par de divisa en el timeframe seleccionado
     live_price_request = pricing.PricingInfo(accountID=account_id, params={"instruments": divisa})
     rango_precios = []
@@ -41,17 +42,17 @@ def run(tiempo_de_ejecucion_minutos):
         if f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1}" != \
                 datos_1min.iloc[-1].name[14:16]:
             datos_1min = pd.read_csv("datos_m1.csv", index_col="date")
-            soporte_max_1min = datos_1min["l"].rolling(150).min().iloc[-1]
-            resistencia_1min = datos_1min["h"].rolling(150).max().iloc[-1]
-            print(datos_1min)
+            soporte_min_1min = datos_1min["l"].rolling(150).min().iloc[-1]
+            resistencia_max_1min = datos_1min["h"].rolling(150).max().iloc[-1]
+            # print(datos_1min)
         if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
                 int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
                 (datos_5min.iloc[-1].name[
                  14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1}"):
             datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
             resistencia_max_5min = datos_5min["h"].rolling(50).max().iloc[-1]
-            soporte_max_5min = datos_5min["l"].rolling(50).min().iloc[-1]
-            print(datos_5min)
+            soporte_min_5min = datos_5min["l"].rolling(50).min().iloc[-1]
+            # print(datos_5min)
         starttime = time.time()
         timeout2 = starttime + 5
         while starttime <= timeout2:  # Se cuenta 5 segundos de extraccion de datos para luego filtrar
@@ -67,14 +68,21 @@ def run(tiempo_de_ejecucion_minutos):
         last_data_row['h'] = round(max(rango_precios), 6)
         last_data_row['l'] = round(min(rango_precios), 6)
         last_data_row['c'] = round(rango_precios[-1], 6)
-        ohlc_df = ohlc_df.append(last_data_row, sort=False)
-        # ejecucion("venta", "1minuto")
-        print(ohlc_df)
+        datos_5s = datos_5s.append(last_data_row, sort=False)
+        datos_5s = datos_5s.iloc[-500:]
+        signal = analisis_y_estrategia(datos_5min, datos_1min, datos_5s, resistencia_max_5min, soporte_min_5min,
+                              resistencia_max_1min, soporte_min_1min)
+        ejecucion(signal)
         live_data.clear()
         rango_precios.clear()
 
 
 if __name__ == "__main__":
-    # while time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())) != '2020-12-29 16:08:00':
-    #     pass
-    run(5)
+    mes = input("introduzca el mes de inicio: ")
+    dia = input("introduzca el dia de inicio: ")
+    hora = input("introduzca la hora de inicio (militar): ")
+    minuto = input("introduzca el minuto de inicio: ")
+    tiempo = int(input("introduzca el tiempo de ejecucion en minutos: "))
+    while time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())) != f'2020-{mes}-{dia} {hora}:{minuto}:00':
+        pass
+    run(tiempo)
