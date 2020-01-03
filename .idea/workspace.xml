@@ -1,29 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
+    <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="- funcion main pulida&#10;- modulos de extraccion de datos pulidos&#10;- borradas imagenes dañadas">
+      <change afterPath="$PROJECT_DIR$/1minuto.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/horario.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/imagen compra.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/imagen venta.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1minute_000.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2minute.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2minute_000.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2minute_001.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExtraccionDatosFxcmpy.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExtraccionDatosFxcmpy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExtraccionDatosOanda.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExtraccionDatosOanda.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compra.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compra_000.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compra_001.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compra_002.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/compra_003.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/horario.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/horario_000.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testarea.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testarea_000.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venta.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venta_000.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venta_001.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/venta_002.jpg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +25,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="1VspnWzAD7TvetJvcN5BJVDieXs" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -53,9 +39,30 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.project" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.analisis_y_estrategia">
+    <configuration name="analisis_y_estrategia" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="bot binarias" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/analisis_y_estrategia.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="bot binarias" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -79,6 +86,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.analisis_y_estrategia" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
@@ -106,47 +114,80 @@
       <option name="presentableId" value="Default" />
       <updated>1578051824094</updated>
     </task>
+    <task id="LOCAL-00001" summary="- funcion main pulida&#10;- modulos de extraccion de datos pulidos&#10;- borradas imagenes dañadas">
+      <created>1578065281663</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1578065281663</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="- funcion main pulida&#10;- modulos de extraccion de datos pulidos&#10;- borradas imagenes dañadas" />
+    <option name="LAST_COMMIT_MESSAGE" value="- funcion main pulida&#10;- modulos de extraccion de datos pulidos&#10;- borradas imagenes dañadas" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="179" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1578063180337" />
+    <state x="614" y="115" key="CommitChangelistDialog2" timestamp="1578070347723">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="614" y="115" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1578070347723" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1578057868041">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="739" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1578057868041" />
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1578061897070">
+    <state width="1882" height="282" key="GridCell.Tab.0.bottom" timestamp="1578072511740">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1578061897070" />
-    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1578061897070">
+    <state width="1882" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1578072511740" />
+    <state width="1882" height="282" key="GridCell.Tab.0.center" timestamp="1578072511739">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1578061897070" />
-    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1578061897068">
+    <state width="1882" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1578072511739" />
+    <state width="1882" height="282" key="GridCell.Tab.0.left" timestamp="1578072511739">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1578061897068" />
-    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1578061897070">
+    <state width="1882" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1578072511739" />
+    <state width="1882" height="282" key="GridCell.Tab.0.right" timestamp="1578072511740">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1578061897070" />
-    <state x="461" y="163" key="SettingsEditor" timestamp="1578064359520">
+    <state width="1882" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1578072511740" />
+    <state x="540" y="255" key="IDE.errors.dialog" timestamp="1578071761632">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="461" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1578064359520" />
+    <state x="540" y="255" key="IDE.errors.dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1578071761632" />
+    <state x="461" y="163" key="SettingsEditor" timestamp="1578071089294">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1578071089294" />
     <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1578064119345">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1578064119345" />
-    <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578063187523">
+    <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578071106605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1578063187523" />
+    <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1578071106605" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1578067527627">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1578067527627" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/analisis_y_estrategia.py</url>
+          <line>32</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
