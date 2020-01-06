@@ -9,12 +9,12 @@ import pandas as pd
 
 
 def run(tiempo_de_ejecucion_minutos):
+    timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
     divisa = "EUR_USD"
     proceso_1_min = ExtraccionFxcmpy(500, "m1", "EUR/USD")
     proceso_5_min = ExtraccionOanda(100, "M5", "EUR_USD")
     proceso_1_min.start()
     proceso_5_min.start()
-    timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
     time.sleep(25)
     datos_1min = pd.read_csv("datos_m1.csv", index_col="date")
     soporte_min_1min = datos_1min["l"].rolling(150).min().iloc[-1]
@@ -39,12 +39,11 @@ def run(tiempo_de_ejecucion_minutos):
     live_price_request = pricing.PricingInfo(accountID=account_id, params={"instruments": divisa})
     rango_precios = []
     while time.time() <= timeout:
-        if f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1}" != \
+        if f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
                 datos_1min.iloc[-1].name[14:16]:
             datos_1min = pd.read_csv("datos_m1.csv", index_col="date")
             soporte_min_1min = datos_1min["l"].rolling(150).min().iloc[-1]
             resistencia_max_1min = datos_1min["h"].rolling(150).max().iloc[-1]
-            # print(datos_1min)
         if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
                 int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
                 (datos_5min.iloc[-1].name[
@@ -52,7 +51,6 @@ def run(tiempo_de_ejecucion_minutos):
             datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
             resistencia_max_5min = datos_5min["h"].rolling(50).max().iloc[-1]
             soporte_min_5min = datos_5min["l"].rolling(50).min().iloc[-1]
-            # print(datos_5min)
         starttime = time.time()
         timeout2 = starttime + 5
         while starttime <= timeout2:  # Se cuenta 5 segundos de extraccion de datos para luego filtrar
@@ -71,7 +69,7 @@ def run(tiempo_de_ejecucion_minutos):
         datos_5s = datos_5s.append(last_data_row, sort=False)
         datos_5s = datos_5s.iloc[-500:]
         signal = analisis_y_estrategia(datos_5min, datos_1min, datos_5s, resistencia_max_5min, soporte_min_5min,
-                              resistencia_max_1min, soporte_min_1min)
+                                       resistencia_max_1min, soporte_min_1min)
         ejecucion(signal)
         live_data.clear()
         rango_precios.clear()

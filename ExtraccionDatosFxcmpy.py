@@ -37,7 +37,7 @@ class ExtraccionFxcmpy(Process):
             ohlc_df["soporte"] = ohlc_df["l"].rolling(20).min()
             pd.DataFrame.to_csv(ohlc_df, f"datos_{self.timeframe}.csv")
             if contador_primera_vez == 0:
-                time.sleep(temporalidad - ((time.time() - starttime) % temporalidad) - 1)
+                time.sleep(temporalidad - ((time.time() - starttime) % temporalidad) - 5)
                 contador_primera_vez += 1
             else:
-                time.sleep((temporalidad - ((time.time() - starttime2) % temporalidad)) - 1)
+                time.sleep((temporalidad - ((time.time() - starttime2) % temporalidad)) - 5)
