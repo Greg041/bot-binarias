@@ -47,22 +47,22 @@ def ejecucion(signal):
 
 def analisis_y_estrategia(ohlc_5min, ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_5min, resistencia_max_1min,
                           soporte_min_1min):
-    adx_5s = ADX(ohlc_5s, 14)
-    adx_1min = ADX(ohlc_1min, 21)
-    print("compra1", adx_5s.iloc[-1, 0] > 25.0 and adx_5s.iloc[-1, 2] > 25.0, adx_1min.iloc[-1, 0] > 25.0 and
-          adx_1min.iloc[-1, 2] > 25.0)
-    print("venta1", (adx_5s.iloc[-1, 0] > 25.0 and adx_5s.iloc[-1, 1] > 25.0), (adx_1min.iloc[-1, 0] > 25.0 and
-                                                                                    adx_1min.iloc[-1, 1] > 25.0))
-    if (adx_5s.iloc[-1, 0] > 25.0 and adx_5s.iloc[-1, 2] > 25.0) and (adx_1min.iloc[-1, 0] > 25.0 and
-                                                                          adx_1min.iloc[-1, 2] > 25.0):
-        rsi_50 = RSI(ohlc_5s, 50)
-        rsi_14 = RSI(ohlc_5s, 14)
-        print("compra2", (rsi_50.iloc[-1] > 70.0), (rsi_14.iloc[-2] < rsi_50.iloc[-2] and rsi_14.iloc[-1] > rsi_50.iloc[-1]),
-              (ohlc_5s["c"].iloc[-2] < ohlc_5s["c"].iloc[-1]), (resistencia_max_5min > resistencia_max_1min >\
-                                                                ohlc_5s["c"].iloc[-1] or resistencia_max_1min >\
-                                                                resistencia_max_5min > ohlc_5s["c"].iloc[-1]))
-        if (rsi_50.iloc[-1] > 70.0) and (rsi_14.iloc[-2] < rsi_50.iloc[-2] and rsi_14.iloc[-1] > rsi_50.iloc[-1]) and \
-                (ohlc_5s["c"].iloc[-2] < ohlc_5s["c"].iloc[-1]):
+    rsi_42 = RSI(ohlc_5s, 42)
+    rsi_14 = RSI(ohlc_5s, 14)
+    print("compra1", (rsi_42.iloc[-2] < 30.0),
+          (rsi_14.iloc[-2] < rsi_42.iloc[-2] and rsi_14.iloc[-1] > rsi_42.iloc[-1]),
+          (ohlc_5s["c"].iloc[-2] < ohlc_5s["c"].iloc[-1]))
+    print("venta1", (rsi_42.iloc[-2] > 70.0), (rsi_14.iloc[-2] > rsi_42.iloc[-2] and rsi_14.iloc[-1] < rsi_42.iloc[-1])
+          (ohlc_5s["c"].iloc[-2] > ohlc_5s["c"].iloc[-1]))
+    if (rsi_42.iloc[-2] < 30.0) and (rsi_14.iloc[-2] < rsi_42.iloc[-2] and rsi_14.iloc[-1] > rsi_42.iloc[-1]) and \
+            (ohlc_5s["c"].iloc[-2] < ohlc_5s["c"].iloc[-1]):
+        adx_1min = ADX(ohlc_1min, 21)
+        print("compra2", (adx_1min.iloc[-1, 0] < 25.0 and adx_1min.iloc[-1, 1] < 25.0),
+              (resistencia_max_5min > resistencia_max_1min >
+               ohlc_5s["c"].iloc[-1] or resistencia_max_1min >
+               resistencia_max_5min > ohlc_5s["c"].iloc[-1]))
+        if adx_1min.iloc[-1, 0] < 25.0 and (adx_1min.iloc[-1, 1] < adx_1min.iloc[-2, 1] and
+                                            adx_1min.iloc[-1, 2] > adx_1min.iloc[-2, 2]):
             if resistencia_max_5min > resistencia_max_1min > ohlc_5s["c"].iloc[-1]:
                 return "compra"
             elif resistencia_max_1min > resistencia_max_5min > ohlc_5s["c"].iloc[-1]:
@@ -71,15 +71,13 @@ def analisis_y_estrategia(ohlc_5min, ohlc_1min, ohlc_5s, resistencia_max_5min, s
                 return ""
         else:
             return ""
-    elif (adx_5s.iloc[-1, 0] > 25.0 and adx_5s.iloc[-1, 1] > 25.0) and (adx_1min.iloc[-1, 0] > 25.0 and
-                                                                            adx_1min.iloc[-1, 1] > 25.0):
-        rsi_50 = RSI(ohlc_5s, 50)
-        rsi_14 = RSI(ohlc_5s, 14)
-        print("venta2", (rsi_50.iloc[-1] < 30.0), (rsi_14.iloc[-2] > rsi_50.iloc[-2] and rsi_14.iloc[-1] < rsi_50.iloc[-1]),
-              (ohlc_5s["c"].iloc[-2] > ohlc_5s["c"].iloc[-1]), (soporte_min_5min < soporte_min_1min < ohlc_5s["c"].iloc[-1] or\
-              soporte_min_1min < soporte_min_5min < ohlc_5s["c"].iloc[-1]))
-        if (rsi_50.iloc[-1] < 30.0) and (rsi_14.iloc[-2] > rsi_50.iloc[-2] and rsi_14.iloc[-1] < rsi_50.iloc[-1]) and \
-                (ohlc_5s["c"].iloc[-2] > ohlc_5s["c"].iloc[-1]):
+    elif (rsi_42.iloc[-2] > 70.0) and (rsi_14.iloc[-2] > rsi_42.iloc[-2] and rsi_14.iloc[-1] < rsi_42.iloc[-1]) and \
+            (ohlc_5s["c"].iloc[-2] > ohlc_5s["c"].iloc[-1]):
+        adx_1min = ADX(ohlc_1min, 21)
+        print("venta2", (adx_1min.iloc[-1, 0] < 25.0 and adx_1min.iloc[-1, 2] < 25.0), resistencia_max_5min > resistencia_max_1min > ohlc_5s["c"].iloc[-1] or
+              resistencia_max_1min > resistencia_max_5min > ohlc_5s["c"].iloc[-1])
+        if adx_1min.iloc[-1, 0] < 25.0 and (adx_1min.iloc[-1, 1] > adx_1min.iloc[-2, 1] and
+                                            adx_1min.iloc[-1, 2] < adx_1min.iloc[-2, 2]):
             if soporte_min_5min < soporte_min_1min < ohlc_5s["c"].iloc[-1]:
                 return "venta"
             elif soporte_min_1min < soporte_min_5min < ohlc_5s["c"].iloc[-1]:

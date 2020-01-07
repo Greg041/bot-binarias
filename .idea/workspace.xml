@@ -3,12 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExtraccionDatosFxcmpy.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExtraccionDatosFxcmpy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExtraccionDatosOanda.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExtraccionDatosOanda.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_m1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_m1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,25 +131,46 @@
       <option name="project" value="LOCAL" />
       <updated>1578090821513</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary=". Cambio a la función de analisis para analizar el adx en 5s y tomarlo como referencia en lugar del de 5m&#10;- restando 5 segundos a la extraccion de datos en oanda y fxcm para mejor sincronizacion">
+      <created>1578326992905</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1578326992905</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="- funcion main pulida&#10;- modulos de extraccion de datos pulidos&#10;- borradas imagenes dañadas" />
     <MESSAGE value="- modulo analisis_y_estrategia.py creado y añadidas funciones ejecucion y click image" />
     <MESSAGE value="- finalizada funcion analisis_y_estrategia &#10;- pulida funcion main&#10;- falta por testear en vivo" />
-    <option name="LAST_COMMIT_MESSAGE" value="- finalizada funcion analisis_y_estrategia &#10;- pulida funcion main&#10;- falta por testear en vivo" />
+    <MESSAGE value=". Cambio a la función de analisis para analizar el adx en 5s y tomarlo como referencia en lugar del de 5m&#10;- restando 5 segundos a la extraccion de datos en oanda y fxcm para mejor sincronizacion" />
+    <option name="LAST_COMMIT_MESSAGE" value=". Cambio a la función de analisis para analizar el adx en 5s y tomarlo como referencia en lugar del de 5m&#10;- restando 5 segundos a la extraccion de datos en oanda y fxcm para mejor sincronizacion" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="179" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1578063180337" />
-    <state x="614" y="115" key="CommitChangelistDialog2" timestamp="1578090812032">
+    <state x="614" y="115" key="CommitChangelistDialog2" timestamp="1578326986535">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="614" y="115" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1578090812032" />
+    <state x="614" y="115" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1578326986535" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1578057868041">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -181,10 +199,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1578071089294" />
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1578326831843">
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1578387404890">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1578326831843" />
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1578387404890" />
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578071106605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
