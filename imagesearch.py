@@ -251,3 +251,5 @@ def imagesearch_count(image, precision=0.9):
 
 def r(num, rand):
     return num + rand * random.random()
+
+print(imagesearch("2minutos.jpg"))

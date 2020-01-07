@@ -9,6 +9,7 @@ import pandas as pd
 
 
 def run(tiempo_de_ejecucion_minutos):
+    print("comenzando")
     timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
     divisa = "EUR_USD"
     proceso_1_min = ExtraccionFxcmpy(500, "m1", "EUR/USD")
@@ -68,7 +69,7 @@ def run(tiempo_de_ejecucion_minutos):
         last_data_row['c'] = round(rango_precios[-1], 6)
         datos_5s = datos_5s.append(last_data_row, sort=False)
         datos_5s = datos_5s.iloc[-500:]
-        signal = analisis_y_estrategia(datos_5min, datos_1min, datos_5s, resistencia_max_5min, soporte_min_5min,
+        signal = analisis_y_estrategia(datos_1min, datos_5s, resistencia_max_5min, soporte_min_5min,
                                        resistencia_max_1min, soporte_min_1min)
         ejecucion(signal)
         live_data.clear()
