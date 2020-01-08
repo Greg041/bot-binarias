@@ -16,13 +16,13 @@ def run(tiempo_de_ejecucion_minutos):
     proceso_5_min = ExtraccionOanda(100, "M5", "EUR_USD")
     proceso_1_min.start()
     proceso_5_min.start()
-    time.sleep(25)
+    time.sleep(30)
     datos_1min = pd.read_csv("datos_m1.csv", index_col="date")
-    soporte_min_1min = datos_1min["l"].rolling(150).min().iloc[-1]
-    resistencia_max_1min = datos_1min["h"].rolling(150).max().iloc[-1]
+    soporte_min_1min = datos_1min["soporte"].iloc[-1]
+    resistencia_max_1min = datos_1min["resistencia"].iloc[-1]
     datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
-    soporte_min_5min = datos_5min["l"].rolling(50).min().iloc[-1]
-    resistencia_max_5min = datos_5min["h"].rolling(50).max().iloc[-1]
+    soporte_min_5min = datos_5min["soporte"].iloc[-1]
+    resistencia_max_5min = datos_5min["resistencia"].iloc[-1]
     params = {"count": 500, "granularity": "S5"}  # granularity can be in seconds S5 -
     # S30, minutes M1 - M30, hours H1 - H12, days D, weeks W or months M
     client = oandapyV20.API(access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
@@ -43,15 +43,15 @@ def run(tiempo_de_ejecucion_minutos):
         if f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
                 datos_1min.iloc[-1].name[14:16]:
             datos_1min = pd.read_csv("datos_m1.csv", index_col="date")
-            soporte_min_1min = datos_1min["l"].rolling(150).min().iloc[-1]
-            resistencia_max_1min = datos_1min["h"].rolling(150).max().iloc[-1]
+            soporte_min_1min = datos_1min["soporte"].iloc[-1]
+            resistencia_max_1min = datos_1min["resistencia"].iloc[-1]
         if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
                 int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
                 (datos_5min.iloc[-1].name[
                  14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1}"):
             datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
-            resistencia_max_5min = datos_5min["h"].rolling(50).max().iloc[-1]
-            soporte_min_5min = datos_5min["l"].rolling(50).min().iloc[-1]
+            soporte_min_5min = datos_5min["soporte"].iloc[-1]
+            resistencia_max_5min = datos_5min["resistencia"].iloc[-1]
         starttime = time.time()
         timeout2 = starttime + 5
         while starttime <= timeout2:  # Se cuenta 5 segundos de extraccion de datos para luego filtrar
