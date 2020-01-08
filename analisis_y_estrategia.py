@@ -6,6 +6,7 @@ from ADX import ADX
 from RSI import RSI
 import winsound
 
+
 def r(num, rand):
     return num + rand * random.random()
 
@@ -58,17 +59,30 @@ def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_
                           soporte_min_1min):
     rsi_28 = RSI(ohlc_5s, 28)
     rsi_14 = RSI(ohlc_5s, 14)
+    print(rsi_28.iloc[-1], rsi_14.iloc[-1])
     if (rsi_28.iloc[-1] < 30.0 or rsi_28.iloc[-2] < 30.0) and (
             rsi_14.iloc[-2] < rsi_28.iloc[-2] and rsi_14.iloc[-1] > rsi_28.iloc[-1]) and \
             (ohlc_5s["c"].iloc[-2] < ohlc_5s["c"].iloc[-1]):
         adx_1min = ADX(ohlc_1min, 21)
         adx_5s = ADX(ohlc_5s, 14)
         if adx_1min.iloc[-1, 0] < 25.0 and (adx_1min.iloc[-1, 1] < 25.0 or
-                                            adx_1min.iloc[-1, 1] < adx_1min.iloc[-2, 1])\
+                                            adx_1min.iloc[-1, 1] < adx_1min.iloc[-2, 1]) \
                 and (adx_5s.iloc[-1, 1] < adx_5s.iloc[-2, 1]) and (adx_5s.iloc[-1, 2] > adx_5s.iloc[-2, 2]):
+            print("compra contratendencia")
+            return "compra"
+        else:
+            return ""
+    elif rsi_28.iloc[-1] > 70.0 and (ohlc_5s["c"].iloc[-2] < ohlc_5s["c"].iloc[-1]):
+        adx_1min = ADX(ohlc_1min, 21)
+        adx_5s = ADX(ohlc_5s, 14)
+        if (adx_5s.iloc[-1, 0] > 25.0 and adx_5s.iloc[-1, 2] > 25.0) and (
+                adx_1min.iloc[-2, 2] < adx_1min.iloc[-2, 0] and
+                adx_1min.iloc[-1, 2] > adx_1min.iloc[-1, 0]):
             if resistencia_max_5min > resistencia_max_1min > ohlc_5s["c"].iloc[-1]:
+                print("compra a favor")
                 return "compra"
             elif resistencia_max_1min > resistencia_max_5min > ohlc_5s["c"].iloc[-1]:
+                print("compra a favor")
                 return "compra"
             else:
                 return ""
@@ -82,9 +96,21 @@ def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_
         if adx_1min.iloc[-1, 0] < 25.0 and (adx_1min.iloc[-1, 2] < 25.0 or
                                             adx_1min.iloc[-1, 2] < adx_1min.iloc[-2, 2]) and \
                 (adx_5s.iloc[-1, 1] > adx_5s.iloc[-2, 1]) and (adx_5s.iloc[-1, 2] < adx_5s.iloc[-2, 2]):
+            print("venta contratendencia")
+            return "venta"
+        else:
+            return ""
+    elif rsi_28.iloc[-1] < 30.0 and (ohlc_5s["c"].iloc[-2] > ohlc_5s["c"].iloc[-1]):
+        adx_1min = ADX(ohlc_1min, 21)
+        adx_5s = ADX(ohlc_5s, 14)
+        if (adx_5s.iloc[-1, 0] > 25.0 and adx_5s.iloc[-1, 1] > 25.0) and (
+                adx_1min.iloc[-2, 1] < adx_1min.iloc[-2, 0] and
+                adx_1min.iloc[-1, 1] > adx_1min.iloc[-1, 0]):
             if soporte_min_5min < soporte_min_1min < ohlc_5s["c"].iloc[-1]:
+                print("venta a favor")
                 return "venta"
             elif soporte_min_1min < soporte_min_5min < ohlc_5s["c"].iloc[-1]:
+                print("venta a favor")
                 return "venta"
             else:
                 return ""
@@ -92,5 +118,3 @@ def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_
             return ""
     else:
         return ""
-
-
