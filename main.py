@@ -43,7 +43,7 @@ def run(tiempo_de_ejecucion_minutos):
         if f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
                 datos_1min.iloc[-1].name[14:16]:
             datos_1min = pd.read_csv("datos_m1.csv", index_col="date")
-            soporte_min_1min = datos_1min["soporte"].iloc[-1]
+            soporte_min_1min = datos_1min["l"].iloc[-1]
             resistencia_max_1min = datos_1min["resistencia"].iloc[-1]
         if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
                 int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \

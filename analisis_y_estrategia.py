@@ -75,7 +75,7 @@ def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_
     elif rsi_28.iloc[-1] > 70.0 and (ohlc_5s["c"].iloc[-2] < ohlc_5s["c"].iloc[-1]):
         adx_1min = ADX(ohlc_1min, 21)
         adx_5s = ADX(ohlc_5s, 14)
-        if (adx_5s.iloc[-1, 0] > 25.0 and adx_5s.iloc[-1, 2] > 25.0) and (
+        if (adx_5s.iloc[-1, 0] > 25.0 and adx_5s.iloc[-2, 2] < adx_5s.iloc[-1, 2] > adx_5s.iloc[-1, 1]) and (
                 adx_1min.iloc[-2, 2] < adx_1min.iloc[-2, 0] and
                 adx_1min.iloc[-1, 2] > adx_1min.iloc[-1, 0]):
             if resistencia_max_5min > resistencia_max_1min > ohlc_5s["c"].iloc[-1]:
@@ -103,7 +103,7 @@ def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_
     elif rsi_28.iloc[-1] < 30.0 and (ohlc_5s["c"].iloc[-2] > ohlc_5s["c"].iloc[-1]):
         adx_1min = ADX(ohlc_1min, 21)
         adx_5s = ADX(ohlc_5s, 14)
-        if (adx_5s.iloc[-1, 0] > 25.0 and adx_5s.iloc[-1, 1] > 25.0) and (
+        if (adx_5s.iloc[-1, 0] > 25.0 and adx_5s.iloc[-2, 1] < adx_5s.iloc[-1, 1] > adx_5s.iloc[-1, 2]) and (
                 adx_1min.iloc[-2, 1] < adx_1min.iloc[-2, 0] and
                 adx_1min.iloc[-1, 1] > adx_1min.iloc[-1, 0]):
             if soporte_min_5min < soporte_min_1min < ohlc_5s["c"].iloc[-1]:

@@ -15,7 +15,7 @@ class ExtraccionOanda(Process):
         self.params = {"count": self.numero_de_velas, "granularity": timeframe}  # granularity can be in seconds S5 -
         # S30, minutes M1 - M30, hours H1 - H12, days D, weeks W or months M
         self.client = oandapyV20.API(access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
-                                 environment="practice")
+                                     environment="practice")
 
     def run(self):
         starttime = time.time()
@@ -43,7 +43,7 @@ class ExtraccionOanda(Process):
             ohlc_df["soporte"] = ohlc_df["l"].rolling(50).min()
             pd.DataFrame.to_csv(ohlc_df, f"datos_{self.timeframe}.csv")
             if contador_primera_vez == 0:
-                time.sleep(temporalidad - ((time.time() - starttime) % temporalidad) - 5)
+                time.sleep(temporalidad - ((time.time() - starttime) % temporalidad) - 15)
                 contador_primera_vez += 1
             else:
-                time.sleep((temporalidad - ((time.time() - starttime2) % temporalidad)) - 5)
+                time.sleep(temporalidad - ((time.time() - starttime2) % temporalidad))
