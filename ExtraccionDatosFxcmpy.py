@@ -34,8 +34,7 @@ class ExtraccionFxcmpy(Process):
                 ohlc_df["h"] = (data.loc[:, "bidhigh"] + data.loc[:, "askhigh"]) / 2
                 ohlc_df["l"] = (data.loc[:, "bidlow"] + data.loc[:, "asklow"]) / 2
                 ohlc_df["c"] = (data.loc[:, "bidclose"] + data.loc[:, "askclose"]) / 2
-                ohlc_df["resistencia"] = ohlc_df["h"].rolling(150).max()
-                ohlc_df["soporte"] = ohlc_df["l"].rolling(150).min()
+
                 pd.DataFrame.to_csv(ohlc_df, f"datos_{self.timeframe}.csv")
                 if contador_primera_vez == 0:
                     time.sleep(temporalidad - ((time.time() - starttime) % temporalidad) - 15)
@@ -43,6 +42,8 @@ class ExtraccionFxcmpy(Process):
                 else:
                     time.sleep(temporalidad - ((time.time() - starttime2) % temporalidad))
             except:
+                if KeyboardInterrupt:
+                    return
                 print("hubo un error en extraccion fxcmpy")
                 starttime = time.time()
                 conexion = fxcmpy.fxcmpy(access_token="d576f8ce26454088fc3ae6fa8c6600ac5d96e174", log_level='error',

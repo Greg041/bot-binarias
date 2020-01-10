@@ -49,6 +49,8 @@ class ExtraccionOanda(Process):
                 else:
                     time.sleep(temporalidad - ((time.time() - starttime2) % temporalidad))
             except:
+                if KeyboardInterrupt:
+                    return
                 print("hubo un error en extraccion oanda")
                 starttime = time.time()
                 self.params = {"count": self.numero_de_velas,

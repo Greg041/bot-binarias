@@ -3,8 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExtraccionDatosFxcmpy.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExtraccionDatosFxcmpy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExtraccionDatosOanda.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExtraccionDatosOanda.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_m1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_m1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +39,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="settings.editor.selected.configurable" value="configurable.group.project" />
   </component>
-  <component name="RunManager" selected="Python.imagesearch">
+  <component name="RunManager" selected="Python.main">
     <configuration name="analisis_y_estrategia" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="bot binarias" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -102,8 +105,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.imagesearch" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.imagesearch" />
         <item itemvalue="Python.analisis_y_estrategia" />
       </list>
     </recent_temporary>
@@ -208,7 +211,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578649691642</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="- modificado try except en ambos modulo de extraccion de datos y el main para mejor funcionalidad">
+      <created>1578663500970</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1578663500970</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -236,37 +246,38 @@
     <MESSAGE value="- usado try except en ExtraccionDatosFxcmpy.py por error en la extraccion de datos despues de cierto tiempo lo cual creo que se debe a la desconexion al servidor despues de un lapso de tiempo especifico" />
     <MESSAGE value="- eliminado clausula try except en modulos ExtraccionDatosFxcmpy.py y ExtraccionDatosOanda.py y retirado sustracción del tiempo 10 segundos en el time.sleep después del primer contador ya que ello causaba que el script se ejecutara 10 segundos antes por cada ejecución acumulandose la sustracción de tiempo y llevando a errores inesperado" />
     <MESSAGE value="- modificado las clausulas try except en ExtraccionDatosOanda.py, ExtraccionDatosFxcmpy.py y el main para mejor rendimiento" />
-    <option name="LAST_COMMIT_MESSAGE" value="- modificado las clausulas try except en ExtraccionDatosOanda.py, ExtraccionDatosFxcmpy.py y el main para mejor rendimiento" />
+    <MESSAGE value="- modificado try except en ambos modulo de extraccion de datos y el main para mejor funcionalidad" />
+    <option name="LAST_COMMIT_MESSAGE" value="- modificado try except en ambos modulo de extraccion de datos y el main para mejor funcionalidad" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="179" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1578063180337" />
-    <state x="0" y="115" key="CommitChangelistDialog2" timestamp="1578649679070">
+    <state x="0" y="115" key="CommitChangelistDialog2" timestamp="1578663495597">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="0" y="115" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1578649679060" />
+    <state x="0" y="115" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1578663495597" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1578057868041">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="739" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1578057868041" />
-    <state width="1899" height="276" key="GridCell.Tab.0.bottom" timestamp="1578560389185">
+    <state width="1899" height="276" key="GridCell.Tab.0.bottom" timestamp="1578671026433">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="276" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1578560389185" />
-    <state width="1899" height="276" key="GridCell.Tab.0.center" timestamp="1578560389185">
+    <state width="1899" height="276" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1578671026433" />
+    <state width="1899" height="276" key="GridCell.Tab.0.center" timestamp="1578671026433">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="276" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1578560389185" />
-    <state width="1899" height="276" key="GridCell.Tab.0.left" timestamp="1578560389185">
+    <state width="1899" height="276" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1578671026433" />
+    <state width="1899" height="276" key="GridCell.Tab.0.left" timestamp="1578671026433">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="276" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1578560389185" />
-    <state width="1899" height="276" key="GridCell.Tab.0.right" timestamp="1578560389185">
+    <state width="1899" height="276" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1578671026433" />
+    <state width="1899" height="276" key="GridCell.Tab.0.right" timestamp="1578671026433">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="276" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1578560389185" />
+    <state width="1899" height="276" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1578671026433" />
     <state x="540" y="255" key="IDE.errors.dialog" timestamp="1578087577117">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
