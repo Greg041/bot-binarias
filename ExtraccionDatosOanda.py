@@ -12,7 +12,7 @@ class ExtraccionOanda(Process):
         self.numero_de_velas = numero_de_velas
         self.timeframe = timeframe
         self.par_de_divisas = par_de_divisas
-        self.params = {"count": self.numero_de_velas, "granularity": timeframe}  # granularity can be in seconds S5 -
+        self.params = {"count": self.numero_de_velas, "granularity": self.timeframe}  # granularity can be in seconds S5 -
         # S30, minutes M1 - M30, hours H1 - H12, days D, weeks W or months M
         self.client = oandapyV20.API(access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                      environment="practice")
@@ -31,19 +31,41 @@ class ExtraccionOanda(Process):
                         3600 if (self.timeframe == "H1") else
                         0)
         while True:
-            starttime2 = time.time()
-            self.client.request(self.candles)
-            ohlc_dict = self.candles.response["candles"]
-            ohlc = pd.DataFrame(ohlc_dict)
-            ohlc_df = ohlc.mid.dropna().apply(pd.Series)
-            ohlc_df["volume"] = ohlc["volume"]
-            ohlc_df.index = ohlc["time"]
-            ohlc_df = ohlc_df.apply(pd.to_numeric)
-            ohlc_df["resistencia"] = ohlc_df["h"].rolling(50).max()
-            ohlc_df["soporte"] = ohlc_df["l"].rolling(50).min()
-            pd.DataFrame.to_csv(ohlc_df, f"datos_{self.timeframe}.csv")
-            if contador_primera_vez == 0:
-                time.sleep(temporalidad - ((time.time() - starttime) % temporalidad) - 15)
-                contador_primera_vez += 1
-            else:
-                time.sleep(temporalidad - ((time.time() - starttime2) % temporalidad))
+            try:
+                starttime2 = time.time()
+                self.client.request(self.candles)
+                ohlc_dict = self.candles.response["candles"]
+                ohlc = pd.DataFrame(ohlc_dict)
+                ohlc_df = ohlc.mid.dropna().apply(pd.Series)
+                ohlc_df["volume"] = ohlc["volume"]
+                ohlc_df.index = ohlc["time"]
+                ohlc_df = ohlc_df.apply(pd.to_numeric)
+                ohlc_df["resistencia"] = ohlc_df["h"].rolling(50).max()
+                ohlc_df["soporte"] = ohlc_df["l"].rolling(50).min()
+                pd.DataFrame.to_csv(ohlc_df, f"datos_{self.timeframe}.csv")
+                if contador_primera_vez == 0:
+                    time.sleep(temporalidad - ((time.time() - starttime) % temporalidad) - 15)
+                    contador_primera_vez += 1
+                else:
+                    time.sleep(temporalidad - ((time.time() - starttime2) % temporalidad))
+            except:
+                print("hubo un error en extraccion oanda")
+                starttime = time.time()
+                self.params = {"count": self.numero_de_velas,
+                               "granularity": self.timeframe}  # granularity can be in seconds S5 -
+                # S30, minutes M1 - M30, hours H1 - H12, days D, weeks W or months M
+                self.client = oandapyV20.API(
+                    access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                    environment="practice")
+                self.candles = instruments.InstrumentsCandles(instrument=self.par_de_divisas, params=self.params)
+                self.client.request(self.candles)
+                ohlc_dict = self.candles.response["candles"]
+                ohlc = pd.DataFrame(ohlc_dict)
+                ohlc_df = ohlc.mid.dropna().apply(pd.Series)
+                ohlc_df["volume"] = ohlc["volume"]
+                ohlc_df.index = ohlc["time"]
+                ohlc_df = ohlc_df.apply(pd.to_numeric)
+                ohlc_df["resistencia"] = ohlc_df["h"].rolling(50).max()
+                ohlc_df["soporte"] = ohlc_df["l"].rolling(50).min()
+                pd.DataFrame.to_csv(ohlc_df, f"datos_{self.timeframe}.csv")
+                time.sleep(temporalidad - ((time.time() - starttime) % temporalidad))

@@ -33,7 +33,7 @@ def click_image(image, pos, action, timestamp, offset=5):
 
 
 def ejecucion(signal):
-    if signal == "compra":
+    if signal == "comprac":
         click_image("horario.jpg", (1805, 132), "left", 0.05)
         time.sleep(0.1)
         click_image("1minuto.jpg", (1517, 220), "left", 0.05)
@@ -42,8 +42,18 @@ def ejecucion(signal):
         time.sleep(0.1)
         click_image("2minutos.jpg", (1514, 242), "left", 0.05)
         click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
+        click_image("horario.jpg", (1805, 132), "left", 0.05)
+        time.sleep(0.1)
+        click_image("5minutos.jpg", (1515, 345), "left", 0.05)
+        click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
         winsound.Beep(440, 1000)
-    elif signal == "venta":
+    elif signal == "compraf":
+        click_image("horario.jpg", (1805, 132), "left", 0.05)
+        time.sleep(0.1)
+        click_image("5minutos.jpg", (1515, 345), "left", 0.05)
+        click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
+        winsound.Beep(440, 1000)
+    elif signal == "ventac":
         click_image("horario.jpg", (1805, 132), "left", 0.05)
         time.sleep(0.1)
         click_image("1minuto.jpg", (1517, 220), "left", 0.05)
@@ -51,6 +61,16 @@ def ejecucion(signal):
         click_image("horario.jpg", (1805, 132), "left", 0.05)
         time.sleep(0.1)
         click_image("2minutos.jpg", (1514, 242), "left", 0.05)
+        click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
+        click_image("horario.jpg", (1805, 132), "left", 0.05)
+        time.sleep(0.1)
+        click_image("5minutos.jpg", (1515, 345), "left", 0.05)
+        click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
+        winsound.Beep(440, 1000)
+    elif signal == "ventaf":
+        click_image("horario.jpg", (1805, 132), "left", 0.05)
+        time.sleep(0.1)
+        click_image("5minutos.jpg", (1515, 345), "left", 0.05)
         click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
         winsound.Beep(440, 1000)
 
@@ -69,7 +89,7 @@ def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_
                                             adx_1min.iloc[-1, 1] < adx_1min.iloc[-2, 1]) \
                 and (adx_5s.iloc[-1, 1] < adx_5s.iloc[-2, 1]) and (adx_5s.iloc[-1, 2] > adx_5s.iloc[-2, 2]):
             print("compra contratendencia")
-            return "compra"
+            return "comprac"
         else:
             return ""
     elif rsi_28.iloc[-1] > 70.0 and (ohlc_5s["c"].iloc[-2] < ohlc_5s["c"].iloc[-1]):
@@ -80,10 +100,10 @@ def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_
                 adx_1min.iloc[-1, 2] > adx_1min.iloc[-1, 0]):
             if resistencia_max_5min > resistencia_max_1min > ohlc_5s["c"].iloc[-1]:
                 print("compra a favor")
-                return "compra"
+                return "compraf"
             elif resistencia_max_1min > resistencia_max_5min > ohlc_5s["c"].iloc[-1]:
                 print("compra a favor")
-                return "compra"
+                return "compraf"
             else:
                 return ""
         else:
@@ -97,7 +117,7 @@ def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_
                                             adx_1min.iloc[-1, 2] < adx_1min.iloc[-2, 2]) and \
                 (adx_5s.iloc[-1, 1] > adx_5s.iloc[-2, 1]) and (adx_5s.iloc[-1, 2] < adx_5s.iloc[-2, 2]):
             print("venta contratendencia")
-            return "venta"
+            return "ventac"
         else:
             return ""
     elif rsi_28.iloc[-1] < 30.0 and (ohlc_5s["c"].iloc[-2] > ohlc_5s["c"].iloc[-1]):
@@ -108,10 +128,10 @@ def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_
                 adx_1min.iloc[-1, 1] > adx_1min.iloc[-1, 0]):
             if soporte_min_5min < soporte_min_1min < ohlc_5s["c"].iloc[-1]:
                 print("venta a favor")
-                return "venta"
+                return "ventaf"
             elif soporte_min_1min < soporte_min_5min < ohlc_5s["c"].iloc[-1]:
                 print("venta a favor")
-                return "venta"
+                return "ventaf"
             else:
                 return ""
         else:

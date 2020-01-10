@@ -40,40 +40,43 @@ def run(tiempo_de_ejecucion_minutos):
     live_price_request = pricing.PricingInfo(accountID=account_id, params={"instruments": divisa})
     rango_precios = []
     while time.time() <= timeout:
-        if f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
-                datos_1min.iloc[-1].name[14:16]:
-            datos_1min = pd.read_csv("datos_m1.csv", index_col="date")
-            soporte_min_1min = datos_1min["l"].iloc[-1]
-            resistencia_max_1min = datos_1min["resistencia"].iloc[-1]
-        if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
-                int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
-                (datos_5min.iloc[-1].name[
-                 14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1}"):
-            datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
-            soporte_min_5min = datos_5min["soporte"].iloc[-1]
-            resistencia_max_5min = datos_5min["resistencia"].iloc[-1]
-        starttime = time.time()
-        timeout2 = starttime + 5
-        while starttime <= timeout2:  # Se cuenta 5 segundos de extraccion de datos para luego filtrar
-            live_price_data = client.request(live_price_request)
-            live_data.append(live_price_data)
+        try:
+            if f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
+                    datos_1min.iloc[-1].name[14:16]:
+                datos_1min = pd.read_csv("datos_m1.csv", index_col="date")
+                soporte_min_1min = datos_1min["l"].iloc[-1]
+                resistencia_max_1min = datos_1min["resistencia"].iloc[-1]
+            if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
+                    int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
+                    (datos_5min.iloc[-1].name[
+                     14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1}"):
+                datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
+                soporte_min_5min = datos_5min["soporte"].iloc[-1]
+                resistencia_max_5min = datos_5min["resistencia"].iloc[-1]
             starttime = time.time()
-        for i in range(len(live_data) - 1):  # Se saca la media entre el Bid y el ask para tener el precio real
-            precio = (float(live_data[i]["prices"][0]["closeoutBid"])
-                      + float(live_data[i]["prices"][0]["closeoutAsk"])) / 2
-            rango_precios.append(precio)
-        last_data_row = pd.DataFrame(index=[live_data[-1]["time"]], columns=["o", "h", "l", "c"])
-        last_data_row['o'] = round(rango_precios[0], 6)
-        last_data_row['h'] = round(max(rango_precios), 6)
-        last_data_row['l'] = round(min(rango_precios), 6)
-        last_data_row['c'] = round(rango_precios[-1], 6)
-        datos_5s = datos_5s.append(last_data_row, sort=False)
-        datos_5s = datos_5s.iloc[-500:]
-        signal = analisis_y_estrategia(datos_1min, datos_5s, resistencia_max_5min, soporte_min_5min,
-                                       resistencia_max_1min, soporte_min_1min)
-        ejecucion(signal)
-        live_data.clear()
-        rango_precios.clear()
+            timeout2 = starttime + 5
+            while starttime <= timeout2:  # Se cuenta 5 segundos de extraccion de datos para luego filtrar
+                live_price_data = client.request(live_price_request)
+                live_data.append(live_price_data)
+                starttime = time.time()
+            for i in range(len(live_data) - 1):  # Se saca la media entre el Bid y el ask para tener el precio real
+                precio = (float(live_data[i]["prices"][0]["closeoutBid"])
+                          + float(live_data[i]["prices"][0]["closeoutAsk"])) / 2
+                rango_precios.append(precio)
+            last_data_row = pd.DataFrame(index=[live_data[-1]["time"]], columns=["o", "h", "l", "c"])
+            last_data_row['o'] = round(rango_precios[0], 6)
+            last_data_row['h'] = round(max(rango_precios), 6)
+            last_data_row['l'] = round(min(rango_precios), 6)
+            last_data_row['c'] = round(rango_precios[-1], 6)
+            datos_5s = datos_5s.append(last_data_row, sort=False)
+            datos_5s = datos_5s.iloc[-500:]
+            signal = analisis_y_estrategia(datos_1min, datos_5s, resistencia_max_5min, soporte_min_5min,
+                                           resistencia_max_1min, soporte_min_1min)
+            ejecucion(signal)
+            live_data.clear()
+            rango_precios.clear()
+        except:
+            print("hubo error, verificar si la ejecucion continua")
 
 
 if __name__ == "__main__":
