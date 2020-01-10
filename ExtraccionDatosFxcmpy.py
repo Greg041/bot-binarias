@@ -41,8 +41,6 @@ class ExtraccionFxcmpy(Process):
                 else:
                     time.sleep(temporalidad - ((time.time() - starttime2) % temporalidad))
             except:
-                if KeyboardInterrupt:
-                    return
                 print("hubo un error en extraccion fxcmpy")
                 starttime = time.time()
                 conexion = fxcmpy.fxcmpy(access_token="d576f8ce26454088fc3ae6fa8c6600ac5d96e174", log_level='error',
