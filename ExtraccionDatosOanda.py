@@ -40,8 +40,6 @@ class ExtraccionOanda(Process):
                 ohlc_df["volume"] = ohlc["volume"]
                 ohlc_df.index = ohlc["time"]
                 ohlc_df = ohlc_df.apply(pd.to_numeric)
-                ohlc_df["resistencia"] = ohlc_df["h"].rolling(50).max()
-                ohlc_df["soporte"] = ohlc_df["l"].rolling(50).min()
                 pd.DataFrame.to_csv(ohlc_df, f"datos_{self.timeframe}.csv")
                 if contador_primera_vez == 0:
                     time.sleep(temporalidad - ((time.time() - starttime) % temporalidad) - 15)

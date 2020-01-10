@@ -52,7 +52,5 @@ class ExtraccionFxcmpy(Process):
                 ohlc_df["h"] = (data.loc[:, "bidhigh"] + data.loc[:, "askhigh"]) / 2
                 ohlc_df["l"] = (data.loc[:, "bidlow"] + data.loc[:, "asklow"]) / 2
                 ohlc_df["c"] = (data.loc[:, "bidclose"] + data.loc[:, "askclose"]) / 2
-                ohlc_df["resistencia"] = ohlc_df["h"].rolling(150).max()
-                ohlc_df["soporte"] = ohlc_df["l"].rolling(150).min()
                 pd.DataFrame.to_csv(ohlc_df, f"datos_{self.timeframe}.csv")
                 time.sleep(temporalidad - ((time.time() - starttime) % temporalidad))
