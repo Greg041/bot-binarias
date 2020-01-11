@@ -42,7 +42,7 @@ class ExtraccionOanda(Process):
                 ohlc_df = ohlc_df.apply(pd.to_numeric)
                 pd.DataFrame.to_csv(ohlc_df, f"datos_{self.timeframe}.csv")
                 if contador_primera_vez == 0:
-                    time.sleep(temporalidad - ((time.time() - starttime) % temporalidad) - 15)
+                    time.sleep(temporalidad - ((time.time() - starttime) % temporalidad))
                     contador_primera_vez += 1
                 else:
                     time.sleep(temporalidad - ((time.time() - starttime2) % temporalidad))

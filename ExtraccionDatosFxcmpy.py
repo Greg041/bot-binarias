@@ -36,7 +36,7 @@ class ExtraccionFxcmpy(Process):
                 ohlc_df["c"] = (data.loc[:, "bidclose"] + data.loc[:, "askclose"]) / 2
                 pd.DataFrame.to_csv(ohlc_df, f"datos_{self.timeframe}.csv")
                 if contador_primera_vez == 0:
-                    time.sleep(temporalidad - ((time.time() - starttime) % temporalidad) - 15)
+                    time.sleep(temporalidad - ((time.time() - starttime) % temporalidad))
                     contador_primera_vez += 1
                 else:
                     time.sleep(temporalidad - ((time.time() - starttime2) % temporalidad))

@@ -50,6 +50,14 @@ def ejecucion(signal):
     elif signal == "compraf":
         click_image("horario.jpg", (1805, 132), "left", 0.05)
         time.sleep(0.1)
+        click_image("1minuto.jpg", (1517, 220), "left", 0.05)
+        click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
+        click_image("horario.jpg", (1805, 132), "left", 0.05)
+        time.sleep(0.1)
+        click_image("2minutos.jpg", (1514, 242), "left", 0.05)
+        click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
+        click_image("horario.jpg", (1805, 132), "left", 0.05)
+        time.sleep(0.1)
         click_image("5minutos.jpg", (1515, 345), "left", 0.05)
         click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
         winsound.Beep(440, 1000)
@@ -70,13 +78,23 @@ def ejecucion(signal):
     elif signal == "ventaf":
         click_image("horario.jpg", (1805, 132), "left", 0.05)
         time.sleep(0.1)
+        click_image("1minuto.jpg", (1517, 220), "left", 0.05)
+        click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
+        click_image("horario.jpg", (1805, 132), "left", 0.05)
+        time.sleep(0.1)
+        click_image("2minutos.jpg", (1514, 242), "left", 0.05)
+        click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
+        click_image("horario.jpg", (1805, 132), "left", 0.05)
+        time.sleep(0.1)
         click_image("5minutos.jpg", (1515, 345), "left", 0.05)
         click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
         winsound.Beep(440, 1000)
 
 
-def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_5min, resistencia_max_1min,
-                          soporte_min_1min):
+def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_punto_mayor1m, resistencia_punto_menor1m,
+                          soporte_punto_menor1m,
+                          soporte_punto_mayor1m, resistencia_punto_mayor5m, resistencia_punto_menor5m,
+                          soporte_punto_menor5m, soporte_punto_mayor5m):
     rsi_28 = RSI(ohlc_5s, 28)
     rsi_14 = RSI(ohlc_5s, 14)
     print(rsi_28.iloc[-1], rsi_14.iloc[-1])
@@ -88,8 +106,12 @@ def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_
         if adx_1min.iloc[-1, 0] < 25.0 and (adx_1min.iloc[-1, 1] < 25.0 or
                                             adx_1min.iloc[-1, 1] < adx_1min.iloc[-2, 1]) \
                 and (adx_5s.iloc[-1, 1] < adx_5s.iloc[-2, 1]) and (adx_5s.iloc[-1, 2] > adx_5s.iloc[-2, 2]):
-            print("compra contratendencia")
-            return "comprac"
+            if (resistencia_punto_mayor1m > ohlc_5s['c'].iloc[-1] > resistencia_punto_menor1m) or \
+                    (resistencia_punto_mayor5m > ohlc_5s['c'].iloc[-1] > resistencia_punto_menor5m):
+                print("compra contratendencia")
+                return "comprac"
+            else:
+                return ""
         else:
             return ""
     elif rsi_28.iloc[-1] > 70.0 and (ohlc_5s["c"].iloc[-2] < ohlc_5s["c"].iloc[-1]):
@@ -98,14 +120,12 @@ def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_
         if (adx_5s.iloc[-1, 0] > 25.0 and adx_5s.iloc[-2, 2] < adx_5s.iloc[-1, 2] > adx_5s.iloc[-1, 1]) and (
                 adx_1min.iloc[-2, 2] < adx_1min.iloc[-2, 0] and
                 adx_1min.iloc[-1, 2] > adx_1min.iloc[-1, 0]):
-            if resistencia_max_5min > resistencia_max_1min > ohlc_5s["c"].iloc[-1]:
-                print("compra a favor")
-                return "compraf"
-            elif resistencia_max_1min > resistencia_max_5min > ohlc_5s["c"].iloc[-1]:
-                print("compra a favor")
-                return "compraf"
-            else:
+            if (resistencia_punto_mayor1m > ohlc_5s['c'].iloc[-1] > resistencia_punto_menor1m) or \
+                    (resistencia_punto_mayor5m > ohlc_5s['c'].iloc[-1] > resistencia_punto_menor5m):
                 return ""
+            else:
+                print("compra a favor")
+                return "compraf"
         else:
             return ""
     elif (rsi_28.iloc[-1] > 70.0 or rsi_28.iloc[-2] > 70.0) and (
@@ -116,8 +136,12 @@ def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_
         if adx_1min.iloc[-1, 0] < 25.0 and (adx_1min.iloc[-1, 2] < 25.0 or
                                             adx_1min.iloc[-1, 2] < adx_1min.iloc[-2, 2]) and \
                 (adx_5s.iloc[-1, 1] > adx_5s.iloc[-2, 1]) and (adx_5s.iloc[-1, 2] < adx_5s.iloc[-2, 2]):
-            print("venta contratendencia")
-            return "ventac"
+            if (soporte_punto_menor1m < ohlc_5s['c'].iloc[-1] < soporte_punto_mayor1m) or \
+                    (soporte_punto_menor5m < ohlc_5s['c'].iloc[-1] < soporte_punto_mayor5m):
+                print("venta contratendencia")
+                return "ventac"
+            else:
+                return ""
         else:
             return ""
     elif rsi_28.iloc[-1] < 30.0 and (ohlc_5s["c"].iloc[-2] > ohlc_5s["c"].iloc[-1]):
@@ -126,14 +150,12 @@ def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_max_5min, soporte_min_
         if (adx_5s.iloc[-1, 0] > 25.0 and adx_5s.iloc[-2, 1] < adx_5s.iloc[-1, 1] > adx_5s.iloc[-1, 2]) and (
                 adx_1min.iloc[-2, 1] < adx_1min.iloc[-2, 0] and
                 adx_1min.iloc[-1, 1] > adx_1min.iloc[-1, 0]):
-            if soporte_min_5min < soporte_min_1min < ohlc_5s["c"].iloc[-1]:
-                print("venta a favor")
-                return "ventaf"
-            elif soporte_min_1min < soporte_min_5min < ohlc_5s["c"].iloc[-1]:
-                print("venta a favor")
-                return "ventaf"
-            else:
+            if (soporte_punto_menor1m < ohlc_5s['c'].iloc[-1] < soporte_punto_mayor1m) or \
+                    (soporte_punto_menor5m < ohlc_5s['c'].iloc[-1] < soporte_punto_mayor5m):
                 return ""
+            else:
+                print("venta a favor")
+                return "ventaf"
         else:
             return ""
     else:
