@@ -8,49 +8,55 @@ import time
 import pandas as pd
 
 
-def run(tiempo_de_ejecucion_minutos):
+def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa):
     print("comenzando")
     timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
-    divisa = "EUR_USD"
-    proceso_1_min = ExtraccionFxcmpy(500, "m1", "EUR/USD")
-    proceso_5_min = ExtraccionOanda(100, "M5", "EUR_USD")
+    divisa = f"{primera_divisa}_{segunda_divisa}"
+    proceso_1_min = ExtraccionFxcmpy(500, "m1", f"{primera_divisa}/{segunda_divisa}")
+    proceso_5_min = ExtraccionOanda(100, "M5", f"{primera_divisa}_{segunda_divisa}")
     proceso_1_min.start()
     proceso_5_min.start()
     time.sleep(30)
     datos_1min = pd.read_csv("datos_m1.csv", index_col="date")
     resistencia_mayor_1m = datos_1min["h"].rolling(150).max().dropna()
     resistencia_menor_1m = datos_1min["c"].rolling(150).max().dropna()
-    resistencia_punto_mayor_1m = resistencia_mayor_1m.max()
-    resistencia_punto_menor_1m = resistencia_menor_1m.max()
-    for data in resistencia_menor_1m.iloc[-150:]:
-        for data2 in resistencia_mayor_1m.iloc[-150:]:
-            if data2 > resistencia_punto_menor_1m > data:
-                resistencia_punto_menor_1m = data
+    resistencia_punto_mayor_1m = resistencia_mayor_1m.iloc[-1]
+    resistencia_punto_menor_1m = resistencia_menor_1m.iloc[-1]
+    for data in range(-150, 0):
+        precio_h = datos_1min['h'].iloc[data]
+        precio_o = datos_1min['o'].iloc[data]
+        precio_c = datos_1min['c'].iloc[data]
+        print(precio_h, precio_o, precio_c, precio_h > resistencia_punto_menor_1m)
+        if precio_h > resistencia_punto_menor_1m > precio_c:
+            if precio_c >= precio_o:
+                resistencia_punto_menor_1m = precio_c
+            elif precio_c < precio_o < resistencia_punto_menor_1m:
+                resistencia_punto_menor_1m = precio_o
     soporte_menor_1m = datos_1min["l"].rolling(150).min().dropna()
     soporte_mayor_1m = datos_1min["c"].rolling(150).min().dropna()
     soporte_punto_menor_1m = soporte_menor_1m.min()
     soporte_punto_mayor_1m = soporte_mayor_1m.min()
-    for data in soporte_mayor_1m.iloc[-150:]:
-        for data2 in soporte_menor_1m.iloc[-150:]:
-            if data2 < soporte_punto_mayor_1m < data:
-                soporte_punto_mayor_1m = data
+    for data_c in soporte_mayor_1m.iloc[-150:]:
+        for data_l in soporte_menor_1m.iloc[-150:]:
+            if data_l < soporte_punto_mayor_1m < data_c:
+                soporte_punto_mayor_1m = data_c
     datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
-    resistencia_mayor_5m = datos_5min["h"].rolling(30).max().dropna()
-    resistencia_menor_5m = datos_5min["c"].rolling(30).max().dropna()
+    resistencia_mayor_5m = datos_5min["h"].rolling(50).max().dropna()
+    resistencia_menor_5m = datos_5min["c"].rolling(50).max().dropna()
     resistencia_punto_mayor_5m = resistencia_mayor_5m.max()
     resistencia_punto_menor_5m = resistencia_menor_5m.max()
-    for data in resistencia_menor_5m.iloc[-30:]:
-        for data2 in resistencia_mayor_5m.iloc[-30:]:
-            if data2 > resistencia_punto_menor_5m > data:
-                resistencia_punto_menor_5m = data
-    soporte_menor_5m = datos_5min["l"].rolling(30).min().dropna()
-    soporte_mayor_5m = datos_5min["c"].rolling(30).min().dropna()
+    for data_c in resistencia_menor_5m.iloc[-50:]:
+        for data_h in resistencia_mayor_5m.iloc[-50:]:
+            if data_h > resistencia_punto_menor_5m > data_c:
+                resistencia_punto_menor_5m = data_c
+    soporte_menor_5m = datos_5min["l"].rolling(50).min().dropna()
+    soporte_mayor_5m = datos_5min["c"].rolling(50).min().dropna()
     soporte_punto_menor_5m = soporte_menor_5m.min()
     soporte_punto_mayor_5m = soporte_mayor_5m.min()
-    for data in soporte_mayor_5m.iloc[-30:]:
-        for data2 in soporte_menor_5m.iloc[-30:]:
-            if data2 < soporte_punto_mayor_5m < data:
-                soporte_punto_mayor_5m = data
+    for data_c in soporte_mayor_5m.iloc[-50:]:
+        for data_l in soporte_menor_5m.iloc[-50:]:
+            if data_l < soporte_punto_mayor_5m < data_c:
+                soporte_punto_mayor_5m = data_c
     params = {"count": 500, "granularity": "S5"}  # granularity can be in seconds S5 -
     # S30, minutes M1 - M30, hours H1 - H12, days D, weeks W or months M
     client = oandapyV20.API(access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
@@ -77,18 +83,18 @@ def run(tiempo_de_ejecucion_minutos):
                 resistencia_menor_1m = datos_1min["c"].rolling(150).max().dropna()
                 resistencia_punto_mayor_1m = resistencia_mayor_1m.max()
                 resistencia_punto_menor_1m = resistencia_menor_1m.max()
-                for data in resistencia_menor_1m.iloc[-150:]:
-                    for data2 in resistencia_mayor_1m.iloc[-150:]:
-                        if data2 > resistencia_punto_menor_1m > data:
-                            resistencia_punto_menor_1m = data
+                for data_c in resistencia_menor_1m.iloc[-150:]:
+                    for data_h in resistencia_mayor_1m.iloc[-150:]:
+                        if data_h > resistencia_punto_menor_1m > data_c:
+                            resistencia_punto_menor_1m = data_c
                 soporte_menor_1m = datos_1min["l"].rolling(150).min().dropna()
                 soporte_mayor_1m = datos_1min["c"].rolling(150).min().dropna()
                 soporte_punto_menor_1m = soporte_menor_1m.min()
                 soporte_punto_mayor_1m = soporte_mayor_1m.min()
-                for data in soporte_mayor_1m.iloc[-150:]:
-                    for data2 in soporte_menor_1m.iloc[-150:]:
-                        if data2 < soporte_punto_mayor_1m < data:
-                            soporte_punto_mayor_1m = data
+                for data_c in soporte_mayor_1m.iloc[-150:]:
+                    for data_l in soporte_menor_1m.iloc[-150:]:
+                        if data_l < soporte_punto_mayor_1m < data_c:
+                            soporte_punto_mayor_1m = data_c
             if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
                     int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
                     (datos_5min.iloc[-1].name[
@@ -98,18 +104,18 @@ def run(tiempo_de_ejecucion_minutos):
                 resistencia_menor_5m = datos_5min["c"].rolling(50).max().dropna()
                 resistencia_punto_mayor_5m = resistencia_mayor_5m.max()
                 resistencia_punto_menor_5m = resistencia_menor_5m.max()
-                for data in resistencia_menor_5m.iloc[-50:]:
-                    for data2 in resistencia_mayor_5m.iloc[-50:]:
-                        if data2 > resistencia_punto_menor_5m > data:
-                            resistencia_punto_menor_5m = data
+                for data_c in resistencia_menor_5m.iloc[-50:]:
+                    for data_h in resistencia_mayor_5m.iloc[-50:]:
+                        if data_h > resistencia_punto_menor_5m > data_c:
+                            resistencia_punto_menor_5m = data_c
                 soporte_menor_5m = datos_5min["l"].rolling(50).min().dropna()
                 soporte_mayor_5m = datos_5min["c"].rolling(50).min().dropna()
                 soporte_punto_menor_5m = soporte_menor_5m.min()
                 soporte_punto_mayor_5m = soporte_mayor_5m.min()
-                for data in soporte_mayor_5m.iloc[-50:]:
-                    for data2 in soporte_menor_5m.iloc[-50:]:
-                        if data2 < soporte_punto_mayor_5m < data:
-                            soporte_punto_mayor_5m = data
+                for data_c in soporte_mayor_5m.iloc[-50:]:
+                    for data_l in soporte_menor_5m.iloc[-50:]:
+                        if data_l < soporte_punto_mayor_5m < data_c:
+                            soporte_punto_mayor_5m = data_c
             starttime = time.time()
             timeout2 = starttime + 5
             while starttime <= timeout2:  # Se cuenta 5 segundos de extraccion de datos para luego filtrar
@@ -127,8 +133,9 @@ def run(tiempo_de_ejecucion_minutos):
             last_data_row['c'] = round(rango_precios[-1], 6)
             datos_5s = datos_5s.append(last_data_row, sort=False)
             datos_5s = datos_5s.iloc[-500:]
-            signal = analisis_y_estrategia(datos_1min, datos_5s, resistencia_max_5min, soporte_min_5min,
-                                           resistencia_max_1min, soporte_min_1min)
+            signal = analisis_y_estrategia(datos_1min, datos_5s, resistencia_punto_mayor_1m, resistencia_punto_menor_1m,
+                                           soporte_punto_menor_1m, soporte_punto_mayor_1m, resistencia_punto_mayor_5m,
+                                           resistencia_punto_menor_5m, soporte_punto_menor_5m, soporte_punto_mayor_5m)
             ejecucion(signal)
             live_data.clear()
             rango_precios.clear()
@@ -137,6 +144,8 @@ def run(tiempo_de_ejecucion_minutos):
 
 
 if __name__ == "__main__":
+    primera_divisa = input("introduzca la primera divisa: ")
+    segunda_divisa = input("introduzca la segunda divisa: ")
     mes = input("introduzca el mes de inicio: ")
     dia = input("introduzca el dia de inicio: ")
     hora = input("introduzca la hora de inicio (militar): ")
@@ -144,4 +153,4 @@ if __name__ == "__main__":
     tiempo = int(input("introduzca el tiempo de ejecucion en minutos: "))
     while time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())) != f'2020-{mes}-{dia} {hora}:{minuto}:00':
         pass
-    run(tiempo)
+    run(tiempo, primera_divisa, segunda_divisa)
