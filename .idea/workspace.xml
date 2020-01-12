@@ -257,7 +257,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578717680319</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="- refinado y corregido forma de calcular rango de resistencias a 1 minuto debido a fallas de lógica">
+      <created>1578783768035</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1578783768035</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -289,17 +296,18 @@
     <MESSAGE value="- agregado codigo en main para calcular rango de soportes y resistencias en periodos de 1m y 5m" />
     <MESSAGE value="- agregado codigo en main para calcular rango de soportes y resistencias en periodos de 1m y 5m, ya no se calculan en los modulos de extraccion de datos" />
     <MESSAGE value="- refinada estrategia para tomar en cuenta cuando el precio se encuentre en un rango de soporte o resistencia&#10;- modificado el tiempo de sleep en los modulos de extraccion de datos para comprobar la buena sincronización con la nueva configuracion de horario de la pc ya que tenia la hora desconfigurada" />
-    <option name="LAST_COMMIT_MESSAGE" value="- refinada estrategia para tomar en cuenta cuando el precio se encuentre en un rango de soporte o resistencia&#10;- modificado el tiempo de sleep en los modulos de extraccion de datos para comprobar la buena sincronización con la nueva configuracion de horario de la pc ya que tenia la hora desconfigurada" />
+    <MESSAGE value="- refinado y corregido forma de calcular rango de resistencias a 1 minuto debido a fallas de lógica" />
+    <option name="LAST_COMMIT_MESSAGE" value="- refinado y corregido forma de calcular rango de resistencias a 1 minuto debido a fallas de lógica" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="179" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1578063180337" />
-    <state x="0" y="115" key="CommitChangelistDialog2" timestamp="1578717652356">
+    <state x="0" y="115" key="CommitChangelistDialog2" timestamp="1578783762247">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="0" y="115" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1578717652356" />
+    <state x="0" y="115" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1578783762247" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1578685780644">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
