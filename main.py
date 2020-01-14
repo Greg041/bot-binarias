@@ -1,6 +1,6 @@
 from ExtraccionDatosFxcmpy import ExtraccionFxcmpy
 from ExtraccionDatosOanda import ExtraccionOanda
-from analisis_y_estrategia import analisis_y_estrategia, ejecucion
+from analisis_y_estrategia import analisis_y_estrategia1, ejecucion, analisis_y_estrategia2
 import oandapyV20
 import oandapyV20.endpoints.instruments as instruments
 import oandapyV20.endpoints.pricing as pricing
@@ -8,16 +8,16 @@ import time
 import pandas as pd
 
 
-def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa):
+def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia):
     print("comenzando")
     timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
     divisa = f"{primera_divisa}_{segunda_divisa}"
-    proceso_1_min = ExtraccionFxcmpy(500, "m1", f"{primera_divisa}/{segunda_divisa}")
+    proceso_1_min = ExtraccionOanda(500, "M1", f"{primera_divisa}_{segunda_divisa}")
     proceso_5_min = ExtraccionOanda(120, "M5", f"{primera_divisa}_{segunda_divisa}")
     proceso_1_min.start()
     proceso_5_min.start()
     time.sleep(30)
-    datos_1min = pd.read_csv("datos_m1.csv", index_col="date")
+    datos_1min = pd.read_csv("datos_M1.csv", index_col="time")
     resistencia_mayor_1m = datos_1min["h"].rolling(150).max().dropna()
     resistencia_menor_1m = datos_1min["c"].rolling(150).max().dropna()
     resistencia_punto_mayor_1m = resistencia_mayor_1m.iloc[-1]
@@ -93,9 +93,11 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa):
     rango_precios = []
     while time.time() <= timeout:
         try:
-            if f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
-                    datos_1min.iloc[-1].name[14:16]:
-                datos_1min = pd.read_csv("datos_m1.csv", index_col="date")
+            if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
+                datos_1min.iloc[-1].name[14:16]) and \
+                    (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16])):02}" != \
+                     datos_1min.iloc[-1].name[14:16]):
+                datos_1min = pd.read_csv("datos_M1.csv", index_col="time")
                 resistencia_mayor_1m = datos_1min["h"].rolling(150).max().dropna()
                 resistencia_menor_1m = datos_1min["c"].rolling(150).max().dropna()
                 resistencia_punto_mayor_1m = resistencia_mayor_1m.iloc[-1]
@@ -125,7 +127,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa):
             if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
                     int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
                     (datos_5min.iloc[-1].name[
-                     14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1}"):
+                     14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
                 datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
                 resistencia_mayor_5m = datos_5min["h"].rolling(50).max().dropna()
                 resistencia_menor_5m = datos_5min["c"].rolling(50).max().dropna()
@@ -172,19 +174,24 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa):
             last_data_row['c'] = round(rango_precios[-1], 6)
             datos_5s = datos_5s.append(last_data_row, sort=False)
             datos_5s = datos_5s.iloc[-500:]
-            signal = analisis_y_estrategia(datos_1min, datos_5s, resistencia_punto_mayor_1m, resistencia_punto_menor_1m,
-                                           soporte_punto_menor_1m, soporte_punto_mayor_1m, resistencia_punto_mayor_5m,
-                                           resistencia_punto_menor_5m, soporte_punto_menor_5m, soporte_punto_mayor_5m)
-            ejecucion(signal)
-            live_data.clear()
-            rango_precios.clear()
         except:
             print("hubo error, verificar si la ejecucion continua")
+        if estrategia == 1:
+            signal = analisis_y_estrategia1(datos_1min, datos_5s, resistencia_punto_mayor_1m,
+                                            resistencia_punto_menor_1m,
+                                            soporte_punto_menor_1m, soporte_punto_mayor_1m, resistencia_punto_mayor_5m,
+                                            resistencia_punto_menor_5m, soporte_punto_menor_5m, soporte_punto_mayor_5m)
+        elif estrategia == 2:
+            signal = analisis_y_estrategia2(datos_5s, datos_1min, datos_5min)
+        ejecucion(signal)
+        live_data.clear()
+        rango_precios.clear()
 
 
 if __name__ == "__main__":
     primera_divisa = input("introduzca la primera divisa: ")
     segunda_divisa = input("introduzca la segunda divisa: ")
+    estrategia = int(input("estrategia numero 1 o 2?: "))
     mes = input("introduzca el mes de inicio: ")
     dia = input("introduzca el dia de inicio: ")
     hora = input("introduzca la hora de inicio (militar): ")
@@ -192,4 +199,4 @@ if __name__ == "__main__":
     tiempo = int(input("introduzca el tiempo de ejecucion en minutos: "))
     while time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())) != f'2020-{mes}-{dia} {hora}:{minuto}:00':
         pass
-    run(tiempo, primera_divisa, segunda_divisa)
+    run(tiempo, primera_divisa, segunda_divisa, estrategia)

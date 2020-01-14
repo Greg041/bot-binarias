@@ -4,6 +4,7 @@ import random
 import time
 from ADX import ADX
 from RSI import RSI
+from ichimoku import ichimoku
 import winsound
 
 
@@ -91,10 +92,10 @@ def ejecucion(signal):
         winsound.Beep(440, 1000)
 
 
-def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_punto_mayor1m, resistencia_punto_menor1m,
-                          soporte_punto_menor1m,
-                          soporte_punto_mayor1m, resistencia_punto_mayor5m, resistencia_punto_menor5m,
-                          soporte_punto_menor5m, soporte_punto_mayor5m):
+def analisis_y_estrategia1(ohlc_1min, ohlc_5s, resistencia_punto_mayor1m, resistencia_punto_menor1m,
+                           soporte_punto_menor1m,
+                           soporte_punto_mayor1m, resistencia_punto_mayor5m, resistencia_punto_menor5m,
+                           soporte_punto_menor5m, soporte_punto_mayor5m):
     rsi_28 = RSI(ohlc_5s, 28)
     rsi_14 = RSI(ohlc_5s, 14)
     print(rsi_28.iloc[-1], rsi_14.iloc[-1])
@@ -160,3 +161,35 @@ def analisis_y_estrategia(ohlc_1min, ohlc_5s, resistencia_punto_mayor1m, resiste
             return ""
     else:
         return ""
+
+
+def analisis_y_estrategia2(ohlc_5s, ohlc_1m, ohlc_5m):
+    ichi_5m = ichimoku(ohlc_5m, 9, 26, 52)
+    ichi_1m = ichimoku(ohlc_1m, 9, 26, 52)
+    print(ichi_5m["Senkou span A"])
+    print(ichi_5m["Senkou span B"])
+    if (ichi_5m["Senkou span A"].iloc[-2] <= ichi_5m["Senkou span B"].iloc[-2] and
+        ichi_5m["Senkou span A"].iloc[-1] > ichi_5m["Senkou span B"].iloc[-1]) and \
+            (ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]) and \
+            (ohlc_1m["c"].iloc[-1] > ichi_1m["Senkou span A"].iloc[-1]):
+        ichi_5s = ichimoku(ohlc_5s, 9, 26, 52)
+        print(ichi_5s["tenkan-sen"].iloc[-2] <= ichi_5s["kijun-sen"].iloc[-2])
+        if ichi_5s["tenkan-sen"].iloc[-2] <= ichi_5s["kijun-sen"].iloc[-2] and \
+                ichi_5s["tenkan-sen"].iloc[-1] > ichi_5s["kijun-sen"].iloc[-1]:
+            return "compraf"
+        else:
+            return ""
+    elif (ichi_5m["Senkou span A"].iloc[-2] >= ichi_5m["Senkou span B"].iloc[-2] and
+          ichi_5m["Senkou span A"].iloc[-1] < ichi_5m["Senkou span B"].iloc[-1]) and \
+            (ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]) and \
+            (ohlc_1m["c"].iloc[-1] < ichi_1m["Senkou span A"].iloc[-1]):
+        ichi_5s = ichimoku(ohlc_5s, 9, 26, 52)
+        if ichi_5s["tenkan-sen"].iloc[-2] >= ichi_5s["kijun-sen"].iloc[-2] and \
+                ichi_5s["tenkan-sen"].iloc[-1] < ichi_5s["kijun-sen"].iloc[-1]:
+            return "ventaf"
+        else:
+            return ""
+    else:
+        return ""
+
+

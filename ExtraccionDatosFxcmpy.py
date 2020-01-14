@@ -15,7 +15,7 @@ class ExtraccionFxcmpy(Process):
     def run(self):
         starttime = time.time()
         contador_primera_vez = 0
-        conexion = fxcmpy.fxcmpy(access_token="d576f8ce26454088fc3ae6fa8c6600ac5d96e174", log_level='error',
+        conexion = fxcmpy.fxcmpy(access_token="38efc3f823a85be208cd0571b1b11d874c433ae2", log_level='error',
                                  server='demo')
         temporalidad = (60 if (self.timeframe == "m1") else
                         300 if (self.timeframe == "m5") else
@@ -43,7 +43,7 @@ class ExtraccionFxcmpy(Process):
             except:
                 print("hubo un error en extraccion fxcmpy")
                 starttime = time.time()
-                conexion = fxcmpy.fxcmpy(access_token="d576f8ce26454088fc3ae6fa8c6600ac5d96e174", log_level='error',
+                conexion = fxcmpy.fxcmpy(access_token="38efc3f823a85be208cd0571b1b11d874c433ae2", log_level='error',
                                          server='demo')
                 data = conexion.get_candles(self.par_de_divisas, period=self.timeframe, number=self.numero_de_velas)
                 data.apply(pd.to_numeric)
