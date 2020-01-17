@@ -1,4 +1,3 @@
-from ExtraccionDatosFxcmpy import ExtraccionFxcmpy
 from ExtraccionDatosOanda import ExtraccionOanda
 from analisis_y_estrategia import analisis_y_estrategia1, ejecucion, analisis_y_estrategia2
 import oandapyV20
@@ -183,7 +182,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia)
                                             resistencia_punto_menor_5m, soporte_punto_menor_5m, soporte_punto_mayor_5m)
         elif estrategia == 2:
             signal = analisis_y_estrategia2(datos_5s, datos_1min, datos_5min)
-        ejecucion(signal)
+        ejecucion(signal, divisa)
         live_data.clear()
         rango_precios.clear()
 

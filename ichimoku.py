@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def ichimoku(ohlc, tenkan_period, kijun_period, sspanB_period):
+def ichimoku(ohlc, tenkan_period=9, kijun_period=26, sspanB_period=52):
     ichimoku = pd.DataFrame()
     # tenkan-sen(conversion line) calculation
     tenkan_period_high = ohlc['h'].rolling(tenkan_period).max()

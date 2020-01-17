@@ -5,6 +5,7 @@ import time
 from ADX import ADX
 from RSI import RSI
 from ichimoku import ichimoku
+from macd import MACD, detectar_div_macd
 import winsound
 
 
@@ -33,8 +34,15 @@ def click_image(image, pos, action, timestamp, offset=5):
     pyautogui.click(button=action)
 
 
-def ejecucion(signal):
+def ejecucion(signal, par):
+    if par == "EUR_USD":
+        click_image("par_eur_usd.jpg", (249, 42), "left", 0.05)
+    elif par == "GBP_USD":
+        click_image("par_gbp_usd.jpg", (399,43), "left", 0.05)
+    time.sleep(0.5)
     if signal == "comprac":
+        print("compra contratendencia")
+        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
         click_image("horario.jpg", (1805, 132), "left", 0.05)
         time.sleep(0.1)
         click_image("1minuto.jpg", (1517, 220), "left", 0.05)
@@ -49,6 +57,8 @@ def ejecucion(signal):
         click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
         winsound.Beep(440, 1000)
     elif signal == "compraf":
+        print("compra a favor")
+        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
         click_image("horario.jpg", (1805, 132), "left", 0.05)
         time.sleep(0.1)
         click_image("1minuto.jpg", (1517, 220), "left", 0.05)
@@ -63,6 +73,8 @@ def ejecucion(signal):
         click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
         winsound.Beep(440, 1000)
     elif signal == "ventac":
+        print("venta contratendencia")
+        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
         click_image("horario.jpg", (1805, 132), "left", 0.05)
         time.sleep(0.1)
         click_image("1minuto.jpg", (1517, 220), "left", 0.05)
@@ -77,6 +89,8 @@ def ejecucion(signal):
         click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
         winsound.Beep(440, 1000)
     elif signal == "ventaf":
+        print("venta a favor")
+        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
         click_image("horario.jpg", (1805, 132), "left", 0.05)
         time.sleep(0.1)
         click_image("1minuto.jpg", (1517, 220), "left", 0.05)
@@ -109,7 +123,6 @@ def analisis_y_estrategia1(ohlc_1min, ohlc_5s, resistencia_punto_mayor1m, resist
                 and (adx_5s.iloc[-1, 1] < adx_5s.iloc[-2, 1]) and (adx_5s.iloc[-1, 2] > adx_5s.iloc[-2, 2]):
             if (resistencia_punto_mayor1m > ohlc_5s['c'].iloc[-1] > resistencia_punto_menor1m) or \
                     (resistencia_punto_mayor5m > ohlc_5s['c'].iloc[-1] > resistencia_punto_menor5m):
-                print("compra contratendencia")
                 return "comprac"
             else:
                 return ""
@@ -125,7 +138,6 @@ def analisis_y_estrategia1(ohlc_1min, ohlc_5s, resistencia_punto_mayor1m, resist
                     (resistencia_punto_mayor5m > ohlc_5s['c'].iloc[-1] > resistencia_punto_menor5m):
                 return ""
             else:
-                print("compra a favor")
                 return "compraf"
         else:
             return ""
@@ -139,7 +151,6 @@ def analisis_y_estrategia1(ohlc_1min, ohlc_5s, resistencia_punto_mayor1m, resist
                 (adx_5s.iloc[-1, 1] > adx_5s.iloc[-2, 1]) and (adx_5s.iloc[-1, 2] < adx_5s.iloc[-2, 2]):
             if (soporte_punto_menor1m < ohlc_5s['c'].iloc[-1] < soporte_punto_mayor1m) or \
                     (soporte_punto_menor5m < ohlc_5s['c'].iloc[-1] < soporte_punto_mayor5m):
-                print("venta contratendencia")
                 return "ventac"
             else:
                 return ""
@@ -155,7 +166,6 @@ def analisis_y_estrategia1(ohlc_1min, ohlc_5s, resistencia_punto_mayor1m, resist
                     (soporte_punto_menor5m < ohlc_5s['c'].iloc[-1] < soporte_punto_mayor5m):
                 return ""
             else:
-                print("venta a favor")
                 return "ventaf"
         else:
             return ""
@@ -164,32 +174,34 @@ def analisis_y_estrategia1(ohlc_1min, ohlc_5s, resistencia_punto_mayor1m, resist
 
 
 def analisis_y_estrategia2(ohlc_5s, ohlc_1m, ohlc_5m):
-    ichi_5m = ichimoku(ohlc_5m, 9, 26, 52)
-    ichi_1m = ichimoku(ohlc_1m, 9, 26, 52)
-    print(ichi_5m["Senkou span A"])
-    print(ichi_5m["Senkou span B"])
-    if (ichi_5m["Senkou span A"].iloc[-2] <= ichi_5m["Senkou span B"].iloc[-2] and
-        ichi_5m["Senkou span A"].iloc[-1] > ichi_5m["Senkou span B"].iloc[-1]) and \
-            (ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]) and \
-            (ohlc_1m["c"].iloc[-1] > ichi_1m["Senkou span A"].iloc[-1]):
-        ichi_5s = ichimoku(ohlc_5s, 9, 26, 52)
-        print(ichi_5s["tenkan-sen"].iloc[-2] <= ichi_5s["kijun-sen"].iloc[-2])
-        if ichi_5s["tenkan-sen"].iloc[-2] <= ichi_5s["kijun-sen"].iloc[-2] and \
-                ichi_5s["tenkan-sen"].iloc[-1] > ichi_5s["kijun-sen"].iloc[-1]:
-            return "compraf"
-        else:
-            return ""
-    elif (ichi_5m["Senkou span A"].iloc[-2] >= ichi_5m["Senkou span B"].iloc[-2] and
-          ichi_5m["Senkou span A"].iloc[-1] < ichi_5m["Senkou span B"].iloc[-1]) and \
-            (ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]) and \
-            (ohlc_1m["c"].iloc[-1] < ichi_1m["Senkou span A"].iloc[-1]):
-        ichi_5s = ichimoku(ohlc_5s, 9, 26, 52)
-        if ichi_5s["tenkan-sen"].iloc[-2] >= ichi_5s["kijun-sen"].iloc[-2] and \
-                ichi_5s["tenkan-sen"].iloc[-1] < ichi_5s["kijun-sen"].iloc[-1]:
-            return "ventaf"
-        else:
-            return ""
+    ichi_5s = ichimoku(ohlc_5s)
+    ichi_1m = ichimoku(ohlc_1m)
+    macd_5s = MACD(ohlc_5s)
+    print("compraf", (ichi_1m["Senkou span A"].iloc[-2] <= ichi_1m["Senkou span B"].iloc[-2] and
+                     ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]),
+          (ichi_5s["Senkou span B"].iloc[-1] < ichi_5s["Senkou span A"].iloc[-1] < ohlc_5s["c"].iloc[-1]),
+          (ichi_5s["tenkan-sen"].iloc[-2] <= ichi_5s["kijun-sen"].iloc[-2] and
+           ichi_5s["tenkan-sen"].iloc[-1] > ichi_5s["kijun-sen"].iloc[-1]))
+    print("ventaf", (ichi_1m["Senkou span A"].iloc[-2] >= ichi_1m["Senkou span B"].iloc[-2] and
+                    ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]),
+          (ichi_5s["Senkou span B"].iloc[-1] > ichi_5s["Senkou span A"].iloc[-1] > ohlc_5s["c"].iloc[-1]),
+          (ichi_5s["tenkan-sen"].iloc[-2] >= ichi_5s["kijun-sen"].iloc[-2] and
+           ichi_5s["tenkan-sen"].iloc[-1] < ichi_5s["kijun-sen"].iloc[-1]))
+    if (ichi_1m["Senkou span A"].iloc[-2] <= ichi_1m["Senkou span B"].iloc[-2] and
+        ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]) and \
+            (ichi_5s["Senkou span B"].iloc[-1] < ichi_5s["Senkou span A"].iloc[-1] < ohlc_5s["c"].iloc[-1]) and \
+            (ichi_5s["tenkan-sen"].iloc[-2] <= ichi_5s["kijun-sen"].iloc[-2] and
+             ichi_5s["tenkan-sen"].iloc[-1] > ichi_5s["kijun-sen"].iloc[-1]):
+        return "compraf"
+    elif (ichi_1m["Senkou span A"].iloc[-2] >= ichi_1m["Senkou span B"].iloc[-2] and
+          ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]) and \
+            (ichi_5s["Senkou span B"].iloc[-1] > ichi_5s["Senkou span A"].iloc[-1] > ohlc_5s["c"].iloc[-1]) and \
+            (ichi_5s["tenkan-sen"].iloc[-2] >= ichi_5s["kijun-sen"].iloc[-2] and
+             ichi_5s["tenkan-sen"].iloc[-1] < ichi_5s["kijun-sen"].iloc[-1]):
+        return "ventaf"
+    elif detectar_div_macd(macd_5s, ohlc_5s, "bajista"):
+        return "ventac"
+    elif detectar_div_macd(macd_5s, ohlc_5s, "alcista"):
+        return "comprac"
     else:
         return ""
-
-
