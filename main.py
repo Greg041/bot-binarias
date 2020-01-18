@@ -1,5 +1,6 @@
 from ExtraccionDatosOanda import ExtraccionOanda
-from analisis_y_estrategia import analisis_y_estrategia1, ejecucion, analisis_y_estrategia2
+from analisis_y_estrategia import analisis_y_estrategia1, analisis_y_estrategia2
+from Ejecucion import ejecucion
 import oandapyV20
 import oandapyV20.endpoints.instruments as instruments
 import oandapyV20.endpoints.pricing as pricing
@@ -173,6 +174,8 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia)
             last_data_row['c'] = round(rango_precios[-1], 6)
             datos_5s = datos_5s.append(last_data_row, sort=False)
             datos_5s = datos_5s.iloc[-500:]
+            datos_5s.index.name = "time"
+            pd.DataFrame.to_csv(datos_5s, "datos_5s.csv")
         except:
             print("hubo error, verificar si la ejecucion continua")
         if estrategia == 1:
@@ -181,7 +184,10 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia)
                                             soporte_punto_menor_1m, soporte_punto_mayor_1m, resistencia_punto_mayor_5m,
                                             resistencia_punto_menor_5m, soporte_punto_menor_5m, soporte_punto_mayor_5m)
         elif estrategia == 2:
-            signal = analisis_y_estrategia2(datos_5s, datos_1min, datos_5min)
+            signal = analisis_y_estrategia2(datos_5s, datos_1min, divisa, resistencia_punto_mayor_1m,
+                                            resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
+                                            resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
+                                            soporte_punto_menor_5m, soporte_punto_mayor_5m)
         ejecucion(signal, divisa)
         live_data.clear()
         rango_precios.clear()

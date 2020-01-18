@@ -1,109 +1,10 @@
-import cv2
-import pyautogui
-import random
-import time
 from ADX import ADX
 from RSI import RSI
 from ichimoku import ichimoku
 from macd import MACD, detectar_div_macd
-import winsound
-
-
-def r(num, rand):
-    return num + rand * random.random()
-
-
-'''
-click on the center of an image with a bit of random.
-eg, if an image is 100*100 with an offset of 5 it may click at 52,50 the first time and then 55,53 etc
-Usefull to avoid anti-bot monitoring while staying precise.
-this function doesn't search for the image, it's only ment for easy clicking on the images.
-input :
-image : path to the image file (see opencv imread for supported types)
-pos : array containing the position of the top left corner of the image [x,y]
-action : button of the mouse to activate : "left" "right" "middle", see pyautogui.click documentation for more info
-time : time taken for the mouse to move from where it was to the new position
-'''
-
-
-def click_image(image, pos, action, timestamp, offset=5):
-    img = cv2.imread(image)
-    height, width, channels = img.shape
-    pyautogui.moveTo(pos[0] + r(width / 2, offset), pos[1] + r(height / 2, offset),
-                     timestamp)
-    pyautogui.click(button=action)
-
-
-def ejecucion(signal, par):
-    if par == "EUR_USD":
-        click_image("par_eur_usd.jpg", (249, 42), "left", 0.05)
-    elif par == "GBP_USD":
-        click_image("par_gbp_usd.jpg", (399,43), "left", 0.05)
-    time.sleep(0.5)
-    if signal == "comprac":
-        print("compra contratendencia")
-        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-        click_image("horario.jpg", (1805, 132), "left", 0.05)
-        time.sleep(0.1)
-        click_image("1minuto.jpg", (1517, 220), "left", 0.05)
-        click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
-        click_image("horario.jpg", (1805, 132), "left", 0.05)
-        time.sleep(0.1)
-        click_image("2minutos.jpg", (1514, 242), "left", 0.05)
-        click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
-        click_image("horario.jpg", (1805, 132), "left", 0.05)
-        time.sleep(0.1)
-        click_image("5minutos.jpg", (1515, 345), "left", 0.05)
-        click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
-        winsound.Beep(440, 1000)
-    elif signal == "compraf":
-        print("compra a favor")
-        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-        click_image("horario.jpg", (1805, 132), "left", 0.05)
-        time.sleep(0.1)
-        click_image("1minuto.jpg", (1517, 220), "left", 0.05)
-        click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
-        click_image("horario.jpg", (1805, 132), "left", 0.05)
-        time.sleep(0.1)
-        click_image("2minutos.jpg", (1514, 242), "left", 0.05)
-        click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
-        click_image("horario.jpg", (1805, 132), "left", 0.05)
-        time.sleep(0.1)
-        click_image("5minutos.jpg", (1515, 345), "left", 0.05)
-        click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
-        winsound.Beep(440, 1000)
-    elif signal == "ventac":
-        print("venta contratendencia")
-        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-        click_image("horario.jpg", (1805, 132), "left", 0.05)
-        time.sleep(0.1)
-        click_image("1minuto.jpg", (1517, 220), "left", 0.05)
-        click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
-        click_image("horario.jpg", (1805, 132), "left", 0.05)
-        time.sleep(0.1)
-        click_image("2minutos.jpg", (1514, 242), "left", 0.05)
-        click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
-        click_image("horario.jpg", (1805, 132), "left", 0.05)
-        time.sleep(0.1)
-        click_image("5minutos.jpg", (1515, 345), "left", 0.05)
-        click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
-        winsound.Beep(440, 1000)
-    elif signal == "ventaf":
-        print("venta a favor")
-        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-        click_image("horario.jpg", (1805, 132), "left", 0.05)
-        time.sleep(0.1)
-        click_image("1minuto.jpg", (1517, 220), "left", 0.05)
-        click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
-        click_image("horario.jpg", (1805, 132), "left", 0.05)
-        time.sleep(0.1)
-        click_image("2minutos.jpg", (1514, 242), "left", 0.05)
-        click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
-        click_image("horario.jpg", (1805, 132), "left", 0.05)
-        time.sleep(0.1)
-        click_image("5minutos.jpg", (1515, 345), "left", 0.05)
-        click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
-        winsound.Beep(440, 1000)
+from multiprocessing import Process
+from SeguimientoIchimoku import seguimiento_ichimoku
+import time
 
 
 def analisis_y_estrategia1(ohlc_1min, ohlc_5s, resistencia_punto_mayor1m, resistencia_punto_menor1m,
@@ -173,35 +74,31 @@ def analisis_y_estrategia1(ohlc_1min, ohlc_5s, resistencia_punto_mayor1m, resist
         return ""
 
 
-def analisis_y_estrategia2(ohlc_5s, ohlc_1m, ohlc_5m):
-    ichi_5s = ichimoku(ohlc_5s)
+def analisis_y_estrategia2(ohlc_5s, ohlc_1m, par, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
+                           sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min):
     ichi_1m = ichimoku(ohlc_1m)
     macd_5s = MACD(ohlc_5s)
     print("compraf", (ichi_1m["Senkou span A"].iloc[-2] <= ichi_1m["Senkou span B"].iloc[-2] and
-                     ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]),
-          (ichi_5s["Senkou span B"].iloc[-1] < ichi_5s["Senkou span A"].iloc[-1] < ohlc_5s["c"].iloc[-1]),
-          (ichi_5s["tenkan-sen"].iloc[-2] <= ichi_5s["kijun-sen"].iloc[-2] and
-           ichi_5s["tenkan-sen"].iloc[-1] > ichi_5s["kijun-sen"].iloc[-1]))
+                      ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]))
     print("ventaf", (ichi_1m["Senkou span A"].iloc[-2] >= ichi_1m["Senkou span B"].iloc[-2] and
-                    ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]),
-          (ichi_5s["Senkou span B"].iloc[-1] > ichi_5s["Senkou span A"].iloc[-1] > ohlc_5s["c"].iloc[-1]),
-          (ichi_5s["tenkan-sen"].iloc[-2] >= ichi_5s["kijun-sen"].iloc[-2] and
-           ichi_5s["tenkan-sen"].iloc[-1] < ichi_5s["kijun-sen"].iloc[-1]))
+                     ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]))
     if (ichi_1m["Senkou span A"].iloc[-2] <= ichi_1m["Senkou span B"].iloc[-2] and
-        ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]) and \
-            (ichi_5s["Senkou span B"].iloc[-1] < ichi_5s["Senkou span A"].iloc[-1] < ohlc_5s["c"].iloc[-1]) and \
-            (ichi_5s["tenkan-sen"].iloc[-2] <= ichi_5s["kijun-sen"].iloc[-2] and
-             ichi_5s["tenkan-sen"].iloc[-1] > ichi_5s["kijun-sen"].iloc[-1]):
-        return "compraf"
+            ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]):
+        seg = Process(target=seguimiento_ichimoku, args=(ohlc_1m, ichi_1m, par, "compraf"))
+        seg.start()
+        time.sleep(59)
+        return ""
     elif (ichi_1m["Senkou span A"].iloc[-2] >= ichi_1m["Senkou span B"].iloc[-2] and
-          ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]) and \
-            (ichi_5s["Senkou span B"].iloc[-1] > ichi_5s["Senkou span A"].iloc[-1] > ohlc_5s["c"].iloc[-1]) and \
-            (ichi_5s["tenkan-sen"].iloc[-2] >= ichi_5s["kijun-sen"].iloc[-2] and
-             ichi_5s["tenkan-sen"].iloc[-1] < ichi_5s["kijun-sen"].iloc[-1]):
-        return "ventaf"
-    elif detectar_div_macd(macd_5s, ohlc_5s, "bajista"):
+          ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]):
+        seg = Process(target=seguimiento_ichimoku, args=(ohlc_1m, ichi_1m, par, "ventaf"))
+        seg.start()
+        time.sleep(59)
+        return ""
+    if (res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min or res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min) \
+            and detectar_div_macd(macd_5s, ohlc_5s, "bajista"):
         return "ventac"
-    elif detectar_div_macd(macd_5s, ohlc_5s, "alcista"):
+    elif (sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min or sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min) \
+            and detectar_div_macd(macd_5s, ohlc_5s, "alcista"):
         return "comprac"
     else:
         return ""

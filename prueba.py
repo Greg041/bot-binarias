@@ -1,5 +1,9 @@
 import pandas as pd
 import time
 from imagesearch import imagesearch
+from SeguimientoIchimoku import seguimiento
 
-print(imagesearch("par_gbp_usd.jpg"))
+if __name__ == "__main__":
+    print("comienza prueba")
+    seguimiento()
+    print("termina prueba")
