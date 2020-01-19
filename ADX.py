@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 
-def ADX(data, periodos):
+def ADX(data, periodos=14):
     dataframe_tr = pd.DataFrame()
     dataframe_tr["H-L"] = abs(data["h"] - data["l"])
     dataframe_tr["H-CA"] = abs(data["h"] - data["c"].shift(1))

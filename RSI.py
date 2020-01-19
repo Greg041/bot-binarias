@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def RSI(data, periodo):
+def RSI(data, periodo=14):
     df = data.copy()
     df['delta'] = df['c'] - df['c'].shift(1)
     df['gain'] = np.where(df['delta'] >= 0, df['delta'], 0)

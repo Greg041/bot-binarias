@@ -1,5 +1,5 @@
 from ExtraccionDatosOanda import ExtraccionOanda
-from analisis_y_estrategia import analisis_y_estrategia1, analisis_y_estrategia2
+from analisis_y_estrategia import analisis_y_estrategia1, analisis_y_estrategia2, analisis_y_estrategia3
 from Ejecucion import ejecucion
 import oandapyV20
 import oandapyV20.endpoints.instruments as instruments
@@ -185,6 +185,11 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia)
                                             resistencia_punto_menor_5m, soporte_punto_menor_5m, soporte_punto_mayor_5m)
         elif estrategia == 2:
             signal = analisis_y_estrategia2(datos_5s, datos_1min, divisa, resistencia_punto_mayor_1m,
+                                            resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
+                                            resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
+                                            soporte_punto_menor_5m, soporte_punto_mayor_5m)
+        elif estrategia == 3:
+            signal = analisis_y_estrategia3(datos_5s, datos_1min, datos_5min, resistencia_punto_mayor_1m,
                                             resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
                                             resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
                                             soporte_punto_menor_5m, soporte_punto_mayor_5m)
