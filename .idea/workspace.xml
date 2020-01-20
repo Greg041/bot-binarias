@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/BollingerBands.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADX.py" beforeDir="false" afterPath="$PROJECT_DIR$/ADX.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RSI.py" beforeDir="false" afterPath="$PROJECT_DIR$/RSI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_5s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_5s.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_M1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -323,7 +322,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579381546156</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="- agregado modulo para calcular las bandas bollinger&#10;- agregada estrategia 3 la cual usa las bandas bollinger, rsi y adx">
+      <created>1579466322327</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1579466322327</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -360,7 +366,8 @@
     <MESSAGE value="- añadida estrategia 2, modulo para indicador ichimoku.py y opcion para elegir estrategia a ejecutar" />
     <MESSAGE value="- creada funcion para detectar divergencias en el macd en el módulo macd&#10;- mejorada función estrategia2 para operar en contratendencia cuando se detecten divergencias, y editada condicionales para operar a favor de la tendencia con el ichimoku para generar un mayor número de señales&#10;- mejorada función ejecutar en módulo analisis_y_estrategia.py para que detecte que par está mandando la señal de compra o venta y cambiar a la ventana de ese par antes de ejecutar la operación" />
     <MESSAGE value="- añadida función para detectar divergencias en historigrama en el módulo macd.py &#10;- pulida estrategia de SeguimientoIchimoku.py para detectar cuando el precio actual este sobre la nube" />
-    <option name="LAST_COMMIT_MESSAGE" value="- añadida función para detectar divergencias en historigrama en el módulo macd.py &#10;- pulida estrategia de SeguimientoIchimoku.py para detectar cuando el precio actual este sobre la nube" />
+    <MESSAGE value="- agregado modulo para calcular las bandas bollinger&#10;- agregada estrategia 3 la cual usa las bandas bollinger, rsi y adx" />
+    <option name="LAST_COMMIT_MESSAGE" value="- agregado modulo para calcular las bandas bollinger&#10;- agregada estrategia 3 la cual usa las bandas bollinger, rsi y adx" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
@@ -375,10 +382,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="679" y="135" key="#main/0.0.1920.1040@0.0.1920.1040" timestamp="1579064399171" />
-    <state x="133" y="138" key="CommitChangelistDialog2" timestamp="1579381540072">
+    <state x="133" y="138" key="CommitChangelistDialog2" timestamp="1579466318509">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="133" y="138" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1579381540072" />
+    <state x="133" y="138" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1579466318509" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1579204453538">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -407,10 +414,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1579195421551" />
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1579459186646">
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1579494821919">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1579459186646" />
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1579494821919" />
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578071106605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

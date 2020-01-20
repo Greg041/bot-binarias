@@ -52,7 +52,7 @@ def analisis_y_estrategia1(ohlc_1min, ohlc_5s, resistencia_punto_mayor1m, resist
         if (adx_5s.iloc[-1, 0] > 25.0 and adx_5s.iloc[-2, 1] < adx_5s.iloc[-1, 1] > adx_5s.iloc[-1, 2]) and (
                 adx_1min.iloc[-2, 1] < adx_1min.iloc[-2, 0] and
                 adx_1min.iloc[-1, 1] > adx_1min.iloc[-1, 0]):
-                return "ventaf"
+            return "ventaf"
         else:
             return ""
     else:
@@ -92,28 +92,32 @@ def analisis_y_estrategia2(ohlc_5s, ohlc_1m, par, res_max_1min, res_min_1min, re
 def analisis_y_estrategia3(ohlc_5s, ohlc_1m, ohlc_5m, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
                            sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min):
     ichi_5m = ichimoku(ohlc_5m)
-    if (ichi_5m["Senkou span A"].iloc[-26] < ohlc_5s['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]) or\
-        (ichi_5m["Senkou span B"].iloc[-26] < ohlc_5s['c'].iloc[-1] < ichi_5m["Senkou span A"].iloc[-26]):
+    print(ichi_5m["Senkou span A"].iloc[-26], ohlc_5s['c'].iloc[-1], ichi_5m["Senkou span B"].iloc[-26])
+    if (ichi_5m["Senkou span A"].iloc[-26] < ohlc_5s['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]) or \
+            (ichi_5m["Senkou span B"].iloc[-26] < ohlc_5s['c'].iloc[-1] < ichi_5m["Senkou span A"].iloc[-26]):
         bollinger_1m = boll_bnd(ohlc_1m)
         adx_5s = ADX(ohlc_5s, 14)
         rsi_5s = RSI(ohlc_5s, periodo=7)
-        if (ohlc_5s['c'] > bollinger_1m["BB_up"].iloc[-1]) and (adx_5s["ADX"].iloc[-1] < 32.0) and (rsi_5s.iloc[-1] < 70):
+        print(bollinger_1m["BB_up"].iloc[-1])
+        if (ohlc_5s['c'] > bollinger_1m["BB_up"].iloc[-1]) and (adx_5s["ADX"].iloc[-1] < 32.0) and (
+                rsi_5s.iloc[-1] < 70):
             return "ventac"
-        elif (ohlc_5s['c'] < bollinger_1m["BB_dn"].iloc[-1]) and (adx_5s["ADX"].iloc[-1] < 32.0) and (rsi_5s.iloc[-1] > 30):
+        elif (ohlc_5s['c'] < bollinger_1m["BB_dn"].iloc[-1]) and (adx_5s["ADX"].iloc[-1] < 32.0) and (
+                rsi_5s.iloc[-1] > 30):
             return "comprac"
         else:
             return ""
     if (res_max_1min > res_min_1min > ohlc_5s['c'].iloc[-1]) and (res_max_5min > res_min_5min > ohlc_5s['c'].iloc[-1]):
         adx_5s = ADX(ohlc_5s, periodos=50)
         rsi_5s = RSI(ohlc_5s, periodo=2)
-        if (adx_5s["ADX"].iloc[-1] > 15.0 and adx_5s["DI+"].iloc[-1] > adx_5s["DI-"].iloc[-1]) and\
-            (adx_5s["ADX"].iloc[-2] < adx_5s["ADX"].iloc[-1]):
+        if (adx_5s["ADX"].iloc[-1] > 15.0 and adx_5s["DI+"].iloc[-1] > adx_5s["DI-"].iloc[-1]) and \
+                (adx_5s["ADX"].iloc[-2] < adx_5s["ADX"].iloc[-1]):
             if rsi_5s.iloc[-2] < 30.0 and ohlc_5s['c'].iloc[-2] < ohlc_5s['c'].iloc[-1]:
                 return "compraf"
             else:
                 return ""
-        elif (adx_5s["ADX"].iloc[-1] > 15.0 and adx_5s["DI+"].iloc[-1] < adx_5s["DI-"].iloc[-1]) and\
-            (adx_5s["ADX"].iloc[-2] < adx_5s["ADX"].iloc[-1]):
+        elif (adx_5s["ADX"].iloc[-1] > 15.0 and adx_5s["DI+"].iloc[-1] < adx_5s["DI-"].iloc[-1]) and \
+                (adx_5s["ADX"].iloc[-2] < adx_5s["ADX"].iloc[-1]):
             if rsi_5s.iloc[-2] > 70.0 and ohlc_5s['c'].iloc[-2] > ohlc_5s['c'].iloc[-1]:
                 return "ventaf"
             else:
