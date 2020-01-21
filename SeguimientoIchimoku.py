@@ -26,6 +26,8 @@ def seguimiento_ichimoku(ohlc_1m, ichimoku_1m, par, tipo_de_operacion, res_max_5
                          ichi_5s["tenkan-sen"].iloc[-1] > ichi_5s["kijun-sen"].iloc[-1]):
                     ejecucion("compraf", par)
                     break
+                # Se verifica que el dataframe esté actualizado tomando en cuenta el minutoa actual y el ultimo
+                # minuto del dataframe
                 if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
                     ohlc_1m.iloc[-1].name[14:16]) and \
                         (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16])):02}" !=
