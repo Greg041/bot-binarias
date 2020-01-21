@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/SeguimientoIchimoku.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoIchimoku.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BollingerBands.py" beforeDir="false" afterPath="$PROJECT_DIR$/BollingerBands.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_5s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_5s.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_M1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +38,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../bot datos para binarias" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../anotaciones de cursos" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
@@ -341,7 +345,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579615258892</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="- pulida estrategia 3 para tomar en cuenta que el precio esté sobre o bajo la nube kumo en periodo de 1 minuto a la hora de operar a favor de la tendencia como un filtro extra y tomar en cuenta que precio esté dentro de la nube kumo en periodos de 1 minutos y no de 5 minutos a la hora de operar en contra la tendencia">
+      <created>1579616536656</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1579616536658</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -381,7 +392,8 @@
     <MESSAGE value="- agregado modulo para calcular las bandas bollinger&#10;- agregada estrategia 3 la cual usa las bandas bollinger, rsi y adx" />
     <MESSAGE value="- pulida estrategia 2 para tomar en cuenta soportes y resistencias a 5 minutos cuando se este haciendo SeguimientoIchimoku.py&#10;- agregado codigo para preguntar cuantas noticias de 3 estrellas habrá en el periodo de tiempo de ejecucion y preguntar que hora seria 30 minutos antes de que sea las noticias para hacer un sleep desde 30 minutos antes y hasta 30 minutos despues de la noticia" />
     <MESSAGE value="- pulida estrategia 3 para tomar en cuenta que el precio esté sobre o bajo la nube kumo a la hora de operar a favor de la tendencia como un filtro extra y tomar en cuenta que precio esté dentro de la nube kumo en periodos de 1 minutos y no de 5 minutos a la hora de operar en contra la tendencia" />
-    <option name="LAST_COMMIT_MESSAGE" value="- pulida estrategia 3 para tomar en cuenta que el precio esté sobre o bajo la nube kumo a la hora de operar a favor de la tendencia como un filtro extra y tomar en cuenta que precio esté dentro de la nube kumo en periodos de 1 minutos y no de 5 minutos a la hora de operar en contra la tendencia" />
+    <MESSAGE value="- pulida estrategia 3 para tomar en cuenta que el precio esté sobre o bajo la nube kumo en periodo de 1 minuto a la hora de operar a favor de la tendencia como un filtro extra y tomar en cuenta que precio esté dentro de la nube kumo en periodos de 1 minutos y no de 5 minutos a la hora de operar en contra la tendencia" />
+    <option name="LAST_COMMIT_MESSAGE" value="- pulida estrategia 3 para tomar en cuenta que el precio esté sobre o bajo la nube kumo en periodo de 1 minuto a la hora de operar a favor de la tendencia como un filtro extra y tomar en cuenta que precio esté dentro de la nube kumo en periodos de 1 minutos y no de 5 minutos a la hora de operar en contra la tendencia" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
@@ -396,14 +408,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="679" y="135" key="#main/0.0.1920.1040@0.0.1920.1040" timestamp="1579064399171" />
-    <state x="0" y="138" key="CommitChangelistDialog2" timestamp="1579615250123">
+    <state x="0" y="138" key="CommitChangelistDialog2" timestamp="1579616529780">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="0" y="138" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1579615250123" />
-    <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1579574146579">
+    <state x="0" y="138" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1579616529780" />
+    <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1579636829029">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="739" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1579574146579" />
+    <state x="739" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1579636829029" />
     <state width="1899" height="264" key="GridCell.Tab.0.bottom" timestamp="1579280294102">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -428,10 +440,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1579195421551" />
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1579616352174">
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1579635821316">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1579616352174" />
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1579635821316" />
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578071106605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

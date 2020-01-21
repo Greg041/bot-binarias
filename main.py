@@ -37,7 +37,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
     soporte_punto_menor_1m = soporte_menor_1m.iloc[-1]
     soporte_punto_mayor_1m = soporte_mayor_1m.iloc[-1]
     # Se calcula rango de soporte en las últimas 150 velas a 1 minuto
-    for data in range(-50, 0):
+    for data in range(-150, 0):
         precio_l = datos_1min['l'].iloc[data]
         precio_o = datos_1min['o'].iloc[data]
         precio_c = datos_1min['c'].iloc[data]
@@ -52,7 +52,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
     resistencia_punto_mayor_5m = resistencia_mayor_5m.iloc[-1]
     resistencia_punto_menor_5m = resistencia_menor_5m.iloc[-1]
     # rango de resistencia a 5 minutos en las últimas 50 velas
-    for data in range(50, 0):
+    for data in range(-50, 0):
         precio_h = datos_5min['h'].iloc[data]
         precio_o = datos_5min['o'].iloc[data]
         precio_c = datos_5min['c'].iloc[data]
@@ -130,7 +130,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
                 soporte_mayor_1m = datos_1min["c"].rolling(150).min().dropna()
                 soporte_punto_menor_1m = soporte_menor_1m.iloc[-1]
                 soporte_punto_mayor_1m = soporte_mayor_1m.iloc[-1]
-                for data in range(-50, 0):
+                for data in range(-150, 0):
                     precio_l = datos_1min['l'].iloc[data]
                     precio_o = datos_1min['o'].iloc[data]
                     precio_c = datos_1min['c'].iloc[data]
@@ -149,7 +149,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
                 resistencia_punto_mayor_5m = resistencia_mayor_5m.iloc[-1]
                 resistencia_punto_menor_5m = resistencia_menor_5m.iloc[-1]
                 # rango de resistencia a 5 minutos en las últimas 50 velas
-                for data in range(50, 0):
+                for data in range(-50, 0):
                     precio_h = datos_5min['h'].iloc[data]
                     precio_o = datos_5min['o'].iloc[data]
                     precio_c = datos_5min['c'].iloc[data]
