@@ -108,9 +108,8 @@ def analisis_y_estrategia3(ohlc_5s, ohlc_1m, ohlc_5m, res_max_1min, res_min_1min
         elif (ohlc_5s['c'].iloc[-1] < bollinger_5s["BB_dn"].iloc[-1]) and (adx_5s["ADX"].iloc[-1] < 32.0) and (
                 rsi_5s.iloc[-1] > 30):
             return "comprac"
-    if (res_max_1min >= res_min_1min > ohlc_5s['c'].iloc[-1]) and (res_max_5min >= res_min_5min > ohlc_5s['c'].iloc[-1]) \
-            and (ohlc_5s['c'].iloc[-1] > ichi_1m['Senkou span A'].iloc[-26] >= ichi_1m['Senkou span B'].iloc[-26] or
-                 ichi_1m['Senkou span A'].iloc[-26] <= ichi_1m['Senkou span B'].iloc[-26] < ohlc_5s['c'].iloc[-1]):
+    if (res_max_1min >= res_min_1min > ohlc_5s['c'].iloc[-1]) and (res_max_5min >= res_min_5min > ohlc_5s['c'].iloc[-1])\
+            and (ichi_1m['Senkou span B'].iloc[-26] < ohlc_5s['c'].iloc[-1] > ichi_1m['Senkou span A'].iloc[-26]):
         ichi_5s = ichimoku(ohlc_5s)
         if ichi_5s['Senkou span B'].iloc[-26] < ohlc_5s['c'].iloc[-1] > ichi_5s['Senkou span A'].iloc[-26]:
             adx_5s = ADX(ohlc_5s, periodos=50)
@@ -120,8 +119,7 @@ def analisis_y_estrategia3(ohlc_5s, ohlc_1m, ohlc_5m, res_max_1min, res_min_1min
                 if rsi_5s.iloc[-2] < 30.0 and ohlc_5s['c'].iloc[-2] < ohlc_5s['c'].iloc[-1]:
                     return "compraf"
     if (sop_min_1min <= sop_max_1min < ohlc_5s['c'].iloc[-1]) and (sop_min_5min <= sop_max_5min < ohlc_5s['c'].iloc[-1])\
-            and (ohlc_5s['c'].iloc[-1] < ichi_1m['Senkou span A'].iloc[-26] <= ichi_1m['Senkou span B'].iloc[-26] or
-                 ichi_1m['Senkou span A'].iloc[-26] >= ichi_1m['Senkou span B'].iloc[-26] > ohlc_5s['c'].iloc[-1]):
+            and (ichi_1m['Senkou span A'].iloc[-26] > ohlc_5s['c'].iloc[-1] < ichi_1m['Senkou span B'].iloc[-26]):
         ichi_5s = ichimoku(ohlc_5s)
         if ichi_5s['Senkou span B'].iloc[-26] > ohlc_5s['c'].iloc[-1] < ichi_5s['Senkou span A'].iloc[-26]:
             adx_5s = ADX(ohlc_5s, periodos=50)

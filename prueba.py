@@ -4,6 +4,10 @@ from imagesearch import imagesearch
 from SeguimientoIchimoku import seguimiento
 
 if __name__ == "__main__":
-    print("comienza prueba")
-    seguimiento()
-    print("termina prueba")
+    x = 11
+    y= 10
+    z = 2
+
+    y <= x < z
+    z > y >= x
+    y > z < x
