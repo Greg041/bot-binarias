@@ -11,7 +11,6 @@ import pandas as pd
 def calcular_rango_sop_res(ohlc, df_res_may, df_res_men, df_sop_men, df_sop_may, rango_velas):
     resistencia_punto_mayor = df_res_may.iloc[-1]
     resistencia_punto_menor = df_res_men.iloc[-1]
-    # Se calcula rango de resistencia en las últimas 150 velas a 1 minuto
     for data in range(-rango_velas, 0):
         precio_h = ohlc['h'].iloc[data]
         precio_o = ohlc['o'].iloc[data]

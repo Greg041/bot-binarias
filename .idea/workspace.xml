@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prueba.py" beforeDir="false" afterPath="$PROJECT_DIR$/prueba.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -356,7 +353,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579638411624</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="- pulida estrategia 3 reduciendo codigo para mejor lectura&#10;- creada funcion para calcular el rango de soportes y resistencias para reducir codigo repetitivo en la funcion run y para mejor lectura">
+      <created>1579667399823</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1579667399824</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -398,7 +402,8 @@
     <MESSAGE value="- pulida estrategia 3 para tomar en cuenta que el precio esté sobre o bajo la nube kumo a la hora de operar a favor de la tendencia como un filtro extra y tomar en cuenta que precio esté dentro de la nube kumo en periodos de 1 minutos y no de 5 minutos a la hora de operar en contra la tendencia" />
     <MESSAGE value="- pulida estrategia 3 para tomar en cuenta que el precio esté sobre o bajo la nube kumo en periodo de 1 minuto a la hora de operar a favor de la tendencia como un filtro extra y tomar en cuenta que precio esté dentro de la nube kumo en periodos de 1 minutos y no de 5 minutos a la hora de operar en contra la tendencia" />
     <MESSAGE value="- pulida estrategias 2 y 3&#10;- arreglado codigo para calcular rango de soportes y resistencias" />
-    <option name="LAST_COMMIT_MESSAGE" value="- pulida estrategias 2 y 3&#10;- arreglado codigo para calcular rango de soportes y resistencias" />
+    <MESSAGE value="- pulida estrategia 3 reduciendo codigo para mejor lectura&#10;- creada funcion para calcular el rango de soportes y resistencias para reducir codigo repetitivo en la funcion run y para mejor lectura" />
+    <option name="LAST_COMMIT_MESSAGE" value="- pulida estrategia 3 reduciendo codigo para mejor lectura&#10;- creada funcion para calcular el rango de soportes y resistencias para reducir codigo repetitivo en la funcion run y para mejor lectura" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
@@ -413,10 +418,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="679" y="135" key="#main/0.0.1920.1040@0.0.1920.1040" timestamp="1579064399171" />
-    <state x="0" y="138" key="CommitChangelistDialog2" timestamp="1579638376882">
+    <state x="0" y="138" key="CommitChangelistDialog2" timestamp="1579667393758">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="0" y="138" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1579638376882" />
+    <state x="0" y="138" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1579667393758" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1579636829029">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
