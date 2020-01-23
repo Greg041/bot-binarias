@@ -34,7 +34,7 @@ def ejecucion(signal, par):
     if signal != "":
         if par == "EUR_USD":
             click_image("par_eur_usd.jpg", (249, 42), "left", 0.05)
-        elif par == "GBP_USD":
+        elif par == "AUD_USD":
             click_image("par_gbp_usd.jpg", (399,43), "left", 0.05)
         time.sleep(0.5)
     if signal == "comprac":
