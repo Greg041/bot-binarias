@@ -104,7 +104,6 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
                     calcular_rango_sop_res(datos_5min, resistencia_mayor_5m, resistencia_menor_5m, soporte_menor_5m,
                                            soporte_mayor_5m, 50)
             datos_5s = pd.read_csv("datos_5s.csv", index_col="time")
-            print(datos_5s.iloc[-1])
         except:
             print("hubo error en lectura de datos csv")
         if estrategia == 1:
@@ -126,7 +125,6 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
         time.sleep(5)
 
 
-
 if __name__ == "__main__":
     primera_divisa = input("introduzca la primera divisa: ")
     segunda_divisa = input("introduzca la segunda divisa: ")
@@ -143,25 +141,25 @@ if __name__ == "__main__":
     if numero_noticias == 0:
         pass
     elif numero_noticias == 1:
-        hora_noticia = input("Introduzca la hora de la noticia 30 minutos antes")
-        minuto_noticia = input("Introduzca el minuto de la noticia 30 minutos antes")
+        hora_noticia = input("Introduzca la hora de la noticia 30 minutos antes: ")
+        minuto_noticia = input("Introduzca el minuto de la noticia 30 minutos antes: ")
         noticia1 = f'2020-{mes}-{dia} {hora_noticia}:{minuto_noticia}'
     elif numero_noticias == 2:
-        hora_noticia1 = input("Introduzca la hora de la primera noticia 30 minutos antes")
-        minuto_noticia1 = input("Introduzca el minuto de la primera noticia 30 minutos antes")
+        hora_noticia1 = input("Introduzca la hora de la primera noticia 30 minutos antes: ")
+        minuto_noticia1 = input("Introduzca el minuto de la primera noticia 30 minutos antes: ")
         noticia1 = f'2020-{mes}-{dia} {hora_noticia1}:{minuto_noticia1}'
-        hora_noticia2 = input("Introduzca la hora de la segunda noticia 30 minutos antes")
-        minuto_noticia2 = input("Introduzca el minuto de la segunda noticia 30 minutos antes")
+        hora_noticia2 = input("Introduzca la hora de la segunda noticia 30 minutos antes: ")
+        minuto_noticia2 = input("Introduzca el minuto de la segunda noticia 30 minutos antes: ")
         noticia2 = f'2020-{mes}-{dia} {hora_noticia2}:{minuto_noticia2}'
     elif numero_noticias == 3:
-        hora_noticia1 = input("Introduzca la hora de la primera noticia 30 minutos antes")
-        minuto_noticia1 = input("Introduzca el minuto de la noticia 30 minutos antes")
+        hora_noticia1 = input("Introduzca la hora de la primera noticia 30 minutos antes: ")
+        minuto_noticia1 = input("Introduzca el minuto de la noticia 30 minutos antes: ")
         noticia1 = f'2020-{mes}-{dia} {hora_noticia1}:{minuto_noticia1}'
-        hora_noticia2 = input("Introduzca la hora de la segunda noticia 30 minutos antes")
-        minuto_noticia2 = input("Introduzca el minuto de la segunda noticia 30 minutos antes")
+        hora_noticia2 = input("Introduzca la hora de la segunda noticia 30 minutos antes: ")
+        minuto_noticia2 = input("Introduzca el minuto de la segunda noticia 30 minutos antes: ")
         noticia2 = f'2020-{mes}-{dia} {hora_noticia2}:{minuto_noticia2}'
-        hora_noticia3 = input("Introduzca la hora de la tercera noticia 30 minutos antes")
-        minuto_noticia3 = input("Introduzca el minuto de la tercera noticia 30 minutos antes")
+        hora_noticia3 = input("Introduzca la hora de la tercera noticia 30 minutos antes: ")
+        minuto_noticia3 = input("Introduzca el minuto de la tercera noticia 30 minutos antes: ")
         noticia3 = f'2020-{mes}-{dia} {hora_noticia1}:{minuto_noticia1}'
     while time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())) != f'2020-{mes}-{dia} {hora}:{minuto}:00':
         pass
