@@ -1,5 +1,6 @@
 from ExtraccionDatosOanda import ExtraccionOanda
-from analisis_y_estrategia import analisis_y_estrategia1, analisis_y_estrategia2, analisis_y_estrategia3
+from analisis_y_estrategia import analisis_y_estrategia1, analisis_y_estrategia2, analisis_y_estrategia_2_2,\
+    analisis_y_estrategia_2_3, analisis_y_estrategia3
 from Ejecucion import ejecucion
 from multiprocessing import Process
 from ExtraccionDatos5s import extraccion_5s_continua
@@ -33,8 +34,9 @@ def calcular_rango_sop_res(ohlc, df_res_may, df_res_men, df_sop_men, df_sop_may,
     return resistencia_punto_mayor, resistencia_punto_menor, soporte_punto_menor, soporte_punto_mayor
 
 
-def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia, numero_noticias, horas_noticias):
+def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia, tipo_de_est, numero_noticias, horas_noticias):
     print("comenzando")
+    tipo_de_est = tipo_de_est
     timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
     divisa = f"{primera_divisa}_{segunda_divisa}"
     proceso_1_min = ExtraccionOanda(500, "M1", f"{primera_divisa}_{segunda_divisa}")
@@ -112,16 +114,38 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
                                             soporte_punto_menor_1m, soporte_punto_mayor_1m, resistencia_punto_mayor_5m,
                                             resistencia_punto_menor_5m, soporte_punto_menor_5m, soporte_punto_mayor_5m)
         elif estrategia == 2:
-            signal = analisis_y_estrategia2(datos_5s, datos_1min, divisa, resistencia_punto_mayor_1m,
-                                            resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
-                                            resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
-                                            soporte_punto_menor_5m, soporte_punto_mayor_5m)
+            if tipo_de_est == "todo":
+                signal = analisis_y_estrategia2(datos_5s, datos_1min, divisa, resistencia_punto_mayor_1m,
+                                                resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
+                                                resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
+                                                soporte_punto_menor_5m, soporte_punto_mayor_5m)
+                ejecucion(signal, divisa)
+                if signal != "":
+                    tipo_de_est = input("tipo de estrategia en contra, a favor o todo?: ")
+                    fichero_estrategia = open("fichero_estrategia.txt", "wt")
+                    fichero_estrategia.write(tipo_de_est)
+                    fichero_estrategia.close()
+            elif tipo_de_est == "favor":
+                signal = analisis_y_estrategia_2_2(datos_1min, divisa, resistencia_punto_mayor_1m, resistencia_punto_menor_1m,
+                                                   resistencia_punto_mayor_5m, resistencia_punto_menor_5m,
+                                                   soporte_punto_menor_1m, soporte_punto_mayor_1m, soporte_menor_5m,
+                                                   soporte_punto_mayor_5m)
+            elif tipo_de_est == "contra":
+                signal = analisis_y_estrategia_2_3(datos_5s, resistencia_punto_mayor_1m, resistencia_punto_menor_1m,
+                                                   resistencia_punto_mayor_5m, resistencia_punto_menor_5m,
+                                                   soporte_punto_menor_1m, soporte_punto_mayor_1m, soporte_punto_menor_5m,
+                                                   soporte_punto_mayor_5m)
+                ejecucion(signal, divisa)
+                if signal != "":
+                    tipo_de_est = input("tipo de estrategia en contra, a favor o todo?: ")
+                    fichero_estrategia = open("fichero_estrategia.txt", "wt")
+                    fichero_estrategia.write(tipo_de_est)
+                    fichero_estrategia.close()
         elif estrategia == 3:
             signal = analisis_y_estrategia3(datos_5s, datos_1min, datos_5min, resistencia_punto_mayor_1m,
                                             resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
                                             resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
                                             soporte_punto_menor_5m, soporte_punto_mayor_5m)
-        ejecucion(signal, divisa)
         time.sleep(5)
 
 
@@ -129,6 +153,10 @@ if __name__ == "__main__":
     primera_divisa = input("introduzca la primera divisa: ")
     segunda_divisa = input("introduzca la segunda divisa: ")
     estrategia = int(input("estrategia numero 1, 2 o 3?: "))
+    tipo_de_est = input("tipo de estrategia en contra, favor o todo?: ")
+    fichero_estrategia = open("fichero_estrategia.txt", "wt")
+    fichero_estrategia.write(tipo_de_est)
+    fichero_estrategia.close()
     mes = input("introduzca el mes de inicio: ")
     dia = input("introduzca el dia de inicio: ")
     hora = input("introduzca la hora de inicio (militar): ")

@@ -99,6 +99,54 @@ def analisis_y_estrategia2(ohlc_5s, ohlc_1m, par, res_max_1min, res_min_1min, re
         return ""
 
 
+def analisis_y_estrategia_2_2(ohlc_1m, par, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
+                           sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min):
+    ichi_1m = ichimoku(ohlc_1m)
+    print("compraf", (ichi_1m["Senkou span A"].iloc[-2] <= ichi_1m["Senkou span B"].iloc[-2] and
+                      ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]))
+    print("ventaf", (ichi_1m["Senkou span A"].iloc[-2] >= ichi_1m["Senkou span B"].iloc[-2] and
+                     ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]))
+    if (ichi_1m["Senkou span A"].iloc[-2] < ichi_1m["Senkou span B"].iloc[-2] and
+            ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]):
+        seg = Process(target=seguimiento_ichimoku, args=(ohlc_1m, ichi_1m, par, "compraf", res_max_5min, res_min_5min,
+                                                         sop_min_5min, sop_max_5min))
+        seg.start()
+        time.sleep(120)
+        return ""
+    elif (ichi_1m["Senkou span A"].iloc[-2] > ichi_1m["Senkou span B"].iloc[-2] and
+          ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]):
+        seg = Process(target=seguimiento_ichimoku, args=(ohlc_1m, ichi_1m, par, "ventaf", res_max_5min, res_min_5min,
+                                                         sop_min_5min, sop_max_5min))
+        seg.start()
+        time.sleep(120)
+        return ""
+    else:
+        return ""
+
+
+def analisis_y_estrategia_2_3(ohlc_5s, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
+                           sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min):
+    macd_5s = MACD(ohlc_5s)
+    print("en res 1 min", res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min)
+    print("en res 5 min", res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min)
+    if (res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min or res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min) \
+            and detectar_div_macd(macd_5s, ohlc_5s, "bajista"):
+        if detectar_div_historigrama(macd_5s, ohlc_5s, "bajista"):
+            return "ventac"
+        else:
+            print("no hay div baj en hist")
+            return ""
+    elif (sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min or sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min) \
+            and detectar_div_macd(macd_5s, ohlc_5s, "alcista"):
+        if detectar_div_historigrama(macd_5s, ohlc_5s, "alcista"):
+            return "comprac"
+        else:
+            print("no hay div alc en hist")
+            return ""
+    else:
+        return ""
+
+
 def analisis_y_estrategia3(ohlc_5s, ohlc_1m, ohlc_5m, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
                            sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min):
     ichi_1m = ichimoku(ohlc_1m)
