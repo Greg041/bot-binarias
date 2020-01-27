@@ -70,14 +70,16 @@ def analisis_y_estrategia2(ohlc_5s, ohlc_1m, par, res_max_1min, res_min_1min, re
     if (ichi_1m["Senkou span A"].iloc[-2] < ichi_1m["Senkou span B"].iloc[-2] and
             ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]):
         seg = Process(target=seguimiento_ichimoku, args=(ohlc_1m, ichi_1m, par, "compraf", res_max_5min, res_min_5min,
-                                                         sop_min_5min, sop_max_5min))
+                                                         sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                                                         sop_min_1min, sop_max_1min))
         seg.start()
         time.sleep(120)
         return ""
     elif (ichi_1m["Senkou span A"].iloc[-2] > ichi_1m["Senkou span B"].iloc[-2] and
           ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]):
-        seg = Process(target=seguimiento_ichimoku, args=(ohlc_1m, ichi_1m, par, "ventaf", res_max_5min, res_min_5min,
-                                                         sop_min_5min, sop_max_5min))
+        seg = Process(target=seguimiento_ichimoku, args=(ohlc_1m, ichi_1m, par, "compraf", res_max_5min, res_min_5min,
+                                                         sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                                                         sop_min_1min, sop_max_1min))
         seg.start()
         time.sleep(120)
         return ""
@@ -109,14 +111,16 @@ def analisis_y_estrategia_2_2(ohlc_1m, par, res_max_1min, res_min_1min, res_max_
     if (ichi_1m["Senkou span A"].iloc[-2] < ichi_1m["Senkou span B"].iloc[-2] and
             ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]):
         seg = Process(target=seguimiento_ichimoku, args=(ohlc_1m, ichi_1m, par, "compraf", res_max_5min, res_min_5min,
-                                                         sop_min_5min, sop_max_5min))
+                                                         sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                                                         sop_min_1min, sop_max_1min))
         seg.start()
         time.sleep(120)
         return ""
     elif (ichi_1m["Senkou span A"].iloc[-2] > ichi_1m["Senkou span B"].iloc[-2] and
           ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]):
-        seg = Process(target=seguimiento_ichimoku, args=(ohlc_1m, ichi_1m, par, "ventaf", res_max_5min, res_min_5min,
-                                                         sop_min_5min, sop_max_5min))
+        seg = Process(target=seguimiento_ichimoku, args=(ohlc_1m, ichi_1m, par, "compraf", res_max_5min, res_min_5min,
+                                                         sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                                                         sop_min_1min, sop_max_1min))
         seg.start()
         time.sleep(120)
         return ""
