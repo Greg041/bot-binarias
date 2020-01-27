@@ -2,7 +2,7 @@ from ichimoku import ichimoku
 from Ejecucion import ejecucion
 import pandas as pd
 import time
-import winsound
+
 
 def seguimiento_ichimoku(ohlc_1m, ichimoku_1m, par, tipo_de_operacion, res_max_5m, res_min_5m, sop_min_5m, sop_max_5m):
     print("estamos en seguimiento")
@@ -37,11 +37,6 @@ def seguimiento_ichimoku(ohlc_1m, ichimoku_1m, par, tipo_de_operacion, res_max_5
                 time.sleep(5 - ((time.time() - starttime) % 5))
         print("se sale del seguimiento porque se ejecutó operacion ó",
               ichimoku_1m["Senkou span A"].iloc[-1] > ichimoku_1m["Senkou span B"].iloc[-1])
-        winsound.Beep(440, 1000)
-        tipo_de_est = input("tipo de estrategia en contra, a favor o todo?: ")
-        fichero_estrategia = open("fichero_estrategia.txt", "wt")
-        fichero_estrategia.write(tipo_de_est)
-        fichero_estrategia.close()
     elif tipo_de_operacion == "ventaf":
         while ichimoku_1m["Senkou span A"].iloc[-1] < ichimoku_1m["Senkou span B"].iloc[-1]:
             print(ichimoku_1m["Senkou span A"].iloc[-1], ichimoku_1m["Senkou span B"].iloc[-1])
@@ -71,8 +66,3 @@ def seguimiento_ichimoku(ohlc_1m, ichimoku_1m, par, tipo_de_operacion, res_max_5
                 time.sleep(5 - ((time.time() - starttime) % 5))
         print("se sale del seguimiento porque se ejecutó operacion ó",
               ichimoku_1m["Senkou span A"].iloc[-1] < ichimoku_1m["Senkou span B"].iloc[-1])
-        winsound.Beep(440, 1000)
-        tipo_de_est = input("tipo de estrategia en contra, a favor o todo?: ")
-        fichero_estrategia = open("fichero_estrategia.txt", "wt")
-        fichero_estrategia.write(tipo_de_est)
-        fichero_estrategia.close()
