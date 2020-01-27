@@ -36,7 +36,9 @@ def calcular_rango_sop_res(ohlc, df_res_may, df_res_men, df_sop_men, df_sop_may,
 
 def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia, tipo_de_est, numero_noticias, horas_noticias):
     print("comenzando")
-    tipo_de_est = tipo_de_est
+    fichero_estrategia = open("fichero_estrategia.txt", "wt")
+    fichero_estrategia.write(tipo_de_est)
+    fichero_estrategia.close()
     timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
     divisa = f"{primera_divisa}_{segunda_divisa}"
     proceso_1_min = ExtraccionOanda(500, "M1", f"{primera_divisa}_{segunda_divisa}")
@@ -108,6 +110,10 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
             datos_5s = pd.read_csv("datos_5s.csv", index_col="time")
         except:
             print("hubo error en lectura de datos csv")
+        fichero_estrategia = open("fichero_estrategia.txt", "rt")
+        tipo_de_est = fichero_estrategia.read()
+        fichero_estrategia.close()
+        print(tipo_de_est)
         if estrategia == 1:
             signal = analisis_y_estrategia1(datos_1min, datos_5s, resistencia_punto_mayor_1m,
                                             resistencia_punto_menor_1m,
@@ -121,7 +127,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
                                                 soporte_punto_menor_5m, soporte_punto_mayor_5m)
                 ejecucion(signal, divisa)
                 if signal != "":
-                    tipo_de_est = input("tipo de estrategia en contra, a favor o todo?: ")
+                    dir_est = input("tipo de estrategia en contra, a favor o todo?: ")
                     fichero_estrategia = open("fichero_estrategia.txt", "wt")
                     fichero_estrategia.write(tipo_de_est)
                     fichero_estrategia.close()
@@ -153,10 +159,6 @@ if __name__ == "__main__":
     primera_divisa = input("introduzca la primera divisa: ")
     segunda_divisa = input("introduzca la segunda divisa: ")
     estrategia = int(input("estrategia numero 1, 2 o 3?: "))
-    tipo_de_est = input("tipo de estrategia en contra, favor o todo?: ")
-    fichero_estrategia = open("fichero_estrategia.txt", "wt")
-    fichero_estrategia.write(tipo_de_est)
-    fichero_estrategia.close()
     mes = input("introduzca el mes de inicio: ")
     dia = input("introduzca el dia de inicio: ")
     hora = input("introduzca la hora de inicio (militar): ")
@@ -191,4 +193,4 @@ if __name__ == "__main__":
         noticia3 = f'2020-{mes}-{dia} {hora_noticia1}:{minuto_noticia1}'
     while time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())) != f'2020-{mes}-{dia} {hora}:{minuto}:00':
         pass
-    run(tiempo, primera_divisa, segunda_divisa, estrategia, numero_noticias, (noticia1, noticia2, noticia3))
+    run(tiempo, primera_divisa, segunda_divisa, estrategia, "todo",numero_noticias, (noticia1, noticia2, noticia3))

@@ -3,11 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SeguimientoIchimoku.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoIchimoku.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datos_5s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_5s.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datos_M1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -394,7 +389,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579898589618</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="- editado código en main para verificar si la estrategia a aplicar es a favor de la tendencia en contra o todo y analizar y operar en ese sentido de la estrategia">
+      <created>1580128847773</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1580128847773</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -412,7 +414,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- finalizada funcion analisis_y_estrategia &#10;- pulida funcion main&#10;- falta por testear en vivo" />
     <MESSAGE value=". Cambio a la función de analisis para analizar el adx en 5s y tomarlo como referencia en lugar del de 5m&#10;- restando 5 segundos a la extraccion de datos en oanda y fxcm para mejor sincronizacion" />
     <MESSAGE value="- modificada la estrategia para intentar detectar rebotes del mercado" />
     <MESSAGE value="- modificada para comprar o vender a 2 minutos justo despues de hacerlo a 1 minuto para comprobar cual temporalidad es mas rentable" />
@@ -437,7 +438,8 @@
     <MESSAGE value="- pulida estrategia 3 reduciendo codigo para mejor lectura&#10;- creada funcion para calcular el rango de soportes y resistencias para reducir codigo repetitivo en la funcion run y para mejor lectura" />
     <MESSAGE value="- Creado módulo para extraer datos a 5 segundos de forma constante mediante subproceso" />
     <MESSAGE value="- definidos los tiempos de compra y venta unicos en el modulo Ejecucion.py&#10;- incluida divergencias en historigrama del macd para tomar decision de compra o venta" />
-    <option name="LAST_COMMIT_MESSAGE" value="- definidos los tiempos de compra y venta unicos en el modulo Ejecucion.py&#10;- incluida divergencias en historigrama del macd para tomar decision de compra o venta" />
+    <MESSAGE value="- editado código en main para verificar si la estrategia a aplicar es a favor de la tendencia en contra o todo y analizar y operar en ese sentido de la estrategia" />
+    <option name="LAST_COMMIT_MESSAGE" value="- editado código en main para verificar si la estrategia a aplicar es a favor de la tendencia en contra o todo y analizar y operar en ese sentido de la estrategia" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
@@ -452,10 +454,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="679" y="135" key="#main/0.0.1920.1040@0.0.1920.1040" timestamp="1579064399171" />
-    <state x="0" y="138" key="CommitChangelistDialog2" timestamp="1579898572979">
+    <state x="0" y="138" key="CommitChangelistDialog2" timestamp="1580128840327">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="0" y="138" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1579898572979" />
+    <state x="0" y="138" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1580128840327" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1580128409667">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
