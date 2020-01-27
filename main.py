@@ -110,6 +110,8 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
             datos_5s = pd.read_csv("datos_5s.csv", index_col="time")
         except:
             print("hubo error en lectura de datos csv")
+        # Se lee a través de fichero para que el módulo seguimiento ichimoku también pueda ejercer control sobre la
+        # variable a pesar de ir en subproceso
         fichero_estrategia = open("fichero_estrategia.txt", "rt")
         tipo_de_est = fichero_estrategia.read()
         fichero_estrategia.close()
@@ -127,7 +129,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
                                                 soporte_punto_menor_5m, soporte_punto_mayor_5m)
                 ejecucion(signal, divisa)
                 if signal != "":
-                    dir_est = input("tipo de estrategia en contra, a favor o todo?: ")
+                    tipo_de_est = input("tipo de estrategia en contra, a favor o todo?: ")
                     fichero_estrategia = open("fichero_estrategia.txt", "wt")
                     fichero_estrategia.write(tipo_de_est)
                     fichero_estrategia.close()
