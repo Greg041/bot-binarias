@@ -44,6 +44,11 @@ def ejecucion(signal, par):
         time.sleep(0.1)
         click_image("5minutos.jpg", (1515, 345), "left", 0.05)
         click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
+        time.sleep(0.2)
+        click_image("horario.jpg", (1805, 132), "left", 0.05)
+        time.sleep(0.1)
+        click_image("2minutos.jpg", (1514, 242), "left", 0.05)
+        click_image("imagen compra.jpg", (1801, 379), "left", 0.05)
         winsound.Beep(440, 1000)
     elif signal == "compraf":
         print("compra a favor")
@@ -59,6 +64,11 @@ def ejecucion(signal, par):
         click_image("horario.jpg", (1805, 132), "left", 0.05)
         time.sleep(0.1)
         click_image("5minutos.jpg", (1515, 345), "left", 0.05)
+        click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
+        time.sleep(0.2)
+        click_image("horario.jpg", (1805, 132), "left", 0.05)
+        time.sleep(0.1)
+        click_image("2minutos.jpg", (1514, 242), "left", 0.05)
         click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
         winsound.Beep(440, 1000)
     elif signal == "ventaf":

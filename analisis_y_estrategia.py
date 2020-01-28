@@ -5,6 +5,7 @@ from macd import MACD, detectar_div_macd, detectar_div_historigrama
 from multiprocessing import Process
 from SeguimientoIchimoku import seguimiento_ichimoku
 from BollingerBands import boll_bnd
+from SeguimientoDivergencia import seguimiento_div
 import time
 
 
@@ -59,10 +60,11 @@ def analisis_y_estrategia1(ohlc_1min, ohlc_5s, resistencia_punto_mayor1m, resist
         return ""
 
 
-def analisis_y_estrategia2(ohlc_5s, ohlc_1m, par, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
+def analisis_y_estrategia2(ohlc_5s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
                            sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min):
     ichi_1m = ichimoku(ohlc_1m)
     macd_5s = MACD(ohlc_5s)
+    adx_1m = ADX(ohlc_1m)
     print("compraf", (ichi_1m["Senkou span A"].iloc[-2] <= ichi_1m["Senkou span B"].iloc[-2] and
                       ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]))
     print("ventaf", (ichi_1m["Senkou span A"].iloc[-2] >= ichi_1m["Senkou span B"].iloc[-2] and
@@ -77,38 +79,52 @@ def analisis_y_estrategia2(ohlc_5s, ohlc_1m, par, res_max_1min, res_min_1min, re
         return ""
     elif (ichi_1m["Senkou span A"].iloc[-2] > ichi_1m["Senkou span B"].iloc[-2] and
           ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]):
-        seg = Process(target=seguimiento_ichimoku, args=(ohlc_1m, ichi_1m, par, "compraf", res_max_5min, res_min_5min,
+        seg = Process(target=seguimiento_ichimoku, args=(ohlc_1m, ichi_1m, par, "ventaf", res_max_5min, res_min_5min,
                                                          sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
                                                          sop_min_1min, sop_max_1min))
         seg.start()
         time.sleep(120)
         return ""
-    if (res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min or res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min) \
-            and detectar_div_macd(macd_5s, ohlc_5s, "bajista"):
-        if detectar_div_historigrama(macd_5s, ohlc_5s, "bajista"):
-            return "ventac"
-        else:
-            print("no hay div baj en hist")
+    if adx_1m["ADX"].iloc[-1] > 25 and adx_1m["DI+"].iloc[-1] > adx_1m["DI-"].iloc[-1]:
+        print("en res 1 min", res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min)
+        print("en res 5 min", res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min)
+        print("en sop 1 min", sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min)
+        print("en sop 5 min", sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min)
+        if (res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min or res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min) \
+                and detectar_div_macd(macd_5s, ohlc_5s, "bajista"):
+            seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "bajista", res_max_5min, res_min_5min,
+                                                        sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                                                        sop_min_1min, sop_max_1min))
+            seg.start()
             return ""
-    elif (sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min or sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min) \
-            and detectar_div_macd(macd_5s, ohlc_5s, "alcista"):
-        if detectar_div_historigrama(macd_5s, ohlc_5s, "alcista"):
-            return "comprac"
         else:
-            print("no hay div alc en hist")
+            return ""
+    elif adx_1m["ADX"].iloc[-1] > 25 and adx_1m["DI-"].iloc[-1] > adx_1m["DI+"].iloc[-1]:
+        print("en res 1 min", res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min)
+        print("en res 5 min", res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min)
+        print("en sop 1 min", sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min)
+        print("en sop 5 min", sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min)
+        if (sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min or sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min) \
+                and detectar_div_macd(macd_5s, ohlc_5s, "alcista"):
+            seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "alcista", res_max_5min, res_min_5min,
+                                                        sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                                                        sop_min_1min, sop_max_1min))
+            seg.start()
+            return ""
+        else:
             return ""
     else:
         return ""
 
 
 def analisis_y_estrategia_2_2(ohlc_1m, par, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
-                           sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min):
+                              sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min):
     ichi_1m = ichimoku(ohlc_1m)
     print("compraf", (ichi_1m["Senkou span A"].iloc[-2] <= ichi_1m["Senkou span B"].iloc[-2] and
                       ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]))
     print("ventaf", (ichi_1m["Senkou span A"].iloc[-2] >= ichi_1m["Senkou span B"].iloc[-2] and
                      ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]))
-    if (ichi_1m["Senkou span A"].iloc[-2] < ichi_1m["Senkou span B"].iloc[-2] and
+    if (ichi_1m["Senkou span A"].iloc[-2] <= ichi_1m["Senkou span B"].iloc[-2] and
             ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]):
         seg = Process(target=seguimiento_ichimoku, args=(ohlc_1m, ichi_1m, par, "compraf", res_max_5min, res_min_5min,
                                                          sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
@@ -116,9 +132,9 @@ def analisis_y_estrategia_2_2(ohlc_1m, par, res_max_1min, res_min_1min, res_max_
         seg.start()
         time.sleep(120)
         return ""
-    elif (ichi_1m["Senkou span A"].iloc[-2] > ichi_1m["Senkou span B"].iloc[-2] and
+    elif (ichi_1m["Senkou span A"].iloc[-2] >= ichi_1m["Senkou span B"].iloc[-2] and
           ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]):
-        seg = Process(target=seguimiento_ichimoku, args=(ohlc_1m, ichi_1m, par, "compraf", res_max_5min, res_min_5min,
+        seg = Process(target=seguimiento_ichimoku, args=(ohlc_1m, ichi_1m, par, "ventaf", res_max_5min, res_min_5min,
                                                          sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
                                                          sop_min_1min, sop_max_1min))
         seg.start()
@@ -128,24 +144,33 @@ def analisis_y_estrategia_2_2(ohlc_1m, par, res_max_1min, res_min_1min, res_max_
         return ""
 
 
-def analisis_y_estrategia_2_3(ohlc_5s, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
-                           sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min):
+def analisis_y_estrategia_2_3(ohlc_5s, ohlc_1m, par, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
+                              sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min):
     macd_5s = MACD(ohlc_5s)
+    adx_1m = ADX(ohlc_1m)
     print("en res 1 min", res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min)
     print("en res 5 min", res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min)
-    if (res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min or res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min) \
-            and detectar_div_macd(macd_5s, ohlc_5s, "bajista"):
-        if detectar_div_historigrama(macd_5s, ohlc_5s, "bajista"):
-            return "ventac"
-        else:
-            print("no hay div baj en hist")
+    print("en sop 1 min", sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min)
+    print("en sop 5 min", sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min)
+    if adx_1m["ADX"].iloc[-1] > 25 and adx_1m["DI+"].iloc[-1] > adx_1m["DI-"].iloc[-1]:
+        if (res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min or res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min)\
+                and detectar_div_macd(macd_5s, ohlc_5s, "bajista"):
+            seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "bajista", res_max_5min, res_min_5min,
+                                                        sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                                                        sop_min_1min, sop_max_1min))
+            seg.start()
             return ""
-    elif (sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min or sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min) \
-            and detectar_div_macd(macd_5s, ohlc_5s, "alcista"):
-        if detectar_div_historigrama(macd_5s, ohlc_5s, "alcista"):
-            return "comprac"
         else:
-            print("no hay div alc en hist")
+            return ""
+    elif adx_1m["ADX"].iloc[-1] > 25 and adx_1m["DI-"].iloc[-1] > adx_1m["DI+"].iloc[-1]:
+        if (sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min or sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min) \
+                and detectar_div_macd(macd_5s, ohlc_5s, "alcista"):
+            seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "bajista", res_max_5min, res_min_5min,
+                                                        sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                                                        sop_min_1min, sop_max_1min))
+            seg.start()
+            return ""
+        else:
             return ""
     else:
         return ""
@@ -168,7 +193,7 @@ def analisis_y_estrategia3(ohlc_5s, ohlc_1m, ohlc_5m, res_max_1min, res_min_1min
         elif (ohlc_5s['c'].iloc[-1] < bollinger_5s["BB_dn"].iloc[-1]) and (adx_5s["ADX"].iloc[-1] < 32.0) and (
                 rsi_5s.iloc[-1] > 30):
             return "comprac"
-    if (res_max_1min >= res_min_1min > ohlc_5s['c'].iloc[-1]) and (res_max_5min >= res_min_5min > ohlc_5s['c'].iloc[-1])\
+    if (res_max_1min >= res_min_1min > ohlc_5s['c'].iloc[-1]) and (res_max_5min >= res_min_5min > ohlc_5s['c'].iloc[-1]) \
             and (ichi_1m['Senkou span B'].iloc[-26] < ohlc_5s['c'].iloc[-1] > ichi_1m['Senkou span A'].iloc[-26]):
         ichi_5s = ichimoku(ohlc_5s)
         if ichi_5s['Senkou span B'].iloc[-26] < ohlc_5s['c'].iloc[-1] > ichi_5s['Senkou span A'].iloc[-26]:
@@ -178,7 +203,7 @@ def analisis_y_estrategia3(ohlc_5s, ohlc_1m, ohlc_5m, res_max_1min, res_min_1min
                     (adx_5s["ADX"].iloc[-2] < adx_5s["ADX"].iloc[-1]):
                 if rsi_5s.iloc[-2] < 30.0 and ohlc_5s['c'].iloc[-2] < ohlc_5s['c'].iloc[-1]:
                     return "compraf"
-    if (sop_min_1min <= sop_max_1min < ohlc_5s['c'].iloc[-1]) and (sop_min_5min <= sop_max_5min < ohlc_5s['c'].iloc[-1])\
+    if (sop_min_1min <= sop_max_1min < ohlc_5s['c'].iloc[-1]) and (sop_min_5min <= sop_max_5min < ohlc_5s['c'].iloc[-1]) \
             and (ichi_1m['Senkou span A'].iloc[-26] > ohlc_5s['c'].iloc[-1] < ichi_1m['Senkou span B'].iloc[-26]):
         ichi_5s = ichimoku(ohlc_5s)
         if ichi_5s['Senkou span B'].iloc[-26] > ohlc_5s['c'].iloc[-1] < ichi_5s['Senkou span A'].iloc[-26]:
