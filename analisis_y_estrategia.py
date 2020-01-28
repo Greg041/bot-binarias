@@ -85,11 +85,9 @@ def analisis_y_estrategia2(ohlc_5s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         seg.start()
         time.sleep(120)
         return ""
-    if adx_1m["ADX"].iloc[-1] > 25 and adx_1m["DI+"].iloc[-1] > adx_1m["DI-"].iloc[-1]:
+    if adx_1m["ADX"].iloc[-1] > 25.0 and adx_1m["DI+"].iloc[-1] > adx_1m["DI-"].iloc[-1]:
         print("en res 1 min", res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min)
         print("en res 5 min", res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min)
-        print("en sop 1 min", sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min)
-        print("en sop 5 min", sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min)
         if (res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min or res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min) \
                 and detectar_div_macd(macd_5s, ohlc_5s, "bajista"):
             seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "bajista", res_max_5min, res_min_5min,
@@ -99,9 +97,7 @@ def analisis_y_estrategia2(ohlc_5s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
             return ""
         else:
             return ""
-    elif adx_1m["ADX"].iloc[-1] > 25 and adx_1m["DI-"].iloc[-1] > adx_1m["DI+"].iloc[-1]:
-        print("en res 1 min", res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min)
-        print("en res 5 min", res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min)
+    elif adx_1m["ADX"].iloc[-1] > 25.0 and adx_1m["DI-"].iloc[-1] > adx_1m["DI+"].iloc[-1]:
         print("en sop 1 min", sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min)
         print("en sop 5 min", sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min)
         if (sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min or sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min) \
@@ -150,9 +146,7 @@ def analisis_y_estrategia_2_3(ohlc_5s, ohlc_1m, par, res_max_1min, res_min_1min,
     adx_1m = ADX(ohlc_1m)
     print("en res 1 min", res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min)
     print("en res 5 min", res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min)
-    print("en sop 1 min", sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min)
-    print("en sop 5 min", sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min)
-    if adx_1m["ADX"].iloc[-1] > 25 and adx_1m["DI+"].iloc[-1] > adx_1m["DI-"].iloc[-1]:
+    if adx_1m["ADX"].iloc[-1] > 25.0 and adx_1m["DI+"].iloc[-1] > adx_1m["DI-"].iloc[-1]:
         if (res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min or res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min)\
                 and detectar_div_macd(macd_5s, ohlc_5s, "bajista"):
             seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "bajista", res_max_5min, res_min_5min,
@@ -162,7 +156,9 @@ def analisis_y_estrategia_2_3(ohlc_5s, ohlc_1m, par, res_max_1min, res_min_1min,
             return ""
         else:
             return ""
-    elif adx_1m["ADX"].iloc[-1] > 25 and adx_1m["DI-"].iloc[-1] > adx_1m["DI+"].iloc[-1]:
+    elif adx_1m["ADX"].iloc[-1] > 25.0 and adx_1m["DI-"].iloc[-1] > adx_1m["DI+"].iloc[-1]:
+        print("en sop 1 min", sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min)
+        print("en sop 5 min", sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min)
         if (sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min or sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min) \
                 and detectar_div_macd(macd_5s, ohlc_5s, "alcista"):
             seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "bajista", res_max_5min, res_min_5min,

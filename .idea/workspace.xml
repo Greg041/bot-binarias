@@ -2,16 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/SeguimientoDivergencia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ejecucion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ejecucion.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ExtraccionDatosOanda.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExtraccionDatosOanda.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SeguimientoIchimoku.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoIchimoku.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SeguimientoDivergencia.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoDivergencia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_5s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_5s.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M1.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -432,7 +428,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580141343568</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="- se modifico estrategia 2 en divergencias para hacer seguimiento esperando el momento adecuado para hacer la compra o la venta&#10;- se creo modulo para hacer seguimiento a las divergencias">
+      <created>1580216905506</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1580216905506</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -450,8 +453,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- modificada para comprar o vender a 2 minutos justo despues de hacerlo a 1 minuto para comprobar cual temporalidad es mas rentable" />
-    <MESSAGE value="- modificada estrategia para operar también a favor de la tendencia" />
     <MESSAGE value="- usado try except en ExtraccionDatosFxcmpy.py por error en la extraccion de datos despues de cierto tiempo lo cual creo que se debe a la desconexion al servidor despues de un lapso de tiempo especifico" />
     <MESSAGE value="- eliminado clausula try except en modulos ExtraccionDatosFxcmpy.py y ExtraccionDatosOanda.py y retirado sustracción del tiempo 10 segundos en el time.sleep después del primer contador ya que ello causaba que el script se ejecutara 10 segundos antes por cada ejecución acumulandose la sustracción de tiempo y llevando a errores inesperado" />
     <MESSAGE value="- modificado las clausulas try except en ExtraccionDatosOanda.py, ExtraccionDatosFxcmpy.py y el main para mejor rendimiento" />
@@ -475,7 +476,9 @@
     <MESSAGE value="- editado código en main para verificar si la estrategia a aplicar es a favor de la tendencia en contra o todo y analizar y operar en ese sentido de la estrategia" />
     <MESSAGE value="- tomado en cuenta soportes y resistencias a 1 minuto en operacion SeguimientoIchimoku.py" />
     <MESSAGE value="- manejadas excepciones en la lectura de datos archivos csv en SeguimientoIchimoku.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="- manejadas excepciones en la lectura de datos archivos csv en SeguimientoIchimoku.py" />
+    <MESSAGE value="- se modifico estrategia 2 en divergencias para hacer seguimiento esperando el momento adecuado para hacer la compra o la venta&#10;- se creo modulo para hacer seguimiento a las divergencias" />
+    <MESSAGE value="- pulida estrategia divergencia" />
+    <option name="LAST_COMMIT_MESSAGE" value="- pulida estrategia divergencia" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
@@ -490,10 +493,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="679" y="135" key="#main/0.0.1920.1040@0.0.1920.1040" timestamp="1579064399171" />
-    <state x="0" y="138" key="CommitChangelistDialog2" timestamp="1580141340217">
+    <state x="0" y="138" key="CommitChangelistDialog2" timestamp="1580226521932">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="0" y="138" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1580141340217" />
+    <state x="0" y="138" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1580226521932" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1580158716317">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -522,10 +525,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1580105664149" />
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1580212026367">
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1580222005345">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1580212026367" />
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1580222005345" />
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578071106605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
