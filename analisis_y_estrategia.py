@@ -90,7 +90,8 @@ def analisis_y_estrategia2(ohlc_5s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         print("en res 5 min", res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min)
         if (res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min or res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min) \
                 and detectar_div_macd(macd_5s, ohlc_5s, "bajista"):
-            seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "bajista", macd_5s["MACD"].iloc[-2]))
+            seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "bajista", macd_5s["MACD"].iloc[-2],
+                                                        macd_5s["MACD"].iloc[-1]))
             seg.start()
             return ""
         else:
@@ -100,7 +101,8 @@ def analisis_y_estrategia2(ohlc_5s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         print("en sop 5 min", sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min)
         if (sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min or sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min) \
                 and detectar_div_macd(macd_5s, ohlc_5s, "alcista"):
-            seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "alcista", macd_5s["MACD"].iloc[-2]))
+            seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "alcista", macd_5s["MACD"].iloc[-2],
+                                                        macd_5s["MACD"].iloc[-1]))
             seg.start()
             return ""
         else:
@@ -145,7 +147,8 @@ def analisis_y_estrategia_2_3(ohlc_5s, ohlc_1m, par, res_max_1min, res_min_1min,
     if adx_1m["ADX"].iloc[-1] > 25.0 and adx_1m["DI+"].iloc[-1] > adx_1m["DI-"].iloc[-1]:
         if (res_max_1min > ohlc_5s['c'].iloc[-1] > res_min_1min or res_max_5min > ohlc_5s['c'].iloc[-1] > res_min_5min)\
                 and detectar_div_macd(macd_5s, ohlc_5s, "bajista"):
-            seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "bajista", macd_5s["MACD"].iloc[-2]))
+            seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "bajista", macd_5s["MACD"].iloc[-2],
+                                                        macd_5s["MACD"].iloc[-1]))
             seg.start()
             return ""
         else:
@@ -155,7 +158,8 @@ def analisis_y_estrategia_2_3(ohlc_5s, ohlc_1m, par, res_max_1min, res_min_1min,
         print("en sop 5 min", sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min)
         if (sop_min_1min < ohlc_5s['c'].iloc[-1] < sop_max_1min or sop_min_5min < ohlc_5s['c'].iloc[-1] < sop_max_5min) \
                 and detectar_div_macd(macd_5s, ohlc_5s, "alcista"):
-            seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "bajista", macd_5s["MACD"].iloc[-2]))
+            seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "bajista", macd_5s["MACD"].iloc[-2],
+                                                        macd_5s["MACD"].iloc[-1]))
             seg.start()
             return ""
         else:

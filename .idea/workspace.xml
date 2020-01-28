@@ -3,11 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1minuto.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/1minuto.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ejecucion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ejecucion.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SeguimientoDivergencia.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoDivergencia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_5s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_5s.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M1.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prueba.py" beforeDir="false" afterPath="$PROJECT_DIR$/prueba.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +48,7 @@
       <recent name="C:\Users\g_reg\Desktop\bot binarias" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.prueba">
     <configuration name="analisis_y_estrategia" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="bot binarias" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -132,8 +135,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.prueba" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.imagesearch" />
         <item itemvalue="Python.analisis_y_estrategia" />
       </list>
@@ -435,7 +438,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580216905506</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="- pulida estrategia divergencia y ichimoku">
+      <created>1580229383170</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1580229383170</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -453,7 +463,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- usado try except en ExtraccionDatosFxcmpy.py por error en la extraccion de datos despues de cierto tiempo lo cual creo que se debe a la desconexion al servidor despues de un lapso de tiempo especifico" />
     <MESSAGE value="- eliminado clausula try except en modulos ExtraccionDatosFxcmpy.py y ExtraccionDatosOanda.py y retirado sustracción del tiempo 10 segundos en el time.sleep después del primer contador ya que ello causaba que el script se ejecutara 10 segundos antes por cada ejecución acumulandose la sustracción de tiempo y llevando a errores inesperado" />
     <MESSAGE value="- modificado las clausulas try except en ExtraccionDatosOanda.py, ExtraccionDatosFxcmpy.py y el main para mejor rendimiento" />
     <MESSAGE value="- modificado try except en ambos modulo de extraccion de datos y el main para mejor funcionalidad" />
@@ -478,7 +487,8 @@
     <MESSAGE value="- manejadas excepciones en la lectura de datos archivos csv en SeguimientoIchimoku.py" />
     <MESSAGE value="- se modifico estrategia 2 en divergencias para hacer seguimiento esperando el momento adecuado para hacer la compra o la venta&#10;- se creo modulo para hacer seguimiento a las divergencias" />
     <MESSAGE value="- pulida estrategia divergencia" />
-    <option name="LAST_COMMIT_MESSAGE" value="- pulida estrategia divergencia" />
+    <MESSAGE value="- pulida estrategia divergencia y ichimoku" />
+    <option name="LAST_COMMIT_MESSAGE" value="- pulida estrategia divergencia y ichimoku" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
@@ -493,30 +503,30 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="679" y="135" key="#main/0.0.1920.1040@0.0.1920.1040" timestamp="1579064399171" />
-    <state x="0" y="138" key="CommitChangelistDialog2" timestamp="1580226521932">
+    <state x="0" y="138" key="CommitChangelistDialog2" timestamp="1580229869013">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="0" y="138" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1580226521932" />
+    <state x="0" y="138" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1580229869013" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1580158716317">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="739" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1580158716317" />
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1580129608850">
+    <state width="1362" height="265" key="GridCell.Tab.0.bottom" timestamp="1580229872530">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1580129608850" />
-    <state width="1899" height="282" key="GridCell.Tab.0.center" timestamp="1580129608850">
+    <state width="1362" height="265" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1580229872530" />
+    <state width="1362" height="265" key="GridCell.Tab.0.center" timestamp="1580229872530">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1580129608850" />
-    <state width="1899" height="282" key="GridCell.Tab.0.left" timestamp="1580129608850">
+    <state width="1362" height="265" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1580229872530" />
+    <state width="1362" height="265" key="GridCell.Tab.0.left" timestamp="1580229872530">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1580129608850" />
-    <state width="1899" height="282" key="GridCell.Tab.0.right" timestamp="1580129608850">
+    <state width="1362" height="265" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1580229872530" />
+    <state width="1362" height="265" key="GridCell.Tab.0.right" timestamp="1580229872530">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1580129608850" />
+    <state width="1362" height="265" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1580229872530" />
     <state x="540" y="255" key="IDE.errors.dialog" timestamp="1578087577117">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -525,10 +535,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1580105664149" />
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1580228834985">
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1580230044352">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1580228834985" />
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1580230044352" />
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578071106605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

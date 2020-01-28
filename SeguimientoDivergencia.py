@@ -5,11 +5,11 @@ from ADX import ADX
 from macd import MACD
 
 
-def seguimiento_div(ohlc_1m, ohlc_5s, par, tipo_de_divergencia, punto_max_min_macd):
+def seguimiento_div(ohlc_1m, ohlc_5s, par, tipo_de_divergencia, punto_max_min_macd, punto_ultimo):
     print("estamos en seguimiento divergencia")
     if tipo_de_divergencia == "bajista":
         punto_max_macd = punto_max_min_macd
-        punto_ultimo_macd = MACD(ohlc_5s)["MACD"].iloc[-1]
+        punto_ultimo_macd = punto_ultimo
         while punto_ultimo_macd < punto_max_macd:
             adx_1m = ADX(ohlc_1m)
             adx_5s = ADX(ohlc_5s)
@@ -30,7 +30,7 @@ def seguimiento_div(ohlc_1m, ohlc_5s, par, tipo_de_divergencia, punto_max_min_ma
               punto_ultimo_macd < punto_max_macd, punto_ultimo_macd, punto_max_macd)
     elif tipo_de_divergencia == "alcista":
         punto_min_macd = punto_max_min_macd
-        punto_ultimo_macd = MACD(ohlc_5s)["MACD"].iloc[-1]
+        punto_ultimo_macd = punto_ultimo
         while punto_ultimo_macd > punto_min_macd:
             adx_1m = ADX(ohlc_1m)
             adx_5s = ADX(ohlc_5s)
