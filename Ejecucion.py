@@ -86,6 +86,6 @@ def ejecucion(signal, par):
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
         click_image("horario.jpg", (1805, 132), "left", 0.05)
         time.sleep(0.1)
-        click_image("2minutos.jpg", (1514, 242), "left", 0.05)
+        click_image("5minutos.jpg", (1515, 345), "left", 0.05)
         click_image("imagen venta.jpg", (1804, 513), "left", 0.05)
         winsound.Beep(440, 1000)
