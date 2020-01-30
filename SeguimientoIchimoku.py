@@ -34,7 +34,7 @@ def calcular_rango_sop_res(ohlc, rango_velas):
     return resistencia_punto_mayor, resistencia_punto_menor, soporte_punto_menor, soporte_punto_mayor
 
 
-def seguimiento_ichimoku(ohlc_1m, ichimoku_1m, par, tipo_de_operacion, res_max_5m, res_min_5m, sop_min_5m, sop_max_5m,
+def seguimiento_ichimoku(ohlc_1m, datos_5min, ichimoku_1m, par, tipo_de_operacion, res_max_5m, res_min_5m, sop_min_5m, sop_max_5m,
                          res_max_1m, res_min_1m, sop_min_1m, sop_max_1m):
     print("estamos en seguimiento")
     if tipo_de_operacion == "compraf":
@@ -72,12 +72,15 @@ def seguimiento_ichimoku(ohlc_1m, ichimoku_1m, par, tipo_de_operacion, res_max_5
                         res_max_1m, res_min_1m, sop_min_1m, sop_max_1m = calcular_rango_sop_res(ohlc_1m, 120)
                 except:
                     print("error en lectura de datos m1 seguimiento ichimoku")
-                if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
-                        int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
-                        (datos_5min.iloc[-1].name[
-                         14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
-                    datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
-                    res_max_5m, res_min_5m, sop_min_5m, sop_max_5m = calcular_rango_sop_res(datos_5min, 50)
+                try:
+                    if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
+                            int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
+                            (datos_5min.iloc[-1].name[
+                             14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
+                        datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
+                        res_max_5m, res_min_5m, sop_min_5m, sop_max_5m = calcular_rango_sop_res(datos_5min, 50)
+                except:
+                    print("error en lectura de datos m5 seguimiento ichimoku")
                 time.sleep(5 - ((time.time() - starttime) % 5))
         print("se sale del seguimiento porque se ejecutó operacion ó",
               ichimoku_1m["Senkou span A"].iloc[-1] > ichimoku_1m["Senkou span B"].iloc[-1])
@@ -116,12 +119,15 @@ def seguimiento_ichimoku(ohlc_1m, ichimoku_1m, par, tipo_de_operacion, res_max_5
                         res_max_1m, res_min_1m, sop_min_1m, sop_max_1m = calcular_rango_sop_res(ohlc_1m, 120)
                 except:
                     print("error en lectura de datos m1 seguimiento ichimoku")
-                if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
-                        int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
-                        (datos_5min.iloc[-1].name[
-                         14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
-                    datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
-                    res_max_5m, res_min_5m, sop_min_5m, sop_max_5m = calcular_rango_sop_res(datos_5min, 50)
+                try:
+                    if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
+                            int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
+                            (datos_5min.iloc[-1].name[
+                             14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
+                        datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
+                        res_max_5m, res_min_5m, sop_min_5m, sop_max_5m = calcular_rango_sop_res(datos_5min, 50)
+                except:
+                    print("error en lectura de datos m5 seguimiento ichimoku")
                 time.sleep(5 - ((time.time() - starttime) % 5))
         print("se sale del seguimiento porque se ejecutó operacion ó",
               ichimoku_1m["Senkou span A"].iloc[-1] < ichimoku_1m["Senkou span B"].iloc[-1])
