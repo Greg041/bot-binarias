@@ -47,14 +47,14 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
     proceso_5s.start()
     time.sleep(30)
     datos_1min = pd.read_csv("datos_M1.csv", index_col="time")
-    resistencia_mayor_1m = datos_1min["h"].rolling(150).max().dropna()
-    resistencia_menor_1m = datos_1min["c"].rolling(150).max().dropna()
-    soporte_menor_1m = datos_1min["l"].rolling(150).min().dropna()
-    soporte_mayor_1m = datos_1min["c"].rolling(150).min().dropna()
+    resistencia_mayor_1m = datos_1min["h"].rolling(120).max().dropna()
+    resistencia_menor_1m = datos_1min["c"].rolling(120).max().dropna()
+    soporte_menor_1m = datos_1min["l"].rolling(120).min().dropna()
+    soporte_mayor_1m = datos_1min["c"].rolling(120).min().dropna()
     # Se calcula el rango de soporte y resistencia de 1 minuto a un rango de 150 velas
     resistencia_punto_mayor_1m, resistencia_punto_menor_1m, soporte_punto_menor_1m, soporte_punto_mayor_1m = \
         calcular_rango_sop_res(datos_1min, resistencia_mayor_1m, resistencia_menor_1m, soporte_menor_1m,
-                               soporte_mayor_1m, 150)
+                               soporte_mayor_1m, 120)
     datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
     resistencia_mayor_5m = datos_5min["h"].rolling(50).max().dropna()
     resistencia_menor_5m = datos_5min["c"].rolling(50).max().dropna()
@@ -86,13 +86,13 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
                     (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16])):02}" != \
                      datos_1min.iloc[-1].name[14:16]):
                 datos_1min = pd.read_csv("datos_M1.csv", index_col="time")
-                resistencia_mayor_1m = datos_1min["h"].rolling(150).max().dropna()
-                resistencia_menor_1m = datos_1min["c"].rolling(150).max().dropna()
-                soporte_menor_1m = datos_1min["l"].rolling(150).min().dropna()
-                soporte_mayor_1m = datos_1min["c"].rolling(150).min().dropna()
+                resistencia_mayor_1m = datos_1min["h"].rolling(120).max().dropna()
+                resistencia_menor_1m = datos_1min["c"].rolling(120).max().dropna()
+                soporte_menor_1m = datos_1min["l"].rolling(120).min().dropna()
+                soporte_mayor_1m = datos_1min["c"].rolling(120).min().dropna()
                 resistencia_punto_mayor_1m, resistencia_punto_menor_1m, soporte_punto_menor_1m, soporte_punto_mayor_1m = \
                     calcular_rango_sop_res(datos_1min, resistencia_mayor_1m, resistencia_menor_1m, soporte_menor_1m,
-                                           soporte_mayor_1m, 150)
+                                           soporte_mayor_1m, 120)
             if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
                     int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
                     (datos_5min.iloc[-1].name[
