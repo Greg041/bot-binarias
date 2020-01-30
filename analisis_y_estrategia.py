@@ -7,7 +7,7 @@ from SeguimientoIchimoku import seguimiento_ichimoku
 from BollingerBands import boll_bnd
 from SeguimientoDivergencia import seguimiento_div
 import time
-
+import winsound
 
 def analisis_y_estrategia1(ohlc_1min, ohlc_5s, resistencia_punto_mayor1m, resistencia_punto_menor1m,
                            soporte_punto_menor1m,
@@ -93,6 +93,7 @@ def analisis_y_estrategia2(ohlc_5s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
             seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "bajista", macd_5s["MACD"].iloc[-2],
                                                         macd_5s["MACD"].iloc[-1]))
             seg.start()
+            winsound.Beep(440, 1000)
             return ""
         else:
             return ""
@@ -104,6 +105,7 @@ def analisis_y_estrategia2(ohlc_5s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
             seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_5s, par, "alcista", macd_5s["MACD"].iloc[-2],
                                                         macd_5s["MACD"].iloc[-1]))
             seg.start()
+            winsound.Beep(440, 1000)
             return ""
         else:
             return ""

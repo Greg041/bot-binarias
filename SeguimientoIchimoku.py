@@ -4,6 +4,36 @@ import pandas as pd
 import time
 
 
+def calcular_rango_sop_res(ohlc, rango_velas):
+    resistencia_mayor = ohlc["h"].rolling(rango_velas).max().dropna()
+    resistencia_menor = ohlc["c"].rolling(rango_velas).max().dropna()
+    soporte_menor = ohlc["l"].rolling(rango_velas).min().dropna()
+    soporte_mayor = ohlc["c"].rolling(rango_velas).min().dropna()
+    resistencia_punto_mayor = resistencia_mayor.iloc[-1]
+    resistencia_punto_menor = resistencia_menor.iloc[-1]
+    for data in range(-rango_velas, 0):
+        precio_h = ohlc['h'].iloc[data]
+        precio_o = ohlc['o'].iloc[data]
+        precio_c = ohlc['c'].iloc[data]
+        if precio_h > resistencia_punto_menor > precio_c:
+            if precio_c >= precio_o:
+                resistencia_punto_menor = precio_c
+            elif precio_c < precio_o < resistencia_punto_menor:
+                resistencia_punto_menor = precio_o
+    soporte_punto_menor = soporte_menor.iloc[-1]
+    soporte_punto_mayor = soporte_mayor.iloc[-1]
+    for data in range(-rango_velas, 0):
+        precio_l = ohlc['l'].iloc[data]
+        precio_o = ohlc['o'].iloc[data]
+        precio_c = ohlc['c'].iloc[data]
+        if precio_l < soporte_punto_mayor < precio_c:
+            if precio_c <= precio_o:
+                soporte_punto_mayor = precio_c
+            elif precio_c > precio_o > soporte_punto_mayor:
+                soporte_punto_mayor = precio_o
+    return resistencia_punto_mayor, resistencia_punto_menor, soporte_punto_menor, soporte_punto_mayor
+
+
 def seguimiento_ichimoku(ohlc_1m, ichimoku_1m, par, tipo_de_operacion, res_max_5m, res_min_5m, sop_min_5m, sop_max_5m,
                          res_max_1m, res_min_1m, sop_min_1m, sop_max_1m):
     print("estamos en seguimiento")
@@ -39,6 +69,13 @@ def seguimiento_ichimoku(ohlc_1m, ichimoku_1m, par, tipo_de_operacion, res_max_5
                              ohlc_1m.iloc[-1].name[14:16]):
                         ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                         ichimoku_1m = ichimoku(ohlc_1m)
+                        res_max_1m, res_min_1m, sop_min_1m, sop_max_1m = calcular_rango_sop_res(ohlc_1m, 150)
+                    if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
+                            int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
+                            (datos_5min.iloc[-1].name[
+                             14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
+                        datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
+                        res_max_5m, res_min_5m, sop_min_5m, sop_max_5m = calcular_rango_sop_res(datos_5min, 50)
                 except:
                     print("error en lectura datos m1 seguimiento ichimoku")
                 time.sleep(5 - ((time.time() - starttime) % 5))

@@ -1,5 +1,5 @@
 from ExtraccionDatosOanda import ExtraccionOanda
-from analisis_y_estrategia import analisis_y_estrategia1, analisis_y_estrategia2, analisis_y_estrategia_2_2,\
+from analisis_y_estrategia import analisis_y_estrategia1, analisis_y_estrategia2, analisis_y_estrategia_2_2, \
     analisis_y_estrategia_2_3, analisis_y_estrategia3
 from Ejecucion import ejecucion
 from multiprocessing import Process
@@ -34,7 +34,8 @@ def calcular_rango_sop_res(ohlc, df_res_may, df_res_men, df_sop_men, df_sop_may,
     return resistencia_punto_mayor, resistencia_punto_menor, soporte_punto_menor, soporte_punto_mayor
 
 
-def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia, tipo_de_est, numero_noticias, horas_noticias):
+def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia, tipo_de_est, numero_noticias,
+        horas_noticias):
     print("comenzando")
     timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
     divisa = f"{primera_divisa}_{segunda_divisa}"
@@ -89,7 +90,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
                 resistencia_menor_1m = datos_1min["c"].rolling(150).max().dropna()
                 soporte_menor_1m = datos_1min["l"].rolling(150).min().dropna()
                 soporte_mayor_1m = datos_1min["c"].rolling(150).min().dropna()
-                resistencia_punto_mayor_1m, resistencia_punto_menor_1m, soporte_punto_menor_1m, soporte_punto_mayor_1m =\
+                resistencia_punto_mayor_1m, resistencia_punto_menor_1m, soporte_punto_menor_1m, soporte_punto_mayor_1m = \
                     calcular_rango_sop_res(datos_1min, resistencia_mayor_1m, resistencia_menor_1m, soporte_menor_1m,
                                            soporte_mayor_1m, 150)
             if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
@@ -101,7 +102,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
                 resistencia_menor_5m = datos_5min["c"].rolling(50).max().dropna()
                 soporte_menor_5m = datos_5min["l"].rolling(50).min().dropna()
                 soporte_mayor_5m = datos_5min["c"].rolling(50).min().dropna()
-                resistencia_punto_mayor_5m, resistencia_punto_menor_5m, soporte_punto_menor_5m, soporte_punto_mayor_5m =\
+                resistencia_punto_mayor_5m, resistencia_punto_menor_5m, soporte_punto_menor_5m, soporte_punto_mayor_5m = \
                     calcular_rango_sop_res(datos_5min, resistencia_mayor_5m, resistencia_menor_5m, soporte_menor_5m,
                                            soporte_mayor_5m, 50)
             datos_5s = pd.read_csv("datos_5s.csv", index_col="time")
@@ -115,19 +116,20 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, estrategia,
         elif estrategia == 2:
             if tipo_de_est == "todo":
                 analisis_y_estrategia2(datos_5s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
-                                                resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
-                                                resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
-                                                soporte_punto_menor_5m, soporte_punto_mayor_5m)
+                                       resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
+                                       resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
+                                       soporte_punto_menor_5m, soporte_punto_mayor_5m)
             elif tipo_de_est == "favor":
                 analisis_y_estrategia_2_2(datos_1min, divisa, resistencia_punto_mayor_1m, resistencia_punto_menor_1m,
-                                                   resistencia_punto_mayor_5m, resistencia_punto_menor_5m,
-                                                   soporte_punto_menor_1m, soporte_punto_mayor_1m, soporte_menor_5m,
-                                                   soporte_punto_mayor_5m)
+                                          resistencia_punto_mayor_5m, resistencia_punto_menor_5m,
+                                          soporte_punto_menor_1m, soporte_punto_mayor_1m, soporte_menor_5m,
+                                          soporte_punto_mayor_5m)
             elif tipo_de_est == "contra":
-                analisis_y_estrategia_2_3(datos_5s, datos_1min, divisa, resistencia_punto_mayor_1m, resistencia_punto_menor_1m,
-                                                   resistencia_punto_mayor_5m, resistencia_punto_menor_5m,
-                                                   soporte_punto_menor_1m, soporte_punto_mayor_1m, soporte_punto_menor_5m,
-                                                   soporte_punto_mayor_5m)
+                analisis_y_estrategia_2_3(datos_5s, datos_1min, divisa, resistencia_punto_mayor_1m,
+                                          resistencia_punto_menor_1m,
+                                          resistencia_punto_mayor_5m, resistencia_punto_menor_5m,
+                                          soporte_punto_menor_1m, soporte_punto_mayor_1m, soporte_punto_menor_5m,
+                                          soporte_punto_mayor_5m)
         elif estrategia == 3:
             signal = analisis_y_estrategia3(datos_5s, datos_1min, datos_5min, resistencia_punto_mayor_1m,
                                             resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
@@ -175,4 +177,5 @@ if __name__ == "__main__":
         noticia3 = f'2020-{mes}-{dia} {hora_noticia1}:{minuto_noticia1}'
     while time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())) != f'2020-{mes}-{dia} {hora}:{minuto}:00':
         pass
-    run(tiempo, primera_divisa, segunda_divisa, estrategia, tipo_de_estrategia, numero_noticias, (noticia1, noticia2, noticia3))
+    run(tiempo, primera_divisa, segunda_divisa, estrategia, tipo_de_estrategia, numero_noticias,
+        (noticia1, noticia2, noticia3))
