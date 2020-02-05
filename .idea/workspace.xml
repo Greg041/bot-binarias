@@ -3,10 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ejecucion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ejecucion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SeguimientoDivergencia.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoDivergencia.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SeguimientoIchimoku.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoIchimoku.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_5s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_5s.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M1.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prueba.py" beforeDir="false" afterPath="$PROJECT_DIR$/prueba.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -476,7 +480,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580406973292</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="- pulida estrategia ichimoku">
+      <created>1580418075650</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1580418075650</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -494,7 +505,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- refinada estrategia para tomar en cuenta cuando el precio se encuentre en un rango de soporte o resistencia&#10;- modificado el tiempo de sleep en los modulos de extraccion de datos para comprobar la buena sincronización con la nueva configuracion de horario de la pc ya que tenia la hora desconfigurada" />
     <MESSAGE value="- refinado y corregido forma de calcular rango de resistencias a 1 minuto debido a fallas de lógica" />
     <MESSAGE value="- refinado y corregido forma de calcular rango de resistencias y soportes a 1 minuto y 5 minutos debido a fallas de lógica" />
     <MESSAGE value="- añadida estrategia 2, modulo para indicador ichimoku.py y opcion para elegir estrategia a ejecutar" />
@@ -519,7 +529,8 @@
     <MESSAGE value="- las ventas a favor ahora se ejecutan a 5 minutos" />
     <MESSAGE value="- modificada señal de compra y venta para ichimoky en analisis_y_estrategia.py numero 2 para intento de señales con mayor precision" />
     <MESSAGE value="- corregido bug en SeguimientoIchimoku.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="- corregido bug en SeguimientoIchimoku.py" />
+    <MESSAGE value="- pulida estrategia ichimoku" />
+    <option name="LAST_COMMIT_MESSAGE" value="- pulida estrategia ichimoku" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
@@ -534,10 +545,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="679" y="135" key="#main/0.0.1920.1040@0.0.1920.1040" timestamp="1579064399171" />
-    <state x="0" y="138" key="CommitChangelistDialog2" timestamp="1580406967761">
+    <state x="0" y="138" key="CommitChangelistDialog2" timestamp="1580418061058">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="0" y="138" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1580406967761" />
+    <state x="0" y="138" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1580418061058" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1580158716317">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -566,10 +577,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="163" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1580105664149" />
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1580417030253">
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1580936995561">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1580417030253" />
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1580936995561" />
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578071106605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -578,10 +589,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="138" y="0" width="1688" height="722" key="dock-window-1/0.0.1920.1040@0.0.1920.1040" timestamp="1578971391716" />
-    <state x="701" y="164" key="refactoring.ChangeSignatureDialog" timestamp="1578310728928">
+    <state x="701" y="164" key="refactoring.ChangeSignatureDialog" timestamp="1580943093147">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="701" y="164" key="refactoring.ChangeSignatureDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1578310728928" />
+    <state x="701" y="164" key="refactoring.ChangeSignatureDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1580943093147" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1578969204574">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
