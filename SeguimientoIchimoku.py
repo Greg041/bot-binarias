@@ -38,7 +38,7 @@ def calcular_rango_sop_res(ohlc, rango_velas):
 
 def seguimiento_ichimoku(ohlc_1m, datos_5min, ichimoku_1m, par, tipo_de_operacion, res_max_5m, res_min_5m, sop_min_5m,
                          sop_max_5m,
-                         res_max_1m, res_min_1m, sop_min_1m, sop_max_1m, monto=None):
+                         res_max_1m, res_min_1m, sop_min_1m, sop_max_1m, monto):
     print("estamos en seguimiento")
     if tipo_de_operacion == "compraf":
         while ichimoku_1m["Senkou span A"].iloc[-1] > ichimoku_1m["Senkou span B"].iloc[-1]:
@@ -137,7 +137,7 @@ def seguimiento_ichimoku(ohlc_1m, datos_5min, ichimoku_1m, par, tipo_de_operacio
 
 
 def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, res_max_5m, res_min_5m,
-                          sop_min_5m, sop_max_5m, monto=None):
+                          sop_min_5m, sop_max_5m, monto):
     print("estamos en seguimiento")
     if tipo_de_operacion == "compraf":
         adx_5m = ADX(ohlc_5m)
@@ -166,7 +166,7 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                             int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
                             (ohlc_5m.iloc[-1].name[
                              14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
-                        ohlc_5 = pd.read_csv("datos_M5.csv", index_col="time")
+                        ohlc_5m = pd.read_csv("datos_M5.csv", index_col="time")
                         res_max_5m, res_min_5m, sop_min_5m, sop_max_5m = calcular_rango_sop_res(ohlc_5m, 50)
                         adx_5m = ADX(ohlc_5m)
                         rsi_5m = RSI(ohlc_5m)

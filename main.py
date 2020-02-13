@@ -1,6 +1,6 @@
 from ExtraccionDatosOanda import ExtraccionOanda
-from analisis_y_estrategia import analisis_y_estrategia, analisis_y_estrategia_2_2, \
-    analisis_y_estrategia_2_3, analisis_y_estrategia3
+from analisis_y_estrategia import analisis_y_estrategia, analisis_y_estrategia_favor, \
+    analisis_y_estrategia_contra
 from multiprocessing import Process
 from ExtraccionDatos10s import extraccion_10s_continua
 import time
@@ -38,7 +38,7 @@ def calcular_rango_sop_res(ohlc, rango_velas):
 
 
 def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est, numero_noticias,
-        horas_noticias):
+        horas_noticias, monto):
     print("comenzando")
     timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
     divisa = f"{primera_divisa}_{segunda_divisa}"
@@ -93,20 +93,19 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
             print("hubo error en lectura de datos csv")
         if tipo_de_est == "todo":
             analisis_y_estrategia(datos_10s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
-                                   resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
-                                   resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
-                                   soporte_punto_menor_5m, soporte_punto_mayor_5m)
+                                  resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
+                                  resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
+                                  soporte_punto_menor_5m, soporte_punto_mayor_5m)
         elif tipo_de_est == "favor":
-            analisis_y_estrategia_2_2(datos_1min, divisa, resistencia_punto_mayor_1m, resistencia_punto_menor_1m,
-                                      resistencia_punto_mayor_5m, resistencia_punto_menor_5m,
+            analisis_y_estrategia_favor(datos_10s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
+                                      resistencia_punto_menor_1m, resistencia_punto_mayor_5m, resistencia_punto_menor_5m,
                                       soporte_punto_menor_1m, soporte_punto_mayor_1m, soporte_punto_menor_5m,
-                                      soporte_punto_mayor_5m)
+                                      soporte_punto_mayor_5m, monto)
         elif tipo_de_est == "contra":
-            analisis_y_estrategia_2_3(datos_10s, datos_1min, divisa, resistencia_punto_mayor_1m,
-                                      resistencia_punto_menor_1m,
-                                      resistencia_punto_mayor_5m, resistencia_punto_menor_5m,
-                                      soporte_punto_menor_1m, soporte_punto_mayor_1m, soporte_punto_menor_5m,
-                                      soporte_punto_mayor_5m)
+            analisis_y_estrategia_contra(datos_10s, datos_1min, divisa, resistencia_punto_mayor_1m,
+                                         resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
+                                         resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
+                                         soporte_punto_menor_5m, soporte_punto_mayor_5m, monto)
         time.sleep(5)
 
 
@@ -114,6 +113,9 @@ if __name__ == "__main__":
     primera_divisa = input("introduzca la primera divisa: ")
     segunda_divisa = input("introduzca la segunda divisa: ")
     tipo_de_estrategia = input("estategia en contra, favor o todo?: ")
+    monto = None
+    if tipo_de_estrategia == "favor" or tipo_de_estrategia == "contra":
+        monto = input("introduzca el monto a invertir: ")
     mes = input("introduzca el mes de inicio: ")
     dia = input("introduzca el dia de inicio: ")
     hora = input("introduzca la hora de inicio (militar): ")
@@ -149,4 +151,4 @@ if __name__ == "__main__":
     while time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())) != f'2020-{mes}-{dia} {hora}:{minuto}:00':
         pass
     run(tiempo, primera_divisa, segunda_divisa, tipo_de_estrategia, numero_noticias,
-        (noticia1, noticia2, noticia3))
+        (noticia1, noticia2, noticia3), monto)

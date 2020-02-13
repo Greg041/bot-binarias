@@ -20,18 +20,9 @@ def click_image(image, pos, action, timestamp, offset=5):
 
 
 if __name__ == "__main__":
-    click_image("par.jpg", (489, 228), "left", 0.05)
-    time.sleep(0.3)
-    pyautogui.leftClick(x=1072, y=265)
-    pyautogui.leftClick(x=1072, y=265)
-    pyautogui.leftClick(x=1072, y=265)
-    pyautogui.leftClick(x=1072, y=265)
-    pyautogui.leftClick(x=1072, y=265)
-    click_image("par_eur_usd.jpg", (817, 455), "left", 0.05)
-    time.sleep(1)
-    pyautogui.doubleClick(x=685, y=403)
-    pyautogui.doubleClick(x=685, y=403)
-    time.sleep(0.1)
+    pyautogui.doubleClick(x=710, y=440)
+    pyautogui.doubleClick(x=710, y=440)
+    pyautogui.keyDown('3')
+    pyautogui.keyDown('.')
+    pyautogui.keyDown('1')
     pyautogui.keyDown('5')
-    time.sleep(2)
-    click_image("imagen compra.jpg", (1089, 347), "left", 0.05)

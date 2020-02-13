@@ -61,7 +61,7 @@ def click_image(image, pos, action, timestamp, offset=5):
     pyautogui.click(button=action)
 
 
-def ejecucion(signal: str, par: str, tiempo: str, monto=None):
+def ejecucion(signal: str, par: str, tiempo: str, monto):
     if signal != "":
         if par == "EUR_USD":
             click_image("par.jpg", (489, 228), "left", 0.05)
@@ -82,6 +82,13 @@ def ejecucion(signal: str, par: str, tiempo: str, monto=None):
             pyautogui.leftClick(x=1072, y=265)
             click_image("par_aud_usd.jpg", (887, 320), "left", 0.05)
         time.sleep(1)
+    if monto is not None:
+        pyautogui.doubleClick(x=710, y=440)
+        pyautogui.doubleClick(x=710, y=440)
+        pyautogui.keyDown(monto[0])
+        pyautogui.keyDown(monto[1])
+        pyautogui.keyDown(monto[2])
+        pyautogui.keyDown(monto[3])
     if signal == "comprac":
         print("compra contratendencia")
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
