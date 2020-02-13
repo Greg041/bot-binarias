@@ -2,7 +2,7 @@ from ExtraccionDatosOanda import ExtraccionOanda
 from analisis_y_estrategia import analisis_y_estrategia, analisis_y_estrategia_2_2, \
     analisis_y_estrategia_2_3, analisis_y_estrategia3
 from multiprocessing import Process
-from ExtraccionDatos5s import extraccion_5s_continua
+from ExtraccionDatos10s import extraccion_10s_continua
 import time
 import pandas as pd
 
@@ -44,10 +44,10 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
     divisa = f"{primera_divisa}_{segunda_divisa}"
     proceso_1_min = ExtraccionOanda(500, "M1", f"{primera_divisa}_{segunda_divisa}")
     proceso_5_min = ExtraccionOanda(120, "M5", f"{primera_divisa}_{segunda_divisa}")
-    proceso_5s = Process(target=extraccion_5s_continua, args=(divisa,))
+    proceso_10s = Process(target=extraccion_10s_continua, args=(divisa,))
     proceso_1_min.start()
     proceso_5_min.start()
-    proceso_5s.start()
+    proceso_10s.start()
     time.sleep(30)
     datos_1min = pd.read_csv("datos_M1.csv", index_col="time")
     # Se calcula el rango de soporte y resistencia de 1 minuto a un rango de 150 velas
@@ -88,11 +88,11 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
                 datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
                 resistencia_punto_mayor_5m, resistencia_punto_menor_5m, soporte_punto_menor_5m, soporte_punto_mayor_5m = \
                     calcular_rango_sop_res(datos_5min, 50)
-            datos_5s = pd.read_csv("datos_5s.csv", index_col="time")
+            datos_10s = pd.read_csv("datos_10s.csv", index_col="time")
         except:
             print("hubo error en lectura de datos csv")
         if tipo_de_est == "todo":
-            analisis_y_estrategia(datos_5s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
+            analisis_y_estrategia(datos_10s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
                                    resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
                                    resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
                                    soporte_punto_menor_5m, soporte_punto_mayor_5m)
@@ -102,7 +102,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
                                       soporte_punto_menor_1m, soporte_punto_mayor_1m, soporte_punto_menor_5m,
                                       soporte_punto_mayor_5m)
         elif tipo_de_est == "contra":
-            analisis_y_estrategia_2_3(datos_5s, datos_1min, divisa, resistencia_punto_mayor_1m,
+            analisis_y_estrategia_2_3(datos_10s, datos_1min, divisa, resistencia_punto_mayor_1m,
                                       resistencia_punto_menor_1m,
                                       resistencia_punto_mayor_5m, resistencia_punto_menor_5m,
                                       soporte_punto_menor_1m, soporte_punto_mayor_1m, soporte_punto_menor_5m,

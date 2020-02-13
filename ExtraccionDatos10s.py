@@ -5,7 +5,7 @@ import pandas as pd
 import time
 
 
-def extraccion_5s_continua(divisa):
+def extraccion_10s_continua(divisa):
     params = {"count": 500, "granularity": "S5"}  # granularity can be in seconds S5 -
     # S30, minutes M1 - M30, hours H1 - H12, days D, weeks W or months M
     client = oandapyV20.API(access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
@@ -15,17 +15,17 @@ def extraccion_5s_continua(divisa):
     client.request(candles)
     ohlc_dict = candles.response["candles"]
     ohlc = pd.DataFrame(ohlc_dict)
-    datos_5s = ohlc.mid.dropna().apply(pd.Series)
-    datos_5s["volume"] = ohlc["volume"]
-    datos_5s.index = ohlc["time"]
-    datos_5s = datos_5s.apply(pd.to_numeric)
+    datos_10s = ohlc.mid.dropna().apply(pd.Series)
+    datos_10s["volume"] = ohlc["volume"]
+    datos_10s.index = ohlc["time"]
+    datos_10s = datos_10s.apply(pd.to_numeric)
     live_data = []  # precios que recorre el par de divisa en el timeframe seleccionado
     live_price_request = pricing.PricingInfo(accountID=account_id, params={"instruments": divisa})
     rango_precios = []
     while True:
         try:
             starttime = time.time()
-            timeout2 = starttime + 5
+            timeout2 = starttime + 10
             while starttime <= timeout2:  # Se cuenta 5 segundos de extraccion de datos para luego filtrar
                 live_price_data = client.request(live_price_request)
                 live_data.append(live_price_data)
@@ -39,10 +39,10 @@ def extraccion_5s_continua(divisa):
             last_data_row['h'] = round(max(rango_precios), 6)
             last_data_row['l'] = round(min(rango_precios), 6)
             last_data_row['c'] = round(rango_precios[-1], 6)
-            datos_5s = datos_5s.append(last_data_row, sort=False)
-            datos_5s = datos_5s.iloc[-500:]
-            datos_5s.index.name = "time"
-            pd.DataFrame.to_csv(datos_5s, "datos_5s.csv")
+            datos_10s = datos_10s.append(last_data_row, sort=False)
+            datos_10s = datos_10s.iloc[-500:]
+            datos_10s.index.name = "time"
+            pd.DataFrame.to_csv(datos_10s, "datos_10s.csv")
             live_data.clear()
             rango_precios.clear()
         except:
