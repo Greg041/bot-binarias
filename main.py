@@ -105,7 +105,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
             analisis_y_estrategia(datos_10s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
                                   resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
                                   resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
-                                  soporte_punto_menor_5m, soporte_punto_mayor_5m, monto)
+                                  soporte_punto_menor_5m, soporte_punto_mayor_5m, monto, client)
         elif tipo_de_est == "favor":
             analisis_y_estrategia_favor(datos_10s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
                                         resistencia_punto_menor_1m, resistencia_punto_mayor_5m,

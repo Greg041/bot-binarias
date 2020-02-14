@@ -23,7 +23,7 @@ def engulfing(ohlc_vela_anterior, ohlc_vela_actual, alcista_o_bajista: str) -> b
 
 
 def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
-                          sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min, monto):
+                          sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min, monto, client):
     ichi_1m = ichimoku(ohlc_1m)
     macd_10s = MACD(ohlc_10s)
     adx_1m = ADX(ohlc_1m)

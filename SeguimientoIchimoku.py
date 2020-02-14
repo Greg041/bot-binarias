@@ -40,13 +40,9 @@ def calcular_rango_sop_res(ohlc, rango_velas):
 
 def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_de_operacion, res_max_5m, res_min_5m, sop_min_5m,
                          sop_max_5m,
-                         res_max_1m, res_min_1m, sop_min_1m, sop_max_1m, monto):
+                         res_max_1m, res_min_1m, sop_min_1m, sop_max_1m, monto, client):
     print("estamos en seguimiento")
     if tipo_de_operacion == "compraf":
-        client = oandapyV20.API(
-            access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
-            environment="practice")
-        print("cliente conectado")
         while ichimoku_1m["Senkou span A"].iloc[-1] > ichimoku_1m["Senkou span B"].iloc[-1]:
             print(ichimoku_1m["Senkou span A"].iloc[-1], ichimoku_1m["Senkou span B"].iloc[-1])
             starttime = time.time()
@@ -108,10 +104,6 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
         print("se sale del seguimiento porque se ejecutó operacion ó",
               ichimoku_1m["Senkou span A"].iloc[-1] > ichimoku_1m["Senkou span B"].iloc[-1])
     elif tipo_de_operacion == "ventaf":
-        client = oandapyV20.API(
-            access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
-            environment="practice")
-        print("cliente conectado")
         while ichimoku_1m["Senkou span A"].iloc[-1] < ichimoku_1m["Senkou span B"].iloc[-1]:
             print(ichimoku_1m["Senkou span A"].iloc[-1], ichimoku_1m["Senkou span B"].iloc[-1])
             starttime = time.time()
@@ -175,13 +167,9 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
 
 
 def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, res_max_5m, res_min_5m,
-                          sop_min_5m, sop_max_5m, res_max_1m, res_min_1m, sop_min_1m, sop_max_1m, monto):
+                          sop_min_5m, sop_max_5m, res_max_1m, res_min_1m, sop_min_1m, sop_max_1m, monto, client):
     print("estamos en seguimiento")
     if tipo_de_operacion == "compraf":
-        client = oandapyV20.API(
-            access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
-            environment="practice")
-        print("cliente conectado")
         adx_5m = ADX(ohlc_5m)
         rsi_5m = RSI(ohlc_5m)
         ichimoku_1m = ichimoku(ohlc_1m)
@@ -232,10 +220,6 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
               ichimoku_1m["Senkou span A"].iloc[-1] < ohlc_10s['c'].iloc[-1] >
               ichimoku_1m["Senkou span B"].iloc[-1])
     elif tipo_de_operacion == "ventaf":
-        client = oandapyV20.API(
-            access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
-            environment="practice")
-        print("cliente conectado")
         adx_5m = ADX(ohlc_5m)
         rsi_5m = RSI(ohlc_5m)
         ichimoku_1m = ichimoku(ohlc_1m)

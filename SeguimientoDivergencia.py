@@ -7,11 +7,8 @@ from ExtraccionDatosOanda import ExtraccionOanda
 from Ejecucion import ejecucion
 
 
-def seguimiento_div(ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_max_min_macd, punto_ultimo, monto):
+def seguimiento_div(ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_max_min_macd, punto_ultimo, monto, client):
     print("estamos en seguimiento divergencia")
-    client = oandapyV20.API(
-        access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
-        environment="practice")
     if tipo_de_divergencia == "bajista":
         punto_max_macd = punto_max_min_macd
         punto_ultimo_macd = punto_ultimo
