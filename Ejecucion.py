@@ -61,7 +61,7 @@ def click_image(image, pos, action, timestamp, offset=5):
     pyautogui.click(button=action)
 
 
-def ejecucion(signal: str, par: str, tiempo: str, monto):
+def ejecucion(signal, par, tiempo, monto):
     if signal != "":
         if par == "EUR_USD":
             click_image("par.jpg", (489, 228), "left", 0.05)

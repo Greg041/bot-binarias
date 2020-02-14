@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="" />
+    <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1minuto.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/2minutos.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/5minutos.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ejecucion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ejecucion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SeguimientoDivergencia.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoDivergencia.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SeguimientoIchimoku.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoIchimoku.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_10s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_10s.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_M1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fall.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/horario.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/imagen venta.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/par_gbp_usd.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rise.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testarea.png" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -154,13 +173,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1578051824094</updated>
-    </task>
-    <task id="LOCAL-00003" summary="- finalizada funcion analisis_y_estrategia &#10;- pulida funcion main&#10;- falta por testear en vivo">
-      <created>1578090821513</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1578090821513</updated>
     </task>
     <task id="LOCAL-00004" summary=". Cambio a la función de analisis para analizar el adx en 5s y tomarlo como referencia en lugar del de 5m&#10;- restando 5 segundos a la extraccion de datos en oanda y fxcm para mejor sincronizacion">
       <created>1578326992905</created>
@@ -498,7 +510,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581643612172</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="- modificado modulo ExtraccionDatosOanda.py para que contenga solo una función y no una subclase de un subproceso (para ahorrar memoria y código) a la cual se le pasará como atributo el cliente de oanda y solo se encargará de extraer los datos de las velas y modificados los módulos main.py, SeguimientoIchimoku.py y SeguimientoDivergencia.py para adaptarse a esta nueva edición del módulo ExtraccionDatosOanda.py&#10;- pulido modulo Ejecucion.py para mayor precisión a la hora de realizar operaciones en binary.com&#10;- modificada estrategia #3 de seguimiento ichimoku2 para tomar en cuenta los soportes y las resistencias en rangos de 1 minuto">
+      <created>1581643669816</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1581643669818</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -516,7 +535,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- agregado modulo para calcular las bandas bollinger&#10;- agregada estrategia 3 la cual usa las bandas bollinger, rsi y adx" />
     <MESSAGE value="- pulida estrategia 2 para tomar en cuenta soportes y resistencias a 5 minutos cuando se este haciendo SeguimientoIchimoku.py&#10;- agregado codigo para preguntar cuantas noticias de 3 estrellas habrá en el periodo de tiempo de ejecucion y preguntar que hora seria 30 minutos antes de que sea las noticias para hacer un sleep desde 30 minutos antes y hasta 30 minutos despues de la noticia" />
     <MESSAGE value="- pulida estrategia 3 para tomar en cuenta que el precio esté sobre o bajo la nube kumo a la hora de operar a favor de la tendencia como un filtro extra y tomar en cuenta que precio esté dentro de la nube kumo en periodos de 1 minutos y no de 5 minutos a la hora de operar en contra la tendencia" />
     <MESSAGE value="- pulida estrategia 3 para tomar en cuenta que el precio esté sobre o bajo la nube kumo en periodo de 1 minuto a la hora de operar a favor de la tendencia como un filtro extra y tomar en cuenta que precio esté dentro de la nube kumo en periodos de 1 minutos y no de 5 minutos a la hora de operar en contra la tendencia" />
@@ -541,7 +559,8 @@
     <MESSAGE value="- editado código de extraccion y creación de velas de 5 segundos a 10 segundos&#10;- pulido modulo Ejecucion.py para crear operaciones en binary.com" />
     <MESSAGE value="- editado estrategia general, a favor y toda para recibir el monto a recibir en caso de que se escoja una de las 2 para hacer martingala.&#10;- agregado argumentos a las funciones de SeguimientoDivergencia.py y SeguimientoIchimoku.py para recibir monto en caso de haber uno y pasarlo a la funcion Ejecucion.py  para introducirlo antes de hacer la operación" />
     <MESSAGE value="- modificado modulo ExtraccionDatosOanda.py para que contenga solo una función y no una subclase de un subproceso (para ahorrar memoria y código) a la cual se le pasará como atributo el cliente de oanda y solo se encargará de extraer los datos de las velas y modificados los módulos main.py, SeguimientoIchimoku.py y SeguimientoDivergencia.py para adaptarse a esta nueva edición del módulo ExtraccionDatosOanda.py&#10;- pulido modulo Ejecucion.py para mayor precisión a la hora de realizar operaciones en binary.com" />
-    <option name="LAST_COMMIT_MESSAGE" value="- modificado modulo ExtraccionDatosOanda.py para que contenga solo una función y no una subclase de un subproceso (para ahorrar memoria y código) a la cual se le pasará como atributo el cliente de oanda y solo se encargará de extraer los datos de las velas y modificados los módulos main.py, SeguimientoIchimoku.py y SeguimientoDivergencia.py para adaptarse a esta nueva edición del módulo ExtraccionDatosOanda.py&#10;- pulido modulo Ejecucion.py para mayor precisión a la hora de realizar operaciones en binary.com" />
+    <MESSAGE value="- modificado modulo ExtraccionDatosOanda.py para que contenga solo una función y no una subclase de un subproceso (para ahorrar memoria y código) a la cual se le pasará como atributo el cliente de oanda y solo se encargará de extraer los datos de las velas y modificados los módulos main.py, SeguimientoIchimoku.py y SeguimientoDivergencia.py para adaptarse a esta nueva edición del módulo ExtraccionDatosOanda.py&#10;- pulido modulo Ejecucion.py para mayor precisión a la hora de realizar operaciones en binary.com&#10;- modificada estrategia #3 de seguimiento ichimoku2 para tomar en cuenta los soportes y las resistencias en rangos de 1 minuto" />
+    <option name="LAST_COMMIT_MESSAGE" value="- modificado modulo ExtraccionDatosOanda.py para que contenga solo una función y no una subclase de un subproceso (para ahorrar memoria y código) a la cual se le pasará como atributo el cliente de oanda y solo se encargará de extraer los datos de las velas y modificados los módulos main.py, SeguimientoIchimoku.py y SeguimientoDivergencia.py para adaptarse a esta nueva edición del módulo ExtraccionDatosOanda.py&#10;- pulido modulo Ejecucion.py para mayor precisión a la hora de realizar operaciones en binary.com&#10;- modificada estrategia #3 de seguimiento ichimoku2 para tomar en cuenta los soportes y las resistencias en rangos de 1 minuto" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
@@ -564,22 +583,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="739" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1581553312160" />
-    <state width="1899" height="236" key="GridCell.Tab.0.bottom" timestamp="1581642127462">
+    <state width="1899" height="236" key="GridCell.Tab.0.bottom" timestamp="1581679026449">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="236" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1581642127462" />
-    <state width="1899" height="236" key="GridCell.Tab.0.center" timestamp="1581642127462">
+    <state width="1899" height="236" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1581679026449" />
+    <state width="1899" height="236" key="GridCell.Tab.0.center" timestamp="1581679026449">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="236" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1581642127462" />
-    <state width="1899" height="236" key="GridCell.Tab.0.left" timestamp="1581642127462">
+    <state width="1899" height="236" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1581679026449" />
+    <state width="1899" height="236" key="GridCell.Tab.0.left" timestamp="1581679026447">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="236" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1581642127462" />
-    <state width="1899" height="236" key="GridCell.Tab.0.right" timestamp="1581642127462">
+    <state width="1899" height="236" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1581679026447" />
+    <state width="1899" height="236" key="GridCell.Tab.0.right" timestamp="1581679026449">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="236" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1581642127462" />
+    <state width="1899" height="236" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1581679026449" />
     <state width="1882" height="182" key="GridCell.Tab.1.bottom" timestamp="1581601334206">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -604,10 +623,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="512" y="158" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1581055407181" />
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1581638195193">
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1581707221562">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1581638195193" />
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1581707221562" />
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578071106605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

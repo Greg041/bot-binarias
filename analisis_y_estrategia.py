@@ -40,7 +40,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
             (ichi_5m["Senkou span A"].iloc[-26] > ohlc_1m['c'].iloc[-1] > ichi_5m["Senkou span B"].iloc[-26] or
              ichi_5m["Senkou span A"].iloc[-26] < ohlc_1m['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]):
         seg = Process(target=seguimiento_ichimoku,
-                      args=(ohlc_1m, ohlc_5m, ichi_1m, par, "compraf", res_max_5min, res_min_5min,
+                      args=(ohlc_10s, ohlc_1m, ohlc_5m, ichi_1m, par, "compraf", res_max_5min, res_min_5min,
                             sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
                             sop_min_1min, sop_max_1min, monto))
         seg.start()
@@ -51,7 +51,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
             (ichi_5m["Senkou span A"].iloc[-26] > ohlc_1m['c'].iloc[-1] > ichi_5m["Senkou span B"].iloc[-26] or
              ichi_5m["Senkou span A"].iloc[-26] < ohlc_1m['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]):
         seg = Process(target=seguimiento_ichimoku,
-                      args=(ohlc_1m, ohlc_5m, ichi_1m, par, "ventaf", res_max_5min, res_min_5min,
+                      args=(ohlc_10s, ohlc_1m, ohlc_5m, ichi_1m, par, "ventaf", res_max_5min, res_min_5min,
                             sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
                             sop_min_1min, sop_max_1min, monto))
         seg.start()
