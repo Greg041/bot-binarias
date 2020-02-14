@@ -5,6 +5,7 @@ from multiprocessing import Process
 from ExtraccionDatos10s import extraccion_10s_continua
 import time
 import pandas as pd
+import oandapyV20
 
 
 def calcular_rango_sop_res(ohlc, rango_velas):
@@ -42,18 +43,19 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
     print("comenzando")
     timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
     divisa = f"{primera_divisa}_{segunda_divisa}"
-    proceso_1_min = ExtraccionOanda(500, "M1", f"{primera_divisa}_{segunda_divisa}")
-    proceso_5_min = ExtraccionOanda(120, "M5", f"{primera_divisa}_{segunda_divisa}")
+    client = oandapyV20.API(access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                            environment="practice")
+    ExtraccionOanda(client, 500, 'M1', divisa)
+    ExtraccionOanda(client, 500, 'M5', divisa)
     proceso_10s = Process(target=extraccion_10s_continua, args=(divisa,))
-    proceso_1_min.start()
-    proceso_5_min.start()
     proceso_10s.start()
-    time.sleep(30)
     datos_1min = pd.read_csv("datos_M1.csv", index_col="time")
-    # Se calcula el rango de soporte y resistencia de 1 minuto a un rango de 150 velas
+    print(datos_1min)
+    # Se calcula el rango de soporte y resistencia de 1 minuto a un rango de 120 velas
     resistencia_punto_mayor_1m, resistencia_punto_menor_1m, soporte_punto_menor_1m, soporte_punto_mayor_1m = \
         calcular_rango_sop_res(datos_1min, 120)
     datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
+    print(datos_5min)
     # Se calcula el rango de soporte y resistencia de 5 minuto a un rango de 50 velas
     resistencia_punto_mayor_5m, resistencia_punto_menor_5m, soporte_punto_menor_5m, soporte_punto_mayor_5m = \
         calcular_rango_sop_res(datos_5min, 50)
@@ -78,14 +80,28 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
                 datos_1min.iloc[-1].name[14:16]) and \
                     (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16])):02}" != \
                      datos_1min.iloc[-1].name[14:16]):
+                try:
+                    ExtraccionOanda(client, 500, 'M1', divisa)
+                except:
+                    client = oandapyV20.API(
+                        access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                        environment="practice")
                 datos_1min = pd.read_csv("datos_M1.csv", index_col="time")
+                print(datos_1min)
                 resistencia_punto_mayor_1m, resistencia_punto_menor_1m, soporte_punto_menor_1m, soporte_punto_mayor_1m = \
                     calcular_rango_sop_res(datos_1min, 120)
             if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
                     int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
                     (datos_5min.iloc[-1].name[
                      14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
+                try:
+                    ExtraccionOanda(client, 500, 'M5', divisa)
+                except:
+                    client = oandapyV20.API(
+                        access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                        environment="practice")
                 datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
+                print(datos_5min)
                 resistencia_punto_mayor_5m, resistencia_punto_menor_5m, soporte_punto_menor_5m, soporte_punto_mayor_5m = \
                     calcular_rango_sop_res(datos_5min, 50)
             datos_10s = pd.read_csv("datos_10s.csv", index_col="time")
@@ -95,18 +111,19 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
             analisis_y_estrategia(datos_10s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
                                   resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
                                   resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
-                                  soporte_punto_menor_5m, soporte_punto_mayor_5m)
+                                  soporte_punto_menor_5m, soporte_punto_mayor_5m, monto)
         elif tipo_de_est == "favor":
             analisis_y_estrategia_favor(datos_10s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
-                                      resistencia_punto_menor_1m, resistencia_punto_mayor_5m, resistencia_punto_menor_5m,
-                                      soporte_punto_menor_1m, soporte_punto_mayor_1m, soporte_punto_menor_5m,
-                                      soporte_punto_mayor_5m, monto)
+                                        resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
+                                        resistencia_punto_menor_5m,
+                                        soporte_punto_menor_1m, soporte_punto_mayor_1m, soporte_punto_menor_5m,
+                                        soporte_punto_mayor_5m, monto)
         elif tipo_de_est == "contra":
             analisis_y_estrategia_contra(datos_10s, datos_1min, divisa, resistencia_punto_mayor_1m,
                                          resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
                                          resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
                                          soporte_punto_menor_5m, soporte_punto_mayor_5m, monto)
-        time.sleep(5)
+        time.sleep(10)
 
 
 if __name__ == "__main__":

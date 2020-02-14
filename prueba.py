@@ -22,7 +22,3 @@ def click_image(image, pos, action, timestamp, offset=5):
 if __name__ == "__main__":
     pyautogui.doubleClick(x=710, y=440)
     pyautogui.doubleClick(x=710, y=440)
-    pyautogui.keyDown('3')
-    pyautogui.keyDown('.')
-    pyautogui.keyDown('1')
-    pyautogui.keyDown('5')

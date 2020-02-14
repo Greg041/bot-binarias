@@ -2,6 +2,8 @@ from ichimoku import ichimoku
 from Ejecucion import ejecucion
 from ADX import ADX
 from RSI import RSI
+from ExtraccionDatosOanda import ExtraccionOanda
+import oandapyV20
 import pandas as pd
 import time
 
@@ -40,6 +42,7 @@ def seguimiento_ichimoku(ohlc_1m, datos_5min, ichimoku_1m, par, tipo_de_operacio
                          sop_max_5m,
                          res_max_1m, res_min_1m, sop_min_1m, sop_max_1m, monto):
     print("estamos en seguimiento")
+    client = None
     if tipo_de_operacion == "compraf":
         while ichimoku_1m["Senkou span A"].iloc[-1] > ichimoku_1m["Senkou span B"].iloc[-1]:
             print(ichimoku_1m["Senkou span A"].iloc[-1], ichimoku_1m["Senkou span B"].iloc[-1])
@@ -63,13 +66,19 @@ def seguimiento_ichimoku(ohlc_1m, datos_5min, ichimoku_1m, par, tipo_de_operacio
                          ichi_10s["tenkan-sen"].iloc[-1] > ichi_10s["kijun-sen"].iloc[-1]):
                     ejecucion(tipo_de_operacion, par, '5', monto)
                     break
-                # Se verifica que el dataframe esté actualizado tomando en cuenta el minutoa actual y el ultimo
+                # Se verifica que el dataframe esté actualizado tomando en cuenta el minuto actual y el ultimo
                 # minuto del dataframe para actualizar los valores del ichimoku
                 try:
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
                         ohlc_1m.iloc[-1].name[14:16]) and \
                             (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16])):02}" !=
                              ohlc_1m.iloc[-1].name[14:16]):
+                        try:
+                            ExtraccionOanda(client, 500, 'M1', par)
+                        except:
+                            client = oandapyV20.API(
+                                access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                                environment="practice")
                         ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                         ichimoku_1m = ichimoku(ohlc_1m)
                         res_max_1m, res_min_1m, sop_min_1m, sop_max_1m = calcular_rango_sop_res(ohlc_1m, 120)
@@ -80,6 +89,12 @@ def seguimiento_ichimoku(ohlc_1m, datos_5min, ichimoku_1m, par, tipo_de_operacio
                             int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
                             (datos_5min.iloc[-1].name[
                              14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
+                        try:
+                            ExtraccionOanda(client, 500, 'M5', par)
+                        except:
+                            client = oandapyV20.API(
+                                access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                                environment="practice")
                         datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
                         res_max_5m, res_min_5m, sop_min_5m, sop_max_5m = calcular_rango_sop_res(datos_5min, 50)
                 except:
@@ -110,13 +125,19 @@ def seguimiento_ichimoku(ohlc_1m, datos_5min, ichimoku_1m, par, tipo_de_operacio
                          ichi_10s["tenkan-sen"].iloc[-1] < ichi_10s["kijun-sen"].iloc[-1]):
                     ejecucion(tipo_de_operacion, par, '5', monto)
                     break
-                # Se verifica que el dataframe esté actualizado tomando en cuenta el minutoa actual y el ultimo
+                # Se verifica que el dataframe esté actualizado tomando en cuenta el minuto actual y el ultimo
                 # minuto del dataframe para actualizar los valores del ichimoku
                 try:
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
                         ohlc_1m.iloc[-1].name[14:16]) and \
                             (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16])):02}" !=
                              ohlc_1m.iloc[-1].name[14:16]):
+                        try:
+                            ExtraccionOanda(client, 500, 'M1', par)
+                        except:
+                            client = oandapyV20.API(
+                                access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                                environment="practice")
                         ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                         ichimoku_1m = ichimoku(ohlc_1m)
                         res_max_1m, res_min_1m, sop_min_1m, sop_max_1m = calcular_rango_sop_res(ohlc_1m, 120)
@@ -127,6 +148,12 @@ def seguimiento_ichimoku(ohlc_1m, datos_5min, ichimoku_1m, par, tipo_de_operacio
                             int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
                             (datos_5min.iloc[-1].name[
                              14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
+                        try:
+                            ExtraccionOanda(client, 500, 'M5', par)
+                        except:
+                            client = oandapyV20.API(
+                                access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                                environment="practice")
                         datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
                         res_max_5m, res_min_5m, sop_min_5m, sop_max_5m = calcular_rango_sop_res(datos_5min, 50)
                 except:
@@ -137,13 +164,14 @@ def seguimiento_ichimoku(ohlc_1m, datos_5min, ichimoku_1m, par, tipo_de_operacio
 
 
 def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, res_max_5m, res_min_5m,
-                          sop_min_5m, sop_max_5m, monto):
+                          sop_min_5m, sop_max_5m, res_max_1m, res_min_1m, sop_min_1m, sop_max_1m, monto):
     print("estamos en seguimiento")
     if tipo_de_operacion == "compraf":
         adx_5m = ADX(ohlc_5m)
         rsi_5m = RSI(ohlc_5m)
         ichimoku_1m = ichimoku(ohlc_1m)
-        while (res_max_5m > ohlc_10s['c'].iloc[-1] < res_min_5m) and (adx_5m["ADX"].iloc[-1] > 20.0) \
+        while (res_max_5m > ohlc_10s['c'].iloc[-1] < res_min_5m or res_max_1m > ohlc_10s['c'].iloc[-1] < res_min_1m)\
+                and (adx_5m["ADX"].iloc[-1] > 20.0) \
                 and (rsi_5m.iloc[-1] < 70.0) and (ichimoku_1m["Senkou span A"].iloc[-1] < ohlc_1m['c'].iloc[-1] >
                                                   ichimoku_1m["Senkou span B"].iloc[-1]):
             starttime = time.time()
@@ -160,12 +188,24 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                         ohlc_1m.iloc[-1].name[14:16]) and \
                             (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16])):02}" !=
                              ohlc_1m.iloc[-1].name[14:16]):
+                        try:
+                            ExtraccionOanda(client, 500, 'M1', par)
+                        except:
+                            client = oandapyV20.API(
+                                access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                                environment="practice")
                         ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                         ichimoku_1m = ichimoku(ohlc_1m)
                     if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
                             int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
                             (ohlc_5m.iloc[-1].name[
                              14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
+                        try:
+                            ExtraccionOanda(client, 500, 'M5', par)
+                        except:
+                            client = oandapyV20.API(
+                                access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                                environment="practice")
                         ohlc_5m = pd.read_csv("datos_M5.csv", index_col="time")
                         res_max_5m, res_min_5m, sop_min_5m, sop_max_5m = calcular_rango_sop_res(ohlc_5m, 50)
                         adx_5m = ADX(ohlc_5m)
@@ -180,7 +220,8 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
         adx_5m = ADX(ohlc_5m)
         rsi_5m = RSI(ohlc_5m)
         ichimoku_1m = ichimoku(ohlc_1m)
-        while (sop_max_5m < ohlc_10s['c'].iloc[-1] > sop_min_5m) and (adx_5m["ADX"].iloc[-1] > 20.0) \
+        while (sop_max_5m < ohlc_10s['c'].iloc[-1] > sop_min_5m or sop_max_1m < ohlc_10s['c'].iloc[-1] > sop_min_1m)\
+                and (adx_5m["ADX"].iloc[-1] > 20.0) \
                 and (rsi_5m.iloc[-1] > 30.0) and (ichimoku_1m["Senkou span A"].iloc[-1] > ohlc_1m['c'].iloc[-1] <
                                                   ichimoku_1m["Senkou span B"].iloc[-1]):
             starttime = time.time()
@@ -192,17 +233,29 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                 break
             else:
                 try:
-                    ohlc_10s = pd.read_csv("datos_5s.csv", index_col="time")
+                    ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
                         ohlc_1m.iloc[-1].name[14:16]) and \
                             (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16])):02}" !=
                              ohlc_1m.iloc[-1].name[14:16]):
+                        try:
+                            ExtraccionOanda(client, 500, 'M1', par)
+                        except:
+                            client = oandapyV20.API(
+                                access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                                environment="practice")
                         ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                         ichimoku_1m = ichimoku(ohlc_1m)
                     if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
                             int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
                             (ohlc_5m.iloc[-1].name[
                              14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
+                        try:
+                            ExtraccionOanda(client, 500, 'M5', par)
+                        except:
+                            client = oandapyV20.API(
+                                access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                                environment="practice")
                         ohlc_5m = pd.read_csv("datos_M5.csv", index_col="time")
                         res_max_5m, res_min_5m, sop_min_5m, sop_max_5m = calcular_rango_sop_res(ohlc_5m, 50)
                         adx_5m = ADX(ohlc_5m)

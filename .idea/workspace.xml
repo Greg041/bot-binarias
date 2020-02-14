@@ -2,12 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/monto.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/datos_10s.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ejecucion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ejecucion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExtraccionDatosOanda.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExtraccionDatosOanda.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SeguimientoDivergencia.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoDivergencia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SeguimientoIchimoku.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoIchimoku.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_M1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prueba.py" beforeDir="false" afterPath="$PROJECT_DIR$/prueba.py" afterDir="false" />
     </list>
@@ -47,7 +50,7 @@
       <recent name="C:\Users\g_reg\Desktop\bot binarias" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.prueba">
+  <component name="RunManager" selected="Python.main">
     <configuration name="analisis_y_estrategia" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="bot binarias" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -134,8 +137,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.prueba" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.prueba" />
         <item itemvalue="Python.imagesearch" />
         <item itemvalue="Python.analisis_y_estrategia" />
       </list>
@@ -163,13 +166,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1578051824094</updated>
-    </task>
-    <task id="LOCAL-00001" summary="- funcion main pulida&#10;- modulos de extraccion de datos pulidos&#10;- borradas imagenes dañadas">
-      <created>1578065281663</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1578065281663</updated>
     </task>
     <task id="LOCAL-00002" summary="- modulo analisis_y_estrategia.py creado y añadidas funciones ejecucion y click image">
       <created>1578072816015</created>
@@ -507,7 +503,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581553268535</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="- editado estrategia general, a favor y toda para recibir el monto a recibir en caso de que se escoja una de las 2 para hacer martingala.&#10;- agregado argumentos a las funciones de SeguimientoDivergencia.py y SeguimientoIchimoku.py para recibir monto en caso de haber uno y pasarlo a la funcion Ejecucion.py  para introducirlo antes de hacer la operación">
+      <created>1581559927387</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1581559927388</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -525,7 +528,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- creada funcion para detectar divergencias en el macd en el módulo macd&#10;- mejorada función estrategia2 para operar en contratendencia cuando se detecten divergencias, y editada condicionales para operar a favor de la tendencia con el ichimoku para generar un mayor número de señales&#10;- mejorada función ejecutar en módulo analisis_y_estrategia.py para que detecte que par está mandando la señal de compra o venta y cambiar a la ventana de ese par antes de ejecutar la operación" />
     <MESSAGE value="- añadida función para detectar divergencias en historigrama en el módulo macd.py &#10;- pulida estrategia de SeguimientoIchimoku.py para detectar cuando el precio actual este sobre la nube" />
     <MESSAGE value="- agregado modulo para calcular las bandas bollinger&#10;- agregada estrategia 3 la cual usa las bandas bollinger, rsi y adx" />
     <MESSAGE value="- pulida estrategia 2 para tomar en cuenta soportes y resistencias a 5 minutos cuando se este haciendo SeguimientoIchimoku.py&#10;- agregado codigo para preguntar cuantas noticias de 3 estrellas habrá en el periodo de tiempo de ejecucion y preguntar que hora seria 30 minutos antes de que sea las noticias para hacer un sleep desde 30 minutos antes y hasta 30 minutos despues de la noticia" />
@@ -550,7 +552,8 @@
     <MESSAGE value="- diseñada estrategia #3 para el seguimiento de una tendencia consolidada&#10;- creada funcion Seguimiento_ichimoku2 para el seguimiento de la estrategia #3" />
     <MESSAGE value="- editado código del módulo Ejecucion.py para adaptarse a binary.com &#10;- editado código en main.py para ahorrar código a la hora de calcular soporte y resistencias editando la función de cálculo de la misma&#10;- editado analisis_y_estrategia.py para solo tomar en cuenta la estrategia principal" />
     <MESSAGE value="- editado código de extraccion y creación de velas de 5 segundos a 10 segundos&#10;- pulido modulo Ejecucion.py para crear operaciones en binary.com" />
-    <option name="LAST_COMMIT_MESSAGE" value="- editado código de extraccion y creación de velas de 5 segundos a 10 segundos&#10;- pulido modulo Ejecucion.py para crear operaciones en binary.com" />
+    <MESSAGE value="- editado estrategia general, a favor y toda para recibir el monto a recibir en caso de que se escoja una de las 2 para hacer martingala.&#10;- agregado argumentos a las funciones de SeguimientoDivergencia.py y SeguimientoIchimoku.py para recibir monto en caso de haber uno y pasarlo a la funcion Ejecucion.py  para introducirlo antes de hacer la operación" />
+    <option name="LAST_COMMIT_MESSAGE" value="- editado estrategia general, a favor y toda para recibir el monto a recibir en caso de que se escoja una de las 2 para hacer martingala.&#10;- agregado argumentos a las funciones de SeguimientoDivergencia.py y SeguimientoIchimoku.py para recibir monto en caso de haber uno y pasarlo a la funcion Ejecucion.py  para introducirlo antes de hacer la operación" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
@@ -565,46 +568,46 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="679" y="135" key="#main/0.0.1920.1040@0.0.1920.1040" timestamp="1579064399171" />
-    <state x="186" y="102" key="CommitChangelistDialog2" timestamp="1581553252765">
+    <state x="186" y="102" key="CommitChangelistDialog2" timestamp="1581559922818">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="186" y="102" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1581553252765" />
+    <state x="186" y="102" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1581559922818" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1581553312160">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="739" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1581553312160" />
-    <state width="1882" height="78" key="GridCell.Tab.0.bottom" timestamp="1581558514616">
+    <state width="1899" height="236" key="GridCell.Tab.0.bottom" timestamp="1581642127462">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1882" height="78" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1581558514616" />
-    <state width="1882" height="78" key="GridCell.Tab.0.center" timestamp="1581558514615">
+    <state width="1899" height="236" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1581642127462" />
+    <state width="1899" height="236" key="GridCell.Tab.0.center" timestamp="1581642127462">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1882" height="78" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1581558514615" />
-    <state width="1882" height="78" key="GridCell.Tab.0.left" timestamp="1581558514615">
+    <state width="1899" height="236" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1581642127462" />
+    <state width="1899" height="236" key="GridCell.Tab.0.left" timestamp="1581642127462">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1882" height="78" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1581558514615" />
-    <state width="1882" height="78" key="GridCell.Tab.0.right" timestamp="1581558514615">
+    <state width="1899" height="236" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1581642127462" />
+    <state width="1899" height="236" key="GridCell.Tab.0.right" timestamp="1581642127462">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1882" height="78" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1581558514615" />
-    <state width="1362" height="328" key="GridCell.Tab.1.bottom" timestamp="1581444522485">
+    <state width="1899" height="236" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1581642127462" />
+    <state width="1882" height="182" key="GridCell.Tab.1.bottom" timestamp="1581601334206">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1362" height="328" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1581444522485" />
-    <state width="1362" height="328" key="GridCell.Tab.1.center" timestamp="1581444522484">
+    <state width="1882" height="182" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1581601334206" />
+    <state width="1882" height="182" key="GridCell.Tab.1.center" timestamp="1581601334206">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1362" height="328" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1581444522484" />
-    <state width="1362" height="328" key="GridCell.Tab.1.left" timestamp="1581444522483">
+    <state width="1882" height="182" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1581601334206" />
+    <state width="1882" height="182" key="GridCell.Tab.1.left" timestamp="1581601334205">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1362" height="328" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1581444522483" />
-    <state width="1362" height="328" key="GridCell.Tab.1.right" timestamp="1581444522484">
+    <state width="1882" height="182" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1581601334205" />
+    <state width="1882" height="182" key="GridCell.Tab.1.right" timestamp="1581601334206">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1362" height="328" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1581444522484" />
+    <state width="1882" height="182" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1581601334206" />
     <state x="540" y="255" key="IDE.errors.dialog" timestamp="1578087577117">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -613,10 +616,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="512" y="158" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1581055407181" />
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1581553119216">
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1581638195193">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1581553119216" />
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1581638195193" />
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578071106605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
