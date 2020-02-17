@@ -42,7 +42,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         seg = Process(target=seguimiento_ichimoku,
                       args=(ohlc_10s, ohlc_1m, ohlc_5m, ichi_1m, par, "compraf", res_max_5min, res_min_5min,
                             sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                            sop_min_1min, sop_max_1min, monto))
+                            sop_min_1min, sop_max_1min, monto, client))
         seg.start()
         time.sleep(120)
         return ""
@@ -53,7 +53,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         seg = Process(target=seguimiento_ichimoku,
                       args=(ohlc_10s, ohlc_1m, ohlc_5m, ichi_1m, par, "ventaf", res_max_5min, res_min_5min,
                             sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                            sop_min_1min, sop_max_1min, monto))
+                            sop_min_1min, sop_max_1min, monto, client))
         seg.start()
         time.sleep(120)
         return ""
@@ -65,7 +65,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
             -1] > res_min_5min) \
                 and detectar_div_macd(macd_10s, ohlc_10s, "bajista"):
             seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_10s, par, "bajista", macd_10s["MACD"].iloc[-2],
-                                                        macd_10s["MACD"].iloc[-1], monto))
+                                                        macd_10s["MACD"].iloc[-1], monto, client))
             seg.start()
             return ""
         else:
@@ -77,7 +77,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
             -1] < sop_max_5min) \
                 and detectar_div_macd(macd_10s, ohlc_10s, "alcista"):
             seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_10s, par, "alcista", macd_10s["MACD"].iloc[-2],
-                                                        macd_10s["MACD"].iloc[-1], monto))
+                                                        macd_10s["MACD"].iloc[-1], monto, client))
             seg.start()
             return ""
         else:
@@ -92,7 +92,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
             seg = Process(target=seguimiento_ichimoku2, args=(ohlc_5m, ohlc_1m, ohlc_10s, par, "compraf",
                                                               res_max_5min, res_min_5min,
                                                               sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                                                              sop_min_1min, sop_max_1min, monto))
+                                                              sop_min_1min, sop_max_1min, monto, client))
             seg.start()
             time.sleep(120)
             return ""
@@ -102,12 +102,12 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
             (adx_5m["ADX"].iloc[-1] > 20.0 and adx_5m["DI-"].iloc[-1] > adx_5m["DI+"].iloc[-1]) and \
             (rsi_5m.iloc[-1] > 30.0) and (sop_min_5min <= sop_max_5min < ohlc_10s['c'].iloc[-1]):
         ichimoku_1m = ichimoku(ohlc_1m)
-        if (ichimoku_1m["Senkou span B"].iloc[-1] > ohlc_10s['c'].iloc[-1] < ichimoku_1m["Senkou span A"].iloc[-1]) and \
+        if (ichimoku_1m["Senkou span B"].iloc[-26] > ohlc_10s['c'].iloc[-1] < ichimoku_1m["Senkou span A"].iloc[-26]) and \
                 engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], "bajista"):
-            seg = Process(target=seguimiento_ichimoku2, args=(ohlc_5m, ohlc_1m, ohlc_10s, par, "compraf",
+            seg = Process(target=seguimiento_ichimoku2, args=(ohlc_5m, ohlc_1m, ohlc_10s, par, "ventaf",
                                                               res_max_5min, res_min_5min,
                                                               sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                                                              sop_min_1min, sop_max_1min, monto))
+                                                              sop_min_1min, sop_max_1min, monto, client))
             seg.start()
             time.sleep(120)
             return ""

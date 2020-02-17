@@ -175,8 +175,8 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
         ichimoku_1m = ichimoku(ohlc_1m)
         while (res_max_5m > ohlc_10s['c'].iloc[-1] < res_min_5m or res_max_1m > ohlc_10s['c'].iloc[-1] < res_min_1m) \
                 and (adx_5m["ADX"].iloc[-1] > 20.0) \
-                and (rsi_5m.iloc[-1] < 70.0) and (ichimoku_1m["Senkou span A"].iloc[-1] < ohlc_10s['c'].iloc[-1] >
-                                                  ichimoku_1m["Senkou span B"].iloc[-1]):
+                and (rsi_5m.iloc[-1] < 70.0) and (ichimoku_1m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] >
+                                                  ichimoku_1m["Senkou span B"].iloc[-26]):
             starttime = time.time()
             ichimoku_10s = ichimoku(ohlc_10s)
             print(ichimoku_10s["tenkan-sen"].iloc[-1], ichimoku_10s["kijun-sen"].iloc[-1])
@@ -217,16 +217,16 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
         print("se sale del seguimiento porque se ejecutó operacion o ",
               res_max_5m > ohlc_10s['c'].iloc[-1] < res_min_5m,
               adx_5m["ADX"].iloc[-1] > 20.0, rsi_5m.iloc[-1] < 70.0,
-              ichimoku_1m["Senkou span A"].iloc[-1] < ohlc_10s['c'].iloc[-1] >
-              ichimoku_1m["Senkou span B"].iloc[-1])
+              ichimoku_1m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] >
+              ichimoku_1m["Senkou span B"].iloc[-26])
     elif tipo_de_operacion == "ventaf":
         adx_5m = ADX(ohlc_5m)
         rsi_5m = RSI(ohlc_5m)
         ichimoku_1m = ichimoku(ohlc_1m)
         while (sop_max_5m < ohlc_10s['c'].iloc[-1] > sop_min_5m or sop_max_1m < ohlc_10s['c'].iloc[-1] > sop_min_1m) \
                 and (adx_5m["ADX"].iloc[-1] > 20.0) \
-                and (rsi_5m.iloc[-1] > 30.0) and (ichimoku_1m["Senkou span A"].iloc[-1] > ohlc_10s['c'].iloc[-1] <
-                                                  ichimoku_1m["Senkou span B"].iloc[-1]):
+                and (rsi_5m.iloc[-1] > 30.0) and (ichimoku_1m["Senkou span A"].iloc[-26] > ohlc_10s['c'].iloc[-1] <
+                                                  ichimoku_1m["Senkou span B"].iloc[-26]):
             starttime = time.time()
             ichimoku_10s = ichimoku(ohlc_10s)
             print(ichimoku_10s["tenkan-sen"].iloc[-1], ichimoku_10s["kijun-sen"].iloc[-1])
@@ -267,5 +267,5 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
         print("se sale del seguimiento porque se ejecutó operacion o ",
               sop_max_5m < ohlc_10s['c'].iloc[-1] > sop_min_5m,
               adx_5m["ADX"].iloc[-1] > 20.0, rsi_5m.iloc[-1] > 30.0,
-              ichimoku_1m["Senkou span A"].iloc[-1] > ohlc_10s['c'].iloc[-1] <
-              ichimoku_1m["Senkou span B"].iloc[-1])
+              ichimoku_1m["Senkou span A"].iloc[-26] > ohlc_10s['c'].iloc[-1] <
+              ichimoku_1m["Senkou span B"].iloc[-26])
