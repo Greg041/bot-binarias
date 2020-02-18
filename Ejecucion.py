@@ -71,6 +71,7 @@ def ejecucion(signal, par, tiempo, monto):
             pyautogui.leftClick(x=1072, y=290)
             pyautogui.leftClick(x=1072, y=290)
             pyautogui.leftClick(x=1072, y=290)
+            pyautogui.leftClick(x=1072, y=290)
             click_image("par_eur_usd.jpg", (817, 475), "left", 0.05)
         elif par == "AUD_USD":
             click_image("par.jpg", (489, 228), "left", 0.05)
@@ -80,7 +81,19 @@ def ejecucion(signal, par, tiempo, monto):
             pyautogui.leftClick(x=1072, y=290)
             pyautogui.leftClick(x=1072, y=290)
             pyautogui.leftClick(x=1072, y=290)
+            pyautogui.leftClick(x=1072, y=290)
             click_image("par_aud_usd.jpg", (887, 355), "left", 0.05)
+        elif par == "GBP_USD":
+            click_image("par.jpg", (489, 228), "left", 0.05)
+            time.sleep(0.3)
+            pyautogui.leftClick(x=1072, y=290)
+            pyautogui.leftClick(x=1072, y=290)
+            pyautogui.leftClick(x=1072, y=290)
+            pyautogui.leftClick(x=1072, y=290)
+            pyautogui.leftClick(x=1072, y=290)
+            pyautogui.leftClick(x=1072, y=290)
+            pyautogui.leftClick(x=1072, y=575)
+            click_image("par_gbp_usd.jpg", (680, 525), "left", 0.05)
         time.sleep(1)
     if monto is not None:
         pyautogui.doubleClick(x=710, y=445)
