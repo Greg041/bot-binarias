@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/par_gbp_usd.jpg" afterDir="false" />
+    <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="- corregido bug a la hora de escoger las divisas">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ejecucion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ejecucion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExtraccionDatos10s.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExtraccionDatos10s.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SeguimientoDivergencia.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoDivergencia.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SeguimientoIchimoku.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoIchimoku.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_10s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_10s.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M1.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/prueba.py" beforeDir="false" afterPath="$PROJECT_DIR$/prueba.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,7 +42,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../anotaciones de cursos" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../bot_forex_scalping" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -46,7 +50,7 @@
       <recent name="C:\Users\g_reg\Desktop\bot binarias" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.prueba">
+  <component name="RunManager" selected="Python.main">
     <configuration name="analisis_y_estrategia" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="bot binarias" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -133,8 +137,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.prueba" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.prueba" />
         <item itemvalue="Python.imagesearch" />
         <item itemvalue="Python.analisis_y_estrategia" />
       </list>
@@ -162,13 +166,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1578051824094</updated>
-    </task>
-    <task id="LOCAL-00007" summary="- modificada para comprar o vender a 2 minutos justo despues de hacerlo a 1 minuto para comprobar cual temporalidad es mas rentable">
-      <created>1578436064760</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1578436064760</updated>
     </task>
     <task id="LOCAL-00008" summary="- modificada estrategia para operar también a favor de la tendencia">
       <created>1578479955944</created>
@@ -506,7 +503,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581980491841</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="- añadido gbp usd a la lista de pares con los que se puede operar de forma automática">
+      <created>1582068487516</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1582068487517</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -524,7 +528,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- pulida estrategia 3 para tomar en cuenta que el precio esté sobre o bajo la nube kumo en periodo de 1 minuto a la hora de operar a favor de la tendencia como un filtro extra y tomar en cuenta que precio esté dentro de la nube kumo en periodos de 1 minutos y no de 5 minutos a la hora de operar en contra la tendencia" />
     <MESSAGE value="- pulida estrategias 2 y 3&#10;- arreglado codigo para calcular rango de soportes y resistencias" />
     <MESSAGE value="- pulida estrategia 3 reduciendo codigo para mejor lectura&#10;- creada funcion para calcular el rango de soportes y resistencias para reducir codigo repetitivo en la funcion run y para mejor lectura" />
     <MESSAGE value="- Creado módulo para extraer datos a 5 segundos de forma constante mediante subproceso" />
@@ -549,7 +552,8 @@
     <MESSAGE value="- modificado modulo ExtraccionDatosOanda.py para que contenga solo una función y no una subclase de un subproceso (para ahorrar memoria y código) a la cual se le pasará como atributo el cliente de oanda y solo se encargará de extraer los datos de las velas y modificados los módulos main.py, SeguimientoIchimoku.py y SeguimientoDivergencia.py para adaptarse a esta nueva edición del módulo ExtraccionDatosOanda.py&#10;- pulido modulo Ejecucion.py para mayor precisión a la hora de realizar operaciones en binary.com&#10;- modificada estrategia #3 de seguimiento ichimoku2 para tomar en cuenta los soportes y las resistencias en rangos de 1 minuto" />
     <MESSAGE value="- pulidas estrategias debido a diferentes bugs" />
     <MESSAGE value="- Arreglado bug en estrategia 3 en la parte de venta a favor de la tendencia" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Arreglado bug en estrategia 3 en la parte de venta a favor de la tendencia" />
+    <MESSAGE value="- añadido gbp usd a la lista de pares con los que se puede operar de forma automática" />
+    <option name="LAST_COMMIT_MESSAGE" value="- añadido gbp usd a la lista de pares con los que se puede operar de forma automática" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
@@ -564,46 +568,46 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="679" y="135" key="#main/0.0.1920.1040@0.0.1920.1040" timestamp="1579064399171" />
-    <state x="0" y="102" key="CommitChangelistDialog2" timestamp="1581980471950">
+    <state x="0" y="102" key="CommitChangelistDialog2" timestamp="1582147321385">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="0" y="102" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1581980471950" />
-    <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1581553312160">
+    <state x="0" y="102" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1582147321385" />
+    <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1582068523663">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="739" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1581553312160" />
-    <state width="1200" height="165" key="GridCell.Tab.0.bottom" timestamp="1582068397097">
+    <state x="739" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1582068523663" />
+    <state width="1899" height="165" key="GridCell.Tab.0.bottom" timestamp="1582148026131">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1200" height="165" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582068397097" />
-    <state width="1200" height="165" key="GridCell.Tab.0.center" timestamp="1582068397096">
+    <state width="1899" height="165" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582148026131" />
+    <state width="1899" height="165" key="GridCell.Tab.0.center" timestamp="1582148026131">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1200" height="165" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582068397096" />
-    <state width="1200" height="165" key="GridCell.Tab.0.left" timestamp="1582068397096">
+    <state width="1899" height="165" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582148026131" />
+    <state width="1899" height="165" key="GridCell.Tab.0.left" timestamp="1582148026131">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1200" height="165" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582068397096" />
-    <state width="1200" height="165" key="GridCell.Tab.0.right" timestamp="1582068397096">
+    <state width="1899" height="165" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582148026131" />
+    <state width="1899" height="165" key="GridCell.Tab.0.right" timestamp="1582148026131">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1200" height="165" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582068397096" />
-    <state width="1882" height="182" key="GridCell.Tab.1.bottom" timestamp="1581601334206">
+    <state width="1899" height="165" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582148026131" />
+    <state width="1899" height="347" key="GridCell.Tab.1.bottom" timestamp="1582121675764">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1882" height="182" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1581601334206" />
-    <state width="1882" height="182" key="GridCell.Tab.1.center" timestamp="1581601334206">
+    <state width="1899" height="347" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582121675764" />
+    <state width="1899" height="347" key="GridCell.Tab.1.center" timestamp="1582121675764">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1882" height="182" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1581601334206" />
-    <state width="1882" height="182" key="GridCell.Tab.1.left" timestamp="1581601334205">
+    <state width="1899" height="347" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582121675764" />
+    <state width="1899" height="347" key="GridCell.Tab.1.left" timestamp="1582121675764">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1882" height="182" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1581601334205" />
-    <state width="1882" height="182" key="GridCell.Tab.1.right" timestamp="1581601334206">
+    <state width="1899" height="347" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582121675764" />
+    <state width="1899" height="347" key="GridCell.Tab.1.right" timestamp="1582121675764">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1882" height="182" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1581601334206" />
+    <state width="1899" height="347" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582121675764" />
     <state x="540" y="255" key="IDE.errors.dialog" timestamp="1578087577117">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -612,10 +616,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="512" y="158" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1581055407181" />
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1582067933627">
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1582148157673">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582067933627" />
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582148157673" />
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578071106605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

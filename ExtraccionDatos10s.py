@@ -45,5 +45,8 @@ def extraccion_10s_continua(divisa):
             pd.DataFrame.to_csv(datos_10s, "datos_10s.csv")
             live_data.clear()
             rango_precios.clear()
-        except:
+        except Exception as e:
+            if e == KeyboardInterrupt:
+                return
+            print(f"excepcion {e}: {type(e)}")
             print("hubo error, verificar si la ejecucion continua")

@@ -14,12 +14,12 @@ def engulfing(ohlc_vela_anterior, ohlc_vela_actual, alcista_o_bajista: str) -> b
         print("close vela anterior:", ohlc_vela_anterior['c'], "open vela anterior:", ohlc_vela_anterior['o'],
               "close vela actual:", ohlc_vela_actual['c'])
         return (ohlc_vela_anterior['c'] <= ohlc_vela_anterior['o']) and (
-                    ohlc_vela_actual['c'] >= ohlc_vela_anterior['h'])
+                ohlc_vela_actual['c'] >= ohlc_vela_anterior['h'])
     elif alcista_o_bajista == "bajista":
         print("close vela anterior:", ohlc_vela_anterior['c'], "open vela anterior:", ohlc_vela_anterior['o'],
               "close vela actual:", ohlc_vela_actual['c'])
         return (ohlc_vela_anterior['c'] >= ohlc_vela_anterior['o']) and (
-                    ohlc_vela_actual['c'] <= ohlc_vela_anterior['l'])
+                ohlc_vela_actual['c'] <= ohlc_vela_anterior['l'])
 
 
 def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
@@ -39,23 +39,17 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]) and \
             (ichi_5m["Senkou span A"].iloc[-26] > ohlc_1m['c'].iloc[-1] > ichi_5m["Senkou span B"].iloc[-26] or
              ichi_5m["Senkou span A"].iloc[-26] < ohlc_1m['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]):
-        seg = Process(target=seguimiento_ichimoku,
-                      args=(ohlc_10s, ohlc_1m, ohlc_5m, ichi_1m, par, "compraf", res_max_5min, res_min_5min,
-                            sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                            sop_min_1min, sop_max_1min, monto, client))
-        seg.start()
-        time.sleep(120)
+        seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichi_1m, par, "compraf", res_max_5min, res_min_5min,
+                             sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                             sop_min_1min, sop_max_1min, monto, client)
         return ""
     elif (ichi_1m["Senkou span A"].iloc[-2] >= ichi_1m["Senkou span B"].iloc[-2] and
           ichi_1m["Senkou span A"].iloc[-1] < ichi_1m["Senkou span B"].iloc[-1]) and \
             (ichi_5m["Senkou span A"].iloc[-26] > ohlc_1m['c'].iloc[-1] > ichi_5m["Senkou span B"].iloc[-26] or
              ichi_5m["Senkou span A"].iloc[-26] < ohlc_1m['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]):
-        seg = Process(target=seguimiento_ichimoku,
-                      args=(ohlc_10s, ohlc_1m, ohlc_5m, ichi_1m, par, "ventaf", res_max_5min, res_min_5min,
-                            sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                            sop_min_1min, sop_max_1min, monto, client))
-        seg.start()
-        time.sleep(120)
+        seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichi_1m, par, "ventaf", res_max_5min, res_min_5min,
+                             sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                             sop_min_1min, sop_max_1min, monto, client)
         return ""
     # estrategia #2 divergencias
     if adx_1m["ADX"].iloc[-1] > 25.0 and adx_1m["DI+"].iloc[-1] > adx_1m["DI-"].iloc[-1]:
@@ -64,9 +58,8 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         if (res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min or res_max_5min > ohlc_10s['c'].iloc[
             -1] > res_min_5min) \
                 and detectar_div_macd(macd_10s, ohlc_10s, "bajista"):
-            seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_10s, par, "bajista", macd_10s["MACD"].iloc[-2],
-                                                        macd_10s["MACD"].iloc[-1], monto, client))
-            seg.start()
+            seguimiento_div(ohlc_1m, ohlc_10s, par, "bajista", macd_10s["MACD"].iloc[-2], macd_10s["MACD"].iloc[-1],
+                            monto, client)
             return ""
         else:
             return ""
@@ -76,9 +69,8 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         if (sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min or sop_min_5min < ohlc_10s['c'].iloc[
             -1] < sop_max_5min) \
                 and detectar_div_macd(macd_10s, ohlc_10s, "alcista"):
-            seg = Process(target=seguimiento_div, args=(ohlc_1m, ohlc_10s, par, "alcista", macd_10s["MACD"].iloc[-2],
-                                                        macd_10s["MACD"].iloc[-1], monto, client))
-            seg.start()
+            seguimiento_div(ohlc_1m, ohlc_10s, par, "alcista", macd_10s["MACD"].iloc[-2],
+                            macd_10s["MACD"].iloc[-1], monto, client)
             return ""
         else:
             return ""
@@ -89,12 +81,10 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         ichimoku_1m = ichimoku(ohlc_1m)
         if (ichimoku_1m["Senkou span B"].iloc[-1] < ohlc_10s['c'].iloc[-1] > ichimoku_1m["Senkou span A"].iloc[-1]) and \
                 engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], "alcista"):
-            seg = Process(target=seguimiento_ichimoku2, args=(ohlc_5m, ohlc_1m, ohlc_10s, par, "compraf",
-                                                              res_max_5min, res_min_5min,
-                                                              sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                                                              sop_min_1min, sop_max_1min, monto, client))
-            seg.start()
-            time.sleep(120)
+            seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, "compraf",
+                                  res_max_5min, res_min_5min,
+                                  sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                                  sop_min_1min, sop_max_1min, monto, client)
             return ""
         else:
             return ""
@@ -102,14 +92,13 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
             (adx_5m["ADX"].iloc[-1] > 20.0 and adx_5m["DI-"].iloc[-1] > adx_5m["DI+"].iloc[-1]) and \
             (rsi_5m.iloc[-1] > 30.0) and (sop_min_5min <= sop_max_5min < ohlc_10s['c'].iloc[-1]):
         ichimoku_1m = ichimoku(ohlc_1m)
-        if (ichimoku_1m["Senkou span B"].iloc[-26] > ohlc_10s['c'].iloc[-1] < ichimoku_1m["Senkou span A"].iloc[-26]) and \
+        if (ichimoku_1m["Senkou span B"].iloc[-26] > ohlc_10s['c'].iloc[-1] < ichimoku_1m["Senkou span A"].iloc[
+            -26]) and \
                 engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], "bajista"):
-            seg = Process(target=seguimiento_ichimoku2, args=(ohlc_5m, ohlc_1m, ohlc_10s, par, "ventaf",
-                                                              res_max_5min, res_min_5min,
-                                                              sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                                                              sop_min_1min, sop_max_1min, monto, client))
-            seg.start()
-            time.sleep(120)
+            seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, "ventaf",
+                                  res_max_5min, res_min_5min,
+                                  sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                                  sop_min_1min, sop_max_1min, monto, client)
             return ""
         else:
             return ""

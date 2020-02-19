@@ -78,7 +78,8 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
                 datos_1min.iloc[-1].name[14:16]):
                 try:
                     ExtraccionOanda(client, 500, 'M1', divisa)
-                except:
+                except Exception as e:
+                    print(f"excepcion {e}: {type(e)}")
                     client = oandapyV20.API(
                         access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                         environment="practice")
@@ -91,7 +92,8 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
                      14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
                 try:
                     ExtraccionOanda(client, 500, 'M5', divisa)
-                except:
+                except Exception as e:
+                    print(f"excepcion {e}: {type(e)}")
                     client = oandapyV20.API(
                         access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                         environment="practice")
@@ -99,7 +101,8 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
                 resistencia_punto_mayor_5m, resistencia_punto_menor_5m, soporte_punto_menor_5m, soporte_punto_mayor_5m = \
                     calcular_rango_sop_res(datos_5min, 50)
             datos_10s = pd.read_csv("datos_10s.csv", index_col="time")
-        except:
+        except Exception as e:
+            print(f"excepcion {e}: {type(e)}")
             print("hubo error en lectura de datos csv")
         if tipo_de_est == "todo":
             analisis_y_estrategia(datos_10s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
@@ -124,9 +127,7 @@ if __name__ == "__main__":
     primera_divisa = input("introduzca la primera divisa: ")
     segunda_divisa = input("introduzca la segunda divisa: ")
     tipo_de_estrategia = input("estategia en contra, favor o todo?: ")
-    monto = None
-    if tipo_de_estrategia == "favor" or tipo_de_estrategia == "contra":
-        monto = input("introduzca el monto a invertir: ")
+    monto = input("introduzca el monto a invertir: ")
     mes = input("introduzca el mes de inicio: ")
     dia = input("introduzca el dia de inicio: ")
     hora = input("introduzca la hora de inicio (militar): ")

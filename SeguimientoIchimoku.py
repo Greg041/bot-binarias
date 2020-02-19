@@ -48,7 +48,8 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
             starttime = time.time()
             try:
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
-            except:
+            except Exception as e:
+                print(f"excepcion {e}: {type(e)}")
                 print("reintentando lectura ohlc_10s")
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
             if res_max_5m > ohlc_10s['c'].iloc[-1] > res_min_5m:
@@ -58,7 +59,8 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                 time.sleep(60)
                 try:
                     ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
-                except:
+                except Exception as e:
+                    print(f"excepcion {e}: {type(e)}")
                     print("error en lectura datos m1 seguimiento ichimoku")
                 ichimoku_1m = ichimoku(ohlc_1m)
             else:
@@ -76,14 +78,16 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                             ohlc_1m.iloc[-1].name[14:16]):
                         try:
                             ExtraccionOanda(client, 500, 'M1', par)
-                        except:
+                        except Exception as e:
+                            print(f"excepcion {e}: {type(e)}")
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
                         ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                         ichimoku_1m = ichimoku(ohlc_1m)
                         res_max_1m, res_min_1m, sop_min_1m, sop_max_1m = calcular_rango_sop_res(ohlc_1m, 120)
-                except:
+                except Exception as e:
+                    print(f"excepcion {e}: {type(e)}")
                     print("error en lectura de datos m1 seguimiento ichimoku")
                 try:
                     if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
@@ -92,13 +96,15 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                              14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
                         try:
                             ExtraccionOanda(client, 500, 'M5', par)
-                        except:
+                        except Exception as e:
+                            print(f"excepcion {e}: {type(e)}")
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
                         datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
                         res_max_5m, res_min_5m, sop_min_5m, sop_max_5m = calcular_rango_sop_res(datos_5min, 50)
-                except:
+                except Exception as e:
+                    print(f"excepcion {e}: {type(e)}")
                     print("error en lectura de datos m5 seguimiento ichimoku")
                 time.sleep(10 - ((time.time() - starttime) % 10))
         print("se sale del seguimiento porque se ejecutó operacion ó",
@@ -109,7 +115,8 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
             starttime = time.time()
             try:
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
-            except:
+            except Exception as e:
+                print(f"excepcion {e}: {type(e)}")
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                 print("reintentando lectura ohlc_10s")
             if sop_min_5m < ohlc_10s['c'].iloc[-1] < sop_max_5m:
@@ -119,7 +126,8 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                 time.sleep(60)
                 try:
                     ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
-                except:
+                except Exception as e:
+                    print(f"excepcion {e}: {type(e)}")
                     print("error en lectura datos m1 seguimiento ichimoku")
                 ichimoku_1m = ichimoku(ohlc_1m)
             else:
@@ -137,14 +145,16 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                             ohlc_1m.iloc[-1].name[14:16]):
                         try:
                             ExtraccionOanda(client, 500, 'M1', par)
-                        except:
+                        except Exception as e:
+                            print(f"excepcion {e}: {type(e)}")
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
                         ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                         ichimoku_1m = ichimoku(ohlc_1m)
                         res_max_1m, res_min_1m, sop_min_1m, sop_max_1m = calcular_rango_sop_res(ohlc_1m, 120)
-                except:
+                except Exception as e:
+                    print(f"excepcion {e}: {type(e)}")
                     print("error en lectura de datos m1 seguimiento ichimoku")
                 try:
                     if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
@@ -153,13 +163,15 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                              14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
                         try:
                             ExtraccionOanda(client, 500, 'M5', par)
-                        except:
+                        except Exception as e:
+                            print(f"excepcion {e}: {type(e)}")
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
                         datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
                         res_max_5m, res_min_5m, sop_min_5m, sop_max_5m = calcular_rango_sop_res(datos_5min, 50)
-                except:
+                except Exception as e:
+                    print(f"excepcion {e}: {type(e)}")
                     print("error en lectura de datos m5 seguimiento ichimoku")
                 time.sleep(10 - ((time.time() - starttime) % 10))
         print("se sale del seguimiento porque se ejecutó operacion ó",
@@ -191,7 +203,8 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                         ohlc_1m.iloc[-1].name[14:16]):
                         try:
                             ExtraccionOanda(client, 500, 'M1', par)
-                        except:
+                        except Exception as e:
+                            print(f"excepcion {e}: {type(e)}")
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
@@ -203,7 +216,8 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                              14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
                         try:
                             ExtraccionOanda(client, 500, 'M5', par)
-                        except:
+                        except Exception as e:
+                            print(f"excepcion {e}: {type(e)}")
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
@@ -211,7 +225,8 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                         res_max_5m, res_min_5m, sop_min_5m, sop_max_5m = calcular_rango_sop_res(ohlc_5m, 50)
                         adx_5m = ADX(ohlc_5m)
                         rsi_5m = RSI(ohlc_5m)
-                except:
+                except Exception as e:
+                    print(f"excepcion {e}: {type(e)}")
                     print("hubo un error en la lectura de datos 1m o 5m en seguimiento ichimoku 2")
                 time.sleep(10 - ((time.time() - starttime) % 10))
         print("se sale del seguimiento porque se ejecutó operacion o ",
@@ -241,7 +256,8 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                         ohlc_1m.iloc[-1].name[14:16]):
                         try:
                             ExtraccionOanda(client, 500, 'M1', par)
-                        except:
+                        except Exception as e:
+                            print(f"excepcion {e}: {type(e)}")
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
@@ -253,7 +269,8 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                              14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
                         try:
                             ExtraccionOanda(client, 500, 'M5', par)
-                        except:
+                        except Exception as e:
+                            print(f"excepcion {e}: {type(e)}")
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
@@ -261,7 +278,8 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                         res_max_5m, res_min_5m, sop_min_5m, sop_max_5m = calcular_rango_sop_res(ohlc_5m, 50)
                         adx_5m = ADX(ohlc_5m)
                         rsi_5m = RSI(ohlc_5m)
-                except:
+                except Exception as e:
+                    print(f"excepcion {e}: {type(e)}")
                     print("hubo un error en la lectura de datos 1m o 5m en seguimiento ichimoku 2")
                 time.sleep(10 - ((time.time() - starttime) % 10))
         print("se sale del seguimiento porque se ejecutó operacion o ",

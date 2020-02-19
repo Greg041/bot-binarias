@@ -27,7 +27,8 @@ def seguimiento_div(ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_max_min_m
                             ohlc_1m.iloc[-1].name[14:16]):
                         try:
                             ExtraccionOanda(client, 500, 'M1', par)
-                        except:
+                        except Exception as e:
+                            print(f"excepcion {e}: {type(e)}")
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
@@ -35,10 +36,12 @@ def seguimiento_div(ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_max_min_m
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                         ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                         punto_ultimo_macd = MACD(ohlc_10s)["MACD"].iloc[-1]
-                    except:
+                    except Exception as e:
+                        print(f"excepcion {e}: {type(e)}")
                         print("reintentando lectura ohlc_10s")
                 time.sleep(10 - ((time.time() - starttime) % 10))
-            except:
+            except Exception as e:
+                print(f"excepcion {e}: {type(e)}")
                 print("Hubo error en calculo de adx")
                 print(adx_10s)
                 print(adx_1m)
@@ -66,7 +69,8 @@ def seguimiento_div(ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_max_min_m
                             ohlc_1m.iloc[-1].name[14:16]):
                         try:
                             ExtraccionOanda(client, 500, 'M1', par)
-                        except:
+                        except Exception as e:
+                            print(f"excepcion {e}: {type(e)}")
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
@@ -74,10 +78,12 @@ def seguimiento_div(ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_max_min_m
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                         ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                         punto_ultimo_macd = MACD(ohlc_10s)["MACD"].iloc[-1]
-                    except:
+                    except Exception as e:
+                        print(f"excepcion {e}: {type(e)}")
                         print("reintentando lectura ohlc_10s")
                 time.sleep(10 - ((time.time() - starttime) % 10))
-            except:
+            except Exception as e:
+                print(f"excepcion {e}: {type(e)}")
                 print("hubo error en calculo de adx")
                 print(adx_10s)
                 print(adx_1m)
