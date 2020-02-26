@@ -5,9 +5,10 @@ from ADX import ADX
 from macd import MACD
 from ExtraccionDatosOanda import ExtraccionOanda
 from Ejecucion import ejecucion
+from RSI import RSI
 
 
-def seguimiento_div(ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_max_min_macd, punto_ultimo, monto, client):
+def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_max_min_macd, punto_ultimo, monto, client):
     print("estamos en seguimiento divergencia")
     if tipo_de_divergencia == "bajista":
         punto_max_macd = punto_max_min_macd
@@ -15,12 +16,16 @@ def seguimiento_div(ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_max_min_m
         while punto_ultimo_macd < punto_max_macd:
             starttime = time.time()
             adx_1m = ADX(ohlc_1m)
+            rsi_1m = RSI(ohlc_1m)
             adx_10s = ADX(ohlc_10s)
             try:
                 print(adx_1m["ADX"].iloc[-1], adx_10s["DI-"].iloc[-1], adx_10s["DI+"].iloc[-1])
-                if (adx_1m["ADX"].iloc[-1] < adx_1m["ADX"].iloc[-2]) and (adx_10s["DI-"].iloc[-1] > adx_10s["DI+"].iloc[-1])\
+                if (adx_1m["ADX"].iloc[-1] < adx_1m["ADX"].iloc[-2]) and (rsi_1m.iloc[-1] < rsi_1m.iloc[-2]) \
+                        and (adx_10s["DI-"].iloc[-1] > adx_10s["DI+"].iloc[-1])\
                         and (adx_10s["DI-"].iloc[-1] > adx_10s["DI-"].iloc[-2]):
                     ejecucion("ventac", par, '3', monto)
+                    print(ADX(ohlc_5m)["ADX"].iloc[-2], ADX(ohlc_5m)["ADX"].iloc[-1])
+                    print(RSI(ohlc_5m).iloc[-2], RSI(ohlc_5m).iloc[-1])
                     break
                 else:
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
@@ -58,11 +63,15 @@ def seguimiento_div(ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_max_min_m
             starttime = time.time()
             adx_1m = ADX(ohlc_1m)
             adx_10s = ADX(ohlc_10s)
+            rsi_1m = RSI(ohlc_1m)
             try:
                 print(adx_1m["ADX"].iloc[-1], adx_10s["DI+"].iloc[-1], adx_10s["DI-"].iloc[-1])
-                if (adx_1m["ADX"].iloc[-1] < adx_1m["ADX"].iloc[-2]) and (adx_10s["DI+"].iloc[-1] > adx_10s["DI-"].iloc[-1])\
+                if (adx_1m["ADX"].iloc[-1] < adx_1m["ADX"].iloc[-2]) and (rsi_1m.iloc[-1] > rsi_1m.iloc[-2]) \
+                        and (adx_10s["DI+"].iloc[-1] > adx_10s["DI-"].iloc[-1])\
                         and (adx_10s["DI+"].iloc[-1] > adx_10s["DI+"].iloc[-2]):
                     ejecucion("comprac", par, '3', monto)
+                    print(ADX(ohlc_5m)["ADX"].iloc[-2], ADX(ohlc_5m)["ADX"].iloc[-1])
+                    print(RSI(ohlc_5m).iloc[-2], RSI(ohlc_5m).iloc[-1])
                     break
                 else:
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \

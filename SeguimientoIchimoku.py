@@ -38,7 +38,8 @@ def calcular_rango_sop_res(ohlc, rango_velas):
     return resistencia_punto_mayor, resistencia_punto_menor, soporte_punto_menor, soporte_punto_mayor
 
 
-def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_de_operacion, res_max_5m, res_min_5m, sop_min_5m,
+def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_de_operacion, res_max_5m, res_min_5m,
+                         sop_min_5m,
                          sop_max_5m,
                          res_max_1m, res_min_1m, sop_min_1m, sop_max_1m, monto, client):
     print("estamos en seguimiento")
@@ -53,7 +54,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                 print("reintentando lectura ohlc_10s")
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
             if res_max_5m > ohlc_10s['c'].iloc[-1] > res_min_5m:
-                return
+                break
             if res_max_1m > ohlc_10s['c'].iloc[-1] > res_min_1m:
                 print("Se encuentra en resistencia")
                 time.sleep(60)
@@ -107,8 +108,11 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                     print(f"excepcion {e}: {type(e)}")
                     print("error en lectura de datos m5 seguimiento ichimoku")
                 time.sleep(10 - ((time.time() - starttime) % 10))
-        print("se sale del seguimiento porque se ejecutó operacion ó",
-              ichimoku_1m["Senkou span A"].iloc[-1] > ichimoku_1m["Senkou span B"].iloc[-1])
+        if res_max_5m > ohlc_10s['c'].iloc[-1] > res_min_5m:
+            print("se sale de seguimiento porque hay una resistencia muy fuerte cernaca")
+        else:
+            print("se sale del seguimiento porque se ejecutó operacion ó",
+                  ichimoku_1m["Senkou span A"].iloc[-1] > ichimoku_1m["Senkou span B"].iloc[-1])
     elif tipo_de_operacion == "ventaf":
         while ichimoku_1m["Senkou span A"].iloc[-1] < ichimoku_1m["Senkou span B"].iloc[-1]:
             print(ichimoku_1m["Senkou span A"].iloc[-1], ichimoku_1m["Senkou span B"].iloc[-1])
@@ -120,7 +124,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                 print("reintentando lectura ohlc_10s")
             if sop_min_5m < ohlc_10s['c'].iloc[-1] < sop_max_5m:
-                return
+                break
             if sop_min_1m < ohlc_10s['c'].iloc[-1] < sop_max_1m:
                 print("Se encuentra en soporte")
                 time.sleep(60)
@@ -174,8 +178,11 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                     print(f"excepcion {e}: {type(e)}")
                     print("error en lectura de datos m5 seguimiento ichimoku")
                 time.sleep(10 - ((time.time() - starttime) % 10))
-        print("se sale del seguimiento porque se ejecutó operacion ó",
-              ichimoku_1m["Senkou span A"].iloc[-1] < ichimoku_1m["Senkou span B"].iloc[-1])
+        if sop_min_5m < ohlc_10s['c'].iloc[-1] < sop_max_5m:
+            print("Se sale del seguimiento porque hay un soporte fuerte cercano")
+        else:
+            print("se sale del seguimiento porque se ejecutó operacion ó",
+                  ichimoku_1m["Senkou span A"].iloc[-1] < ichimoku_1m["Senkou span B"].iloc[-1])
 
 
 def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, res_max_5m, res_min_5m,
@@ -185,22 +192,29 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
         adx_5m = ADX(ohlc_5m)
         rsi_5m = RSI(ohlc_5m)
         ichimoku_1m = ichimoku(ohlc_1m)
-        while (res_max_5m > ohlc_10s['c'].iloc[-1] < res_min_5m or res_max_1m > ohlc_10s['c'].iloc[-1] < res_min_1m) \
-                and (adx_5m["ADX"].iloc[-1] > 20.0) \
-                and (rsi_5m.iloc[-1] < 70.0) and (ichimoku_1m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] >
-                                                  ichimoku_1m["Senkou span B"].iloc[-26]):
+        while (adx_5m["ADX"].iloc[-1] > 20.0) and (rsi_5m.iloc[-1] < 70.0) and \
+                (ichimoku_1m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] > ichimoku_1m["Senkou span B"].iloc[
+                    -26]):
+            # Si choca contra una resistencia sale del seguimiento
+            if res_max_5m > ohlc_10s['c'].iloc[-1] > res_min_5m or res_max_1m > ohlc_10s['c'].iloc[-1] > res_min_1m:
+                break
             starttime = time.time()
             ichimoku_10s = ichimoku(ohlc_10s)
             print(ichimoku_10s["tenkan-sen"].iloc[-1], ichimoku_10s["kijun-sen"].iloc[-1])
-            if (ichimoku_10s["tenkan-sen"].iloc[-2] <= ichimoku_10s["kijun-sen"].iloc[-2] and
-                    ichimoku_10s["tenkan-sen"].iloc[-1] > ichimoku_10s["kijun-sen"].iloc[-1]):
+            if ichimoku_10s["tenkan-sen"].iloc[-1] > ichimoku_10s["kijun-sen"].iloc[-1]:
                 ejecucion(tipo_de_operacion, par, '5', monto)
+                print("precio:", ohlc_10s['c'].iloc[-1])
+                print("ichimoku 10s sspan A:", ichimoku_10s["Senkou span A"].iloc[-1])
+                print("ichimoku 10s sspan B:", ichimoku_10s["Senkou span B"].iloc[-1])
+                print("tenkan-sen 10s:", ichimoku_10s["tenkan-sen"].iloc[-1])
+                print("kijun-sen 10s:", ichimoku_10s["kijun-sen"].iloc[-1])
+                time.sleep(120)
                 break
             else:
                 try:
                     ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
-                        ohlc_1m.iloc[-1].name[14:16]):
+                            ohlc_1m.iloc[-1].name[14:16]):
                         try:
                             ExtraccionOanda(client, 500, 'M1', par)
                         except Exception as e:
@@ -229,31 +243,39 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                     print(f"excepcion {e}: {type(e)}")
                     print("hubo un error en la lectura de datos 1m o 5m en seguimiento ichimoku 2")
                 time.sleep(10 - ((time.time() - starttime) % 10))
-        print("se sale del seguimiento porque se ejecutó operacion o ",
-              res_max_5m > ohlc_10s['c'].iloc[-1] < res_min_5m,
-              adx_5m["ADX"].iloc[-1] > 20.0, rsi_5m.iloc[-1] < 70.0,
-              ichimoku_1m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] >
-              ichimoku_1m["Senkou span B"].iloc[-26])
+        if res_max_5m > ohlc_10s['c'].iloc[-1] > res_min_5m or res_max_1m > ohlc_10s['c'].iloc[-1] > res_min_1m:
+            print("se sale del seguimiento porque hay una resistencia cercana")
+        else:
+            print("se sale del seguimiento porque se ejecutó operacion o",
+                  adx_5m["ADX"].iloc[-1] > 20.0, rsi_5m.iloc[-1] < 70.0,
+                  ichimoku_1m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] >
+                  ichimoku_1m["Senkou span B"].iloc[-26])
     elif tipo_de_operacion == "ventaf":
         adx_5m = ADX(ohlc_5m)
         rsi_5m = RSI(ohlc_5m)
         ichimoku_1m = ichimoku(ohlc_1m)
-        while (sop_max_5m < ohlc_10s['c'].iloc[-1] > sop_min_5m or sop_max_1m < ohlc_10s['c'].iloc[-1] > sop_min_1m) \
-                and (adx_5m["ADX"].iloc[-1] > 20.0) \
+        while (adx_5m["ADX"].iloc[-1] > 20.0) \
                 and (rsi_5m.iloc[-1] > 30.0) and (ichimoku_1m["Senkou span A"].iloc[-26] > ohlc_10s['c'].iloc[-1] <
                                                   ichimoku_1m["Senkou span B"].iloc[-26]):
+            if sop_max_5m > ohlc_10s['c'].iloc[-1] > sop_min_5m or sop_max_1m > ohlc_10s['c'].iloc[-1] > sop_min_1m:
+                break
             starttime = time.time()
             ichimoku_10s = ichimoku(ohlc_10s)
             print(ichimoku_10s["tenkan-sen"].iloc[-1], ichimoku_10s["kijun-sen"].iloc[-1])
-            if (ichimoku_10s["tenkan-sen"].iloc[-2] >= ichimoku_10s["kijun-sen"].iloc[-2] and
-                    ichimoku_10s["tenkan-sen"].iloc[-1] < ichimoku_10s["kijun-sen"].iloc[-1]):
+            if ichimoku_10s["tenkan-sen"].iloc[-1] < ichimoku_10s["kijun-sen"].iloc[-1]:
                 ejecucion(tipo_de_operacion, par, '5', monto)
+                print("precio:", ohlc_10s['c'].iloc[-1])
+                print("ichimoku 10s sspan A:", ichimoku_10s["Senkou span A"].iloc[-1])
+                print("ichimoku 10s sspan B:", ichimoku_10s["Senkou span B"].iloc[-1])
+                print("tenkan-sen 10s:", ichimoku_10s["tenkan-sen"].iloc[-1])
+                print("kijun-sen 10s:", ichimoku_10s["kijun-sen"].iloc[-1])
+                time.sleep(120)
                 break
             else:
                 try:
                     ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
-                        ohlc_1m.iloc[-1].name[14:16]):
+                            ohlc_1m.iloc[-1].name[14:16]):
                         try:
                             ExtraccionOanda(client, 500, 'M1', par)
                         except Exception as e:
@@ -282,8 +304,10 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                     print(f"excepcion {e}: {type(e)}")
                     print("hubo un error en la lectura de datos 1m o 5m en seguimiento ichimoku 2")
                 time.sleep(10 - ((time.time() - starttime) % 10))
-        print("se sale del seguimiento porque se ejecutó operacion o ",
-              sop_max_5m < ohlc_10s['c'].iloc[-1] > sop_min_5m,
-              adx_5m["ADX"].iloc[-1] > 20.0, rsi_5m.iloc[-1] > 30.0,
-              ichimoku_1m["Senkou span A"].iloc[-26] > ohlc_10s['c'].iloc[-1] <
-              ichimoku_1m["Senkou span B"].iloc[-26])
+        if sop_max_5m < ohlc_10s['c'].iloc[-1] < sop_min_5m or sop_max_1m < ohlc_10s['c'].iloc[-1] < sop_min_1m:
+            print("Se sale del seguimiento porque hay un soporte cercano")
+        else:
+            print("se sale del seguimiento porque se ejecutó operacion o ",
+                  adx_5m["ADX"].iloc[-1] > 20.0, rsi_5m.iloc[-1] > 30.0,
+                  ichimoku_1m["Senkou span A"].iloc[-26] > ohlc_10s['c'].iloc[-1] <
+                  ichimoku_1m["Senkou span B"].iloc[-26])

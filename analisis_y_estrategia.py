@@ -27,13 +27,16 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
     ichi_1m = ichimoku(ohlc_1m)
     macd_10s = MACD(ohlc_10s)
     adx_1m = ADX(ohlc_1m)
+    rsi_1m = RSI(ohlc_1m)
     ichi_5m = ichimoku(ohlc_5m)
     adx_5m = ADX(ohlc_5m)
     rsi_5m = RSI(ohlc_5m)
-    print(ichi_5m["Senkou span A"].iloc[-26] < ohlc_5m['c'].iloc[-1] > ichi_5m["Senkou span B"].iloc[-26],
-          adx_5m["ADX"].iloc[-1] > 20.0 and adx_5m["DI+"].iloc[-1] > adx_5m["DI-"].iloc[-1], rsi_5m.iloc[-1] < 70.0)
-    print(ichi_5m["Senkou span A"].iloc[-26] > ohlc_5m['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26],
-          adx_5m["ADX"].iloc[-1] > 20.0 and adx_5m["DI-"].iloc[-1] > adx_5m["DI+"].iloc[-1], rsi_5m.iloc[-1] > 30.0)
+    print((ichi_5m["Senkou span A"].iloc[-26] < ohlc_5m['c'].iloc[-1] > ichi_5m["Senkou span B"].iloc[-26]),
+            (adx_5m["ADX"].iloc[-2] < adx_5m["ADX"].iloc[-1] > 20.0),
+            (adx_5m["DI+"].iloc[-1] > adx_5m["DI-"].iloc[-1]), (70.0 > rsi_5m.iloc[-1] > rsi_5m.iloc[-2]))
+    print((ichi_5m["Senkou span A"].iloc[-26] > ohlc_5m['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]),
+            (adx_5m["ADX"].iloc[-2] < adx_5m["ADX"].iloc[-1] > 20.0),
+            (adx_5m["DI-"].iloc[-1] > adx_5m["DI+"].iloc[-1]), (rsi_5m.iloc[-2] > rsi_5m.iloc[-1] > 30.0))
     # estrategia #1 predicción de comienzo de tendencia
     if (ichi_1m["Senkou span A"].iloc[-2] <= ichi_1m["Senkou span B"].iloc[-2] and
         ichi_1m["Senkou span A"].iloc[-1] > ichi_1m["Senkou span B"].iloc[-1]) and \
@@ -58,7 +61,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         if (res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min or res_max_5min > ohlc_10s['c'].iloc[
             -1] > res_min_5min) \
                 and detectar_div_macd(macd_10s, ohlc_10s, "bajista"):
-            seguimiento_div(ohlc_1m, ohlc_10s, par, "bajista", macd_10s["MACD"].iloc[-2], macd_10s["MACD"].iloc[-1],
+            seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_10s["MACD"].iloc[-2], macd_10s["MACD"].iloc[-1],
                             monto, client)
             return ""
         else:
@@ -69,18 +72,20 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         if (sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min or sop_min_5min < ohlc_10s['c'].iloc[
             -1] < sop_max_5min) \
                 and detectar_div_macd(macd_10s, ohlc_10s, "alcista"):
-            seguimiento_div(ohlc_1m, ohlc_10s, par, "alcista", macd_10s["MACD"].iloc[-2],
+            seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "alcista", macd_10s["MACD"].iloc[-2],
                             macd_10s["MACD"].iloc[-1], monto, client)
             return ""
         else:
             return ""
     # estrategia #3 seguimiento de tendencia consolidada
     if (ichi_5m["Senkou span A"].iloc[-26] < ohlc_5m['c'].iloc[-1] > ichi_5m["Senkou span B"].iloc[-26]) and \
-            (adx_5m["ADX"].iloc[-1] > 20.0 and adx_5m["DI+"].iloc[-1] > adx_5m["DI-"].iloc[-1]) and \
-            (rsi_5m.iloc[-1] < 70.0) and (res_max_5min >= res_min_5min > ohlc_10s['c'].iloc[-1]):
+            (adx_5m["ADX"].iloc[-2] < adx_5m["ADX"].iloc[-1] > 20.0) and \
+            (adx_5m["DI+"].iloc[-1] > adx_5m["DI-"].iloc[-1]) and (70.0 > rsi_5m.iloc[-1] > rsi_5m.iloc[-2]):
         ichimoku_1m = ichimoku(ohlc_1m)
-        if (ichimoku_1m["Senkou span B"].iloc[-26] < ohlc_10s['c'].iloc[-1] > ichimoku_1m["Senkou span A"].iloc[-26]) and \
-                engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], "alcista"):
+        if (ichimoku_1m["Senkou span B"].iloc[-26] < ohlc_1m['c'].iloc[-1] > ichimoku_1m["Senkou span A"].iloc[-26] and
+            ichimoku_1m["Senkou span B"].iloc[-27] > ohlc_1m['c'].iloc[-2] < ichimoku_1m["Senkou span A"].iloc[-27]) and\
+                engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], "alcista") and \
+                (adx_1m["ADX"].iloc[-2] < adx_1m["ADX"].iloc[-1]) and (rsi_1m.iloc[-1] > rsi_1m.iloc[-2]):
             seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, "compraf",
                                   res_max_5min, res_min_5min,
                                   sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
@@ -89,12 +94,13 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         else:
             return ""
     elif (ichi_5m["Senkou span A"].iloc[-26] > ohlc_5m['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]) and \
-            (adx_5m["ADX"].iloc[-1] > 20.0 and adx_5m["DI-"].iloc[-1] > adx_5m["DI+"].iloc[-1]) and \
-            (rsi_5m.iloc[-1] > 30.0) and (sop_min_5min <= sop_max_5min < ohlc_10s['c'].iloc[-1]):
+            (adx_5m["ADX"].iloc[-2] < adx_5m["ADX"].iloc[-1] > 20.0) and \
+            (adx_5m["DI-"].iloc[-1] > adx_5m["DI+"].iloc[-1]) and (rsi_5m.iloc[-2] > rsi_5m.iloc[-1] > 30.0):
         ichimoku_1m = ichimoku(ohlc_1m)
-        if (ichimoku_1m["Senkou span B"].iloc[-26] > ohlc_10s['c'].iloc[-1] < ichimoku_1m["Senkou span A"].iloc[
-            -26]) and \
-                engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], "bajista"):
+        if (ichimoku_1m["Senkou span B"].iloc[-26] > ohlc_1m['c'].iloc[-1] < ichimoku_1m["Senkou span A"].iloc[-26] and
+            ichimoku_1m["Senkou span B"].iloc[-27] > ohlc_1m['c'].iloc[-2] < ichimoku_1m["Senkou span A"].iloc[-27]) and\
+                engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], "bajista") and \
+                (adx_1m["ADX"].iloc[-2] < adx_1m["ADX"].iloc[-1]) and (rsi_1m.iloc[-1] < rsi_1m.iloc[-2]):
             seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, "ventaf",
                                   res_max_5min, res_min_5min,
                                   sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
