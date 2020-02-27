@@ -163,13 +163,6 @@
       <option name="presentableId" value="Default" />
       <updated>1578051824094</updated>
     </task>
-    <task id="LOCAL-00010" summary="- eliminado clausula try except en modulos ExtraccionDatosFxcmpy.py y ExtraccionDatosOanda.py y retirado sustracción del tiempo 10 segundos en el time.sleep después del primer contador ya que ello causaba que el script se ejecutara 10 segundos antes por cada ejecución acumulandose la sustracción de tiempo y llevando a errores inesperado">
-      <created>1578524505741</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1578524505741</updated>
-    </task>
     <task id="LOCAL-00011" summary="- modificado las clausulas try except en ExtraccionDatosOanda.py, ExtraccionDatosFxcmpy.py y el main para mejor rendimiento">
       <created>1578649691642</created>
       <option name="number" value="00011" />
@@ -506,7 +499,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582328987969</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="- agregadas condiciones a estragegia #3 para mejor precisión de las señales&#10;- agregada condicion a estrategia #2 para mejor precision">
+      <created>1582679058014</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1582679058016</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -524,7 +524,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- Creado módulo para extraer datos a 5 segundos de forma constante mediante subproceso" />
     <MESSAGE value="- definidos los tiempos de compra y venta unicos en el modulo Ejecucion.py&#10;- incluida divergencias en historigrama del macd para tomar decision de compra o venta" />
     <MESSAGE value="- editado código en main para verificar si la estrategia a aplicar es a favor de la tendencia en contra o todo y analizar y operar en ese sentido de la estrategia" />
     <MESSAGE value="- tomado en cuenta soportes y resistencias a 1 minuto en operacion SeguimientoIchimoku.py" />
@@ -549,7 +548,8 @@
     <MESSAGE value="- añadido gbp usd a la lista de pares con los que se puede operar de forma automática" />
     <MESSAGE value="- corregido bug a la hora de escoger las divisas en la página binary&#10;- introducido la funcion de dar el monto a invertir para realizar martingala de forma mas cómoda con cada divisa por separado&#10;- pulido código para manejar las excepciones e indentificarlas&#10;- Descartado el crear procesos para las funciones de SeguimientoDivergencia.py y SeguimientoIchimoku.py ya que era innecesario crear un proceso aparte para ejecutar estas funciones" />
     <MESSAGE value="- corregido error en estrategia #3 de seguimiento de la tendencia" />
-    <option name="LAST_COMMIT_MESSAGE" value="- corregido error en estrategia #3 de seguimiento de la tendencia" />
+    <MESSAGE value="- agregadas condiciones a estragegia #3 para mejor precisión de las señales&#10;- agregada condicion a estrategia #2 para mejor precision" />
+    <option name="LAST_COMMIT_MESSAGE" value="- agregadas condiciones a estragegia #3 para mejor precisión de las señales&#10;- agregada condicion a estrategia #2 para mejor precision" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
@@ -564,10 +564,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="679" y="135" key="#main/0.0.1920.1040@0.0.1920.1040" timestamp="1579064399171" />
-    <state x="343" y="123" key="CommitChangelistDialog2" timestamp="1582328981109">
+    <state x="343" y="123" key="CommitChangelistDialog2" timestamp="1582679050172">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="343" y="123" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1582328981109" />
+    <state x="343" y="123" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1582679050172" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1582068523663">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -612,10 +612,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="512" y="158" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1581055407181" />
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1582585082490">
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1582766084760">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582585082490" />
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582766084760" />
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578071106605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

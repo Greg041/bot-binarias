@@ -24,8 +24,11 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                         and (adx_10s["DI-"].iloc[-1] > adx_10s["DI+"].iloc[-1])\
                         and (adx_10s["DI-"].iloc[-1] > adx_10s["DI-"].iloc[-2]):
                     ejecucion("ventac", par, '3', monto)
-                    print(ADX(ohlc_5m)["ADX"].iloc[-2], ADX(ohlc_5m)["ADX"].iloc[-1])
-                    print(RSI(ohlc_5m).iloc[-2], RSI(ohlc_5m).iloc[-1])
+                    print("adx 5m:", ADX(ohlc_5m)["ADX"].iloc[-2], ADX(ohlc_5m)["ADX"].iloc[-1])
+                    print("DI+ 5m:", ADX(ohlc_5m)["DI+"].iloc[-1], "DI-", ADX(ohlc_5m)["DI-"].iloc[-1])
+                    print("rsi 5m:", RSI(ohlc_5m).iloc[-2], RSI(ohlc_5m).iloc[-1])
+                    print("adx 1m", adx_1m["ADX"].iloc[-2], adx_1m["ADX"].iloc[-1])
+                    print("rsi 1m", rsi_1m.iloc[-2], rsi_1m.iloc[-1])
                     break
                 else:
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
@@ -47,10 +50,6 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                 time.sleep(10 - ((time.time() - starttime) % 10))
             except Exception as e:
                 print(f"excepcion {e}: {type(e)}")
-                print("Hubo error en calculo de adx")
-                print(adx_10s)
-                print(adx_1m)
-                ExtraccionOanda(client, 500, 'M1', par)
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                 ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                 time.sleep(10 - ((time.time() - starttime) % 10))
@@ -70,8 +69,11 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                         and (adx_10s["DI+"].iloc[-1] > adx_10s["DI-"].iloc[-1])\
                         and (adx_10s["DI+"].iloc[-1] > adx_10s["DI+"].iloc[-2]):
                     ejecucion("comprac", par, '3', monto)
-                    print(ADX(ohlc_5m)["ADX"].iloc[-2], ADX(ohlc_5m)["ADX"].iloc[-1])
-                    print(RSI(ohlc_5m).iloc[-2], RSI(ohlc_5m).iloc[-1])
+                    print("adx 5m:", ADX(ohlc_5m)["ADX"].iloc[-2], ADX(ohlc_5m)["ADX"].iloc[-1])
+                    print("DI+ 5m:", ADX(ohlc_5m)["DI+"].iloc[-1], "DI- 5m", ADX(ohlc_5m)["DI-"].iloc[-1])
+                    print("rsi 5m:", RSI(ohlc_5m).iloc[-2], RSI(ohlc_5m).iloc[-1])
+                    print("adx 1m", adx_1m["ADX"].iloc[-2], adx_1m["ADX"].iloc[-1])
+                    print("rsi 1m", rsi_1m.iloc[-2], rsi_1m.iloc[-1])
                     break
                 else:
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
@@ -93,10 +95,6 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                 time.sleep(10 - ((time.time() - starttime) % 10))
             except Exception as e:
                 print(f"excepcion {e}: {type(e)}")
-                print("hubo error en calculo de adx")
-                print(adx_10s)
-                print(adx_1m)
-                ExtraccionOanda(client, 500, 'M1', par)
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                 ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                 time.sleep(10 - ((time.time() - starttime) % 10))

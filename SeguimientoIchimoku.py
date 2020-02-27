@@ -224,6 +224,7 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                                 environment="practice")
                         ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                         ichimoku_1m = ichimoku(ohlc_1m)
+                        res_max_1m, res_min_1m, sop_min_1m, sop_max_1m = calcular_rango_sop_res(ohlc_1m, 120)
                     if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
                             int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
                             (ohlc_5m.iloc[-1].name[
@@ -285,6 +286,7 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                                 environment="practice")
                         ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                         ichimoku_1m = ichimoku(ohlc_1m)
+                        res_max_1m, res_min_1m, sop_min_1m, sop_max_1m = calcular_rango_sop_res(ohlc_1m, 120)
                     if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
                             int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
                             (ohlc_5m.iloc[-1].name[
@@ -304,7 +306,7 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                     print(f"excepcion {e}: {type(e)}")
                     print("hubo un error en la lectura de datos 1m o 5m en seguimiento ichimoku 2")
                 time.sleep(10 - ((time.time() - starttime) % 10))
-        if sop_max_5m < ohlc_10s['c'].iloc[-1] < sop_min_5m or sop_max_1m < ohlc_10s['c'].iloc[-1] < sop_min_1m:
+        if sop_max_5m > ohlc_10s['c'].iloc[-1] > sop_min_5m or sop_max_1m > ohlc_10s['c'].iloc[-1] > sop_min_1m:
             print("Se sale del seguimiento porque hay un soporte cercano")
         else:
             print("se sale del seguimiento porque se ejecutó operacion o ",

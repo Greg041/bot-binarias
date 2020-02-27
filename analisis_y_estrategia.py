@@ -83,9 +83,13 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
             (adx_5m["DI+"].iloc[-1] > adx_5m["DI-"].iloc[-1]) and (70.0 > rsi_5m.iloc[-1] > rsi_5m.iloc[-2]):
         ichimoku_1m = ichimoku(ohlc_1m)
         if (ichimoku_1m["Senkou span B"].iloc[-26] < ohlc_1m['c'].iloc[-1] > ichimoku_1m["Senkou span A"].iloc[-26] and
-            ichimoku_1m["Senkou span B"].iloc[-27] > ohlc_1m['c'].iloc[-2] < ichimoku_1m["Senkou span A"].iloc[-27]) and\
-                engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], "alcista") and \
-                (adx_1m["ADX"].iloc[-2] < adx_1m["ADX"].iloc[-1]) and (rsi_1m.iloc[-1] > rsi_1m.iloc[-2]):
+            ichimoku_1m["Senkou span B"].iloc[-27] < ohlc_1m['c'].iloc[-2] > ichimoku_1m["Senkou span A"].iloc[-27]) and\
+                ((engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], "alcista")) or
+                 (ohlc_1m['c'].iloc[-2] < ohlc_1m['o'].iloc[-2] and ohlc_1m['c'].iloc[-1] > ohlc_1m['o'].iloc[-1] and
+                  ohlc_1m['c'].iloc[-1] == ohlc_1m['h'].iloc[-1])) and \
+                (adx_1m["ADX"].iloc[-2] < adx_1m["ADX"].iloc[-1]) and (rsi_1m.iloc[-1] > rsi_1m.iloc[-2]) and \
+                (ichi_1m["tenkan-sen"].iloc[-1] > ichi_1m["kijun-sen"].iloc[-1]):
+            print("engulfing:", engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], "alcista"))
             seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, "compraf",
                                   res_max_5min, res_min_5min,
                                   sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
@@ -98,9 +102,13 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
             (adx_5m["DI-"].iloc[-1] > adx_5m["DI+"].iloc[-1]) and (rsi_5m.iloc[-2] > rsi_5m.iloc[-1] > 30.0):
         ichimoku_1m = ichimoku(ohlc_1m)
         if (ichimoku_1m["Senkou span B"].iloc[-26] > ohlc_1m['c'].iloc[-1] < ichimoku_1m["Senkou span A"].iloc[-26] and
-            ichimoku_1m["Senkou span B"].iloc[-27] > ohlc_1m['c'].iloc[-2] < ichimoku_1m["Senkou span A"].iloc[-27]) and\
-                engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], "bajista") and \
-                (adx_1m["ADX"].iloc[-2] < adx_1m["ADX"].iloc[-1]) and (rsi_1m.iloc[-1] < rsi_1m.iloc[-2]):
+            ichimoku_1m["Senkou span B"].iloc[-27] > ohlc_1m['c'].iloc[-2] < ichimoku_1m["Senkou span A"].iloc[-27]) and \
+                ((engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], "bajista")) or
+                 (ohlc_1m['c'].iloc[-2] > ohlc_1m['o'].iloc[-2] and ohlc_1m['c'].iloc[-1] < ohlc_1m['o'].iloc[-1] and
+                  ohlc_1m['c'].iloc[-1] == ohlc_1m['l'].iloc[-1])) and \
+                (adx_1m["ADX"].iloc[-2] < adx_1m["ADX"].iloc[-1]) and (rsi_1m.iloc[-1] < rsi_1m.iloc[-2]) and \
+                (ichi_1m["tenkan-sen"].iloc[-1] < ichi_1m["kijun-sen"].iloc[-1]):
+            print("engulfing:", engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], "bajista"))
             seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, "ventaf",
                                   res_max_5min, res_min_5min,
                                   sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
