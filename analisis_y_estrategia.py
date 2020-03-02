@@ -92,7 +92,9 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
                   ohlc_1m['c'].iloc[-1] == ohlc_1m['h'].iloc[-1])) and \
                 (adx_1m["ADX"].iloc[-2] < adx_1m["ADX"].iloc[-1]) and (rsi_1m.iloc[-1] > rsi_1m.iloc[-2]) and \
                 (ichi_1m["tenkan-sen"].iloc[-1] > ichi_1m["kijun-sen"].iloc[-1]):
-            print("engulfing:", engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], "alcista"))
+            fichero_est_3 = open("datos estrategia 3.txt", "at")
+            fichero_est_3.write(f"\nengulfing: {engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], 'alcista')}")
+            fichero_est_3.close()
             seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, "compraf", res_max_30m, res_min_30m, sop_min_30m,
                                   sop_max_30m, res_max_5min, res_min_5min,
                                   sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
@@ -111,7 +113,9 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
                   ohlc_1m['c'].iloc[-1] == ohlc_1m['l'].iloc[-1])) and \
                 (adx_1m["ADX"].iloc[-2] < adx_1m["ADX"].iloc[-1]) and (rsi_1m.iloc[-1] < rsi_1m.iloc[-2]) and \
                 (ichi_1m["tenkan-sen"].iloc[-1] < ichi_1m["kijun-sen"].iloc[-1]):
-            print("engulfing:", engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], "bajista"))
+            fichero_est_3 = open("datos estrategia 3.txt", "at")
+            fichero_est_3.write(f"\nengulfing: {engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], 'bajista')}")
+            fichero_est_3.close()
             seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, "ventaf", res_max_30m, res_min_30m, sop_min_30m,
                                   sop_max_30m, res_max_5min, res_min_5min,
                                   sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,

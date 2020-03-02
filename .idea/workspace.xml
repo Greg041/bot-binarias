@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/datos diverencias.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/datos estrategia 3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/datos_M30.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/x.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ejecucion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ejecucion.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SeguimientoDivergencia.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoDivergencia.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SeguimientoIchimoku.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoIchimoku.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datos_10s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_10s.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datos_M1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/prueba.py" beforeDir="false" afterPath="$PROJECT_DIR$/prueba.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,13 +156,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1578051824094</updated>
-    </task>
-    <task id="LOCAL-00011" summary="- modificado las clausulas try except en ExtraccionDatosOanda.py, ExtraccionDatosFxcmpy.py y el main para mejor rendimiento">
-      <created>1578649691642</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1578649691642</updated>
     </task>
     <task id="LOCAL-00012" summary="- modificado try except en ambos modulo de extraccion de datos y el main para mejor funcionalidad">
       <created>1578663500970</created>
@@ -513,7 +493,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582679058016</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="- modificados parametros en estrategia #4">
+      <created>1583190650272</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1583190650274</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -531,7 +518,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- editado código en main para verificar si la estrategia a aplicar es a favor de la tendencia en contra o todo y analizar y operar en ese sentido de la estrategia" />
     <MESSAGE value="- tomado en cuenta soportes y resistencias a 1 minuto en operacion SeguimientoIchimoku.py" />
     <MESSAGE value="- manejadas excepciones en la lectura de datos archivos csv en SeguimientoIchimoku.py" />
     <MESSAGE value="- se modifico estrategia 2 en divergencias para hacer seguimiento esperando el momento adecuado para hacer la compra o la venta&#10;- se creo modulo para hacer seguimiento a las divergencias" />
@@ -556,7 +542,8 @@
     <MESSAGE value="- corregido error en estrategia #3 de seguimiento de la tendencia" />
     <MESSAGE value="- agregadas condiciones a estragegia #3 para mejor precisión de las señales&#10;- agregada condicion a estrategia #2 para mejor precision" />
     <MESSAGE value="- mejorado codigo para recoleccion de datos en estrategia #2 y #3&#10;- arreglado error en modulo analisis_y_estrategia.py en estrategia #3 en señales de venta" />
-    <option name="LAST_COMMIT_MESSAGE" value="- mejorado codigo para recoleccion de datos en estrategia #2 y #3&#10;- arreglado error en modulo analisis_y_estrategia.py en estrategia #3 en señales de venta" />
+    <MESSAGE value="- modificados parametros en estrategia #4" />
+    <option name="LAST_COMMIT_MESSAGE" value="- modificados parametros en estrategia #4" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
@@ -571,10 +558,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="679" y="135" key="#main/0.0.1920.1040@0.0.1920.1040" timestamp="1579064399171" />
-    <state x="343" y="123" key="CommitChangelistDialog2" timestamp="1582769213726">
+    <state x="343" y="123" key="CommitChangelistDialog2" timestamp="1583190630118">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="343" y="123" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1582769213726" />
+    <state x="343" y="123" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1583190630118" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1582068523663">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
