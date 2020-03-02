@@ -70,7 +70,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                     -26]) and \
                         (ichi_10s["tenkan-sen"].iloc[-2] <= ichi_10s["kijun-sen"].iloc[-2] and
                          ichi_10s["tenkan-sen"].iloc[-1] > ichi_10s["kijun-sen"].iloc[-1]):
-                    ejecucion(tipo_de_operacion, par, '5', monto)
+                    ejecucion(tipo_de_operacion, par, '10', monto)
                     break
                 # Se verifica que el dataframe esté actualizado tomando en cuenta el minuto actual y el ultimo
                 # minuto del dataframe para actualizar los valores del ichimoku
@@ -140,7 +140,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                     -26]) and \
                         (ichi_10s["tenkan-sen"].iloc[-2] >= ichi_10s["kijun-sen"].iloc[-2] and
                          ichi_10s["tenkan-sen"].iloc[-1] < ichi_10s["kijun-sen"].iloc[-1]):
-                    ejecucion(tipo_de_operacion, par, '5', monto)
+                    ejecucion(tipo_de_operacion, par, '10', monto)
                     break
                 # Se verifica que el dataframe esté actualizado tomando en cuenta el minuto actual y el ultimo
                 # minuto del dataframe para actualizar los valores del ichimoku
@@ -185,8 +185,9 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                   ichimoku_1m["Senkou span A"].iloc[-1] < ichimoku_1m["Senkou span B"].iloc[-1])
 
 
-def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, res_max_5m, res_min_5m,
-                          sop_min_5m, sop_max_5m, res_max_1m, res_min_1m, sop_min_1m, sop_max_1m, monto, client):
+def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, res_max_30m, res_min_30m, sop_min_30m,
+                          sop_max_30m, res_max_5m, res_min_5m, sop_min_5m, sop_max_5m, res_max_1m, res_min_1m,
+                          sop_min_1m, sop_max_1m, monto, client):
     print("estamos en seguimiento")
     if tipo_de_operacion == "compraf":
         adx_5m = ADX(ohlc_5m)
@@ -196,18 +197,22 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                 (ichimoku_1m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] > ichimoku_1m["Senkou span B"].iloc[
                     -26]):
             # Si choca contra una resistencia sale del seguimiento
-            if res_max_5m > ohlc_10s['c'].iloc[-1] > res_min_5m or res_max_1m > ohlc_10s['c'].iloc[-1] > res_min_1m:
+            if res_max_5m > ohlc_10s['c'].iloc[-1] > res_min_5m or res_max_1m > ohlc_10s['c'].iloc[-1] > res_min_1m or \
+                    res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m:
                 break
             starttime = time.time()
             ichimoku_10s = ichimoku(ohlc_10s)
             print(ichimoku_10s["tenkan-sen"].iloc[-1], ichimoku_10s["kijun-sen"].iloc[-1])
             if ichimoku_10s["tenkan-sen"].iloc[-1] > ichimoku_10s["kijun-sen"].iloc[-1]:
-                ejecucion(tipo_de_operacion, par, '5', monto)
-                print("precio:", ohlc_10s['c'].iloc[-1])
-                print("ichimoku 10s sspan A:", ichimoku_10s["Senkou span A"].iloc[-1])
-                print("ichimoku 10s sspan B:", ichimoku_10s["Senkou span B"].iloc[-1])
-                print("tenkan-sen 10s:", ichimoku_10s["tenkan-sen"].iloc[-1])
-                print("kijun-sen 10s:", ichimoku_10s["kijun-sen"].iloc[-1])
+                ejecucion(tipo_de_operacion, par, '10', monto)
+                fichero_est_3 = open("datos estrategia 3.txt", "at")
+                fichero_est_3.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
+                                    f"precio actual: {ohlc_10s.iloc[-1]} \n"
+                                    f"ichimoku 10s sspan A: {ichimoku_10s['Senkou span A'].iloc[-1]} \n"
+                                    f"ichimoku 10s sspan B: {ichimoku_10s['Senkou span B'].iloc[-1]} \n"
+                                    f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
+                                    f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-1]} \n")
+                fichero_est_3.close()
                 time.sleep(120)
                 break
             else:
@@ -244,7 +249,8 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                     print(f"excepcion {e}: {type(e)}")
                     print("hubo un error en la lectura de datos 1m o 5m en seguimiento ichimoku 2")
                 time.sleep(10 - ((time.time() - starttime) % 10))
-        if res_max_5m > ohlc_10s['c'].iloc[-1] > res_min_5m or res_max_1m > ohlc_10s['c'].iloc[-1] > res_min_1m:
+        if res_max_5m > ohlc_10s['c'].iloc[-1] > res_min_5m or res_max_1m > ohlc_10s['c'].iloc[-1] > res_min_1m or \
+                    res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m:
             print("se sale del seguimiento porque hay una resistencia cercana")
         else:
             print("se sale del seguimiento porque se ejecutó operacion o",
@@ -258,18 +264,22 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
         while (adx_5m["ADX"].iloc[-1] > 20.0) \
                 and (rsi_5m.iloc[-1] > 30.0) and (ichimoku_1m["Senkou span A"].iloc[-26] > ohlc_10s['c'].iloc[-1] <
                                                   ichimoku_1m["Senkou span B"].iloc[-26]):
-            if sop_max_5m > ohlc_10s['c'].iloc[-1] > sop_min_5m or sop_max_1m > ohlc_10s['c'].iloc[-1] > sop_min_1m:
+            if sop_max_5m > ohlc_10s['c'].iloc[-1] > sop_min_5m or sop_max_1m > ohlc_10s['c'].iloc[-1] > sop_min_1m or\
+                    sop_max_30m > ohlc_10s['c'].iloc[-1] > sop_min_30m:
                 break
             starttime = time.time()
             ichimoku_10s = ichimoku(ohlc_10s)
             print(ichimoku_10s["tenkan-sen"].iloc[-1], ichimoku_10s["kijun-sen"].iloc[-1])
             if ichimoku_10s["tenkan-sen"].iloc[-1] < ichimoku_10s["kijun-sen"].iloc[-1]:
-                ejecucion(tipo_de_operacion, par, '5', monto)
-                print("precio:", ohlc_10s['c'].iloc[-1])
-                print("ichimoku 10s sspan A:", ichimoku_10s["Senkou span A"].iloc[-1])
-                print("ichimoku 10s sspan B:", ichimoku_10s["Senkou span B"].iloc[-1])
-                print("tenkan-sen 10s:", ichimoku_10s["tenkan-sen"].iloc[-1])
-                print("kijun-sen 10s:", ichimoku_10s["kijun-sen"].iloc[-1])
+                ejecucion(tipo_de_operacion, par, '10', monto)
+                fichero_est_3 = open("datos estrategia 3.txt", "at")
+                fichero_est_3.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
+                                    f"precio actual: {ohlc_10s.iloc[-1]} \n"
+                                    f"ichimoku 10s sspan A: {ichimoku_10s['Senkou span A'].iloc[-1]} \n"
+                                    f"ichimoku 10s sspan B: {ichimoku_10s['Senkou span B'].iloc[-1]} \n"
+                                    f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
+                                    f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-1]} \n")
+                fichero_est_3.close()
                 time.sleep(120)
                 break
             else:
@@ -306,7 +316,8 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                     print(f"excepcion {e}: {type(e)}")
                     print("hubo un error en la lectura de datos 1m o 5m en seguimiento ichimoku 2")
                 time.sleep(10 - ((time.time() - starttime) % 10))
-        if sop_max_5m > ohlc_10s['c'].iloc[-1] > sop_min_5m or sop_max_1m > ohlc_10s['c'].iloc[-1] > sop_min_1m:
+        if sop_max_5m > ohlc_10s['c'].iloc[-1] > sop_min_5m or sop_max_1m > ohlc_10s['c'].iloc[-1] > sop_min_1m or\
+                    sop_max_30m > ohlc_10s['c'].iloc[-1] > sop_min_30m:
             print("Se sale del seguimiento porque hay un soporte cercano")
         else:
             print("se sale del seguimiento porque se ejecutó operacion o ",

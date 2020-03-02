@@ -13,28 +13,52 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
     if tipo_de_divergencia == "bajista":
         punto_max_macd = punto_max_min_macd
         punto_ultimo_macd = punto_ultimo
+        adx_1m = ADX(ohlc_1m)
+        rsi_1m = RSI(ohlc_1m)
+        adx_5m = ADX(ohlc_5m)
+        rsi_5m = RSI(ohlc_5m)
         while punto_ultimo_macd < punto_max_macd:
             starttime = time.time()
-            adx_1m = ADX(ohlc_1m)
-            rsi_1m = RSI(ohlc_1m)
             adx_10s = ADX(ohlc_10s)
             try:
-                print(adx_1m["ADX"].iloc[-1], adx_10s["DI-"].iloc[-1], adx_10s["DI+"].iloc[-1])
+                print(adx_5m["ADX"].iloc[-1], adx_1m["ADX"].iloc[-1], adx_10s["DI-"].iloc[-1], adx_10s["DI+"].iloc[-1])
                 if (adx_1m["ADX"].iloc[-1] < adx_1m["ADX"].iloc[-2]) and (rsi_1m.iloc[-1] < rsi_1m.iloc[-2]) \
                         and (adx_10s["DI-"].iloc[-1] > adx_10s["DI+"].iloc[-1])\
-                        and (adx_10s["DI-"].iloc[-1] > adx_10s["DI-"].iloc[-2]):
-                    ejecucion("ventac", par, '3', monto)
-                    print("adx 5m:", ADX(ohlc_5m)["ADX"].iloc[-2], ADX(ohlc_5m)["ADX"].iloc[-1])
-                    print("DI+ 5m:", ADX(ohlc_5m)["DI+"].iloc[-1], "DI-", ADX(ohlc_5m)["DI-"].iloc[-1])
-                    print("rsi 5m:", RSI(ohlc_5m).iloc[-2], RSI(ohlc_5m).iloc[-1])
-                    print("adx 1m", adx_1m["ADX"].iloc[-2], adx_1m["ADX"].iloc[-1])
-                    print("rsi 1m", rsi_1m.iloc[-2], rsi_1m.iloc[-1])
+                        and (adx_10s["DI-"].iloc[-1] > adx_10s["DI-"].iloc[-2]) and (adx_5m["ADX"].iloc[-2] >
+                                                                                     adx_5m["ADX"].iloc[-1]):
+                    ejecucion("ventac", par, '10', monto)
+                    fichero_div = open("datos divergencias.txt", "at")
+                    fichero_div.write(f"\nprecio anterior: {ohlc_1m.iloc[-2]} \n"
+                                      f"precio actual: {ohlc_1m.iloc[-1]} \n"
+                                      f"adx 5m: {adx_5m['ADX'].iloc[-2]} {adx_5m['ADX'].iloc[-1]} \n"
+                                      f"DI+ 5m: {adx_5m['DI+'].iloc[-1]} DI- {adx_5m['DI-'].iloc[-1]} \n"
+                                      f"rsi 5m: {rsi_5m.iloc[-2]} {rsi_5m.iloc[-1]} \n"
+                                      f"adx 1m {adx_1m['ADX'].iloc[-2]} {adx_1m['ADX'].iloc[-1]} \n"
+                                      f"rsi 1m {rsi_1m.iloc[-2]} {rsi_1m.iloc[-1]} \n")
+                    fichero_div.close()
                     break
                 else:
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
                             ohlc_1m.iloc[-1].name[14:16]):
                         try:
                             ExtraccionOanda(client, 500, 'M1', par)
+                            ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
+                            adx_1m = ADX(ohlc_1m)
+                            rsi_1m = RSI(ohlc_1m)
+                        except Exception as e:
+                            print(f"excepcion {e}: {type(e)}")
+                            client = oandapyV20.API(
+                                access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                                environment="practice")
+                    if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
+                            int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
+                            (ohlc_5m.iloc[-1].name[
+                             14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
+                        try:
+                            ExtraccionOanda(client, 500, 'M5', par)
+                            ohlc_5m = pd.read_csv("datos_M5.csv", index_col="time")
+                            adx_5m = ADX(ohlc_5m)
+                            rsi_5m = RSI(ohlc_5m)
                         except Exception as e:
                             print(f"excepcion {e}: {type(e)}")
                             client = oandapyV20.API(
@@ -42,7 +66,6 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                 environment="practice")
                     try:
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
-                        ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                         punto_ultimo_macd = MACD(ohlc_10s)["MACD"].iloc[-1]
                     except Exception as e:
                         print(f"excepcion {e}: {type(e)}")
@@ -58,28 +81,52 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
     elif tipo_de_divergencia == "alcista":
         punto_min_macd = punto_max_min_macd
         punto_ultimo_macd = punto_ultimo
+        adx_1m = ADX(ohlc_1m)
+        rsi_1m = RSI(ohlc_1m)
+        adx_5m = ADX(ohlc_5m)
+        rsi_5m = RSI(ohlc_5m)
         while punto_ultimo_macd > punto_min_macd:
             starttime = time.time()
-            adx_1m = ADX(ohlc_1m)
             adx_10s = ADX(ohlc_10s)
-            rsi_1m = RSI(ohlc_1m)
             try:
                 print(adx_1m["ADX"].iloc[-1], adx_10s["DI+"].iloc[-1], adx_10s["DI-"].iloc[-1])
                 if (adx_1m["ADX"].iloc[-1] < adx_1m["ADX"].iloc[-2]) and (rsi_1m.iloc[-1] > rsi_1m.iloc[-2]) \
                         and (adx_10s["DI+"].iloc[-1] > adx_10s["DI-"].iloc[-1])\
-                        and (adx_10s["DI+"].iloc[-1] > adx_10s["DI+"].iloc[-2]):
-                    ejecucion("comprac", par, '3', monto)
-                    print("adx 5m:", ADX(ohlc_5m)["ADX"].iloc[-2], ADX(ohlc_5m)["ADX"].iloc[-1])
-                    print("DI+ 5m:", ADX(ohlc_5m)["DI+"].iloc[-1], "DI- 5m", ADX(ohlc_5m)["DI-"].iloc[-1])
-                    print("rsi 5m:", RSI(ohlc_5m).iloc[-2], RSI(ohlc_5m).iloc[-1])
-                    print("adx 1m", adx_1m["ADX"].iloc[-2], adx_1m["ADX"].iloc[-1])
-                    print("rsi 1m", rsi_1m.iloc[-2], rsi_1m.iloc[-1])
+                        and (adx_10s["DI+"].iloc[-1] > adx_10s["DI+"].iloc[-2]) and (adx_5m["ADX"].iloc[-2] >
+                                                                                     adx_5m["ADX"].iloc[-1]):
+                    ejecucion("comprac", par, '10', monto)
+                    fichero_div = open("datos divergencias.txt", "at")
+                    fichero_div.write(f"\nprecio anterior: {ohlc_1m.iloc[-2]} \n"
+                                      f"precio actual: {ohlc_1m.iloc[-1]} \n"
+                                      f"adx 5m: {adx_5m['ADX'].iloc[-2]} {adx_5m['ADX'].iloc[-1]} \n"
+                                      f"DI+ 5m: {adx_5m['DI+'].iloc[-1]} DI- {adx_5m['DI-'].iloc[-1]} \n"
+                                      f"rsi 5m: {rsi_5m.iloc[-2]} {rsi_5m.iloc[-1]} \n"
+                                      f"adx 1m {adx_1m['ADX'].iloc[-2]} {adx_1m['ADX'].iloc[-1]} \n"
+                                      f"rsi 1m {rsi_1m.iloc[-2]} {rsi_1m.iloc[-1]} \n")
+                    fichero_div.close()
                     break
                 else:
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
                             ohlc_1m.iloc[-1].name[14:16]):
                         try:
                             ExtraccionOanda(client, 500, 'M1', par)
+                            ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
+                            adx_1m = ADX(ohlc_1m)
+                            rsi_1m = RSI(ohlc_1m)
+                        except Exception as e:
+                            print(f"excepcion {e}: {type(e)}")
+                            client = oandapyV20.API(
+                                access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                                environment="practice")
+                    if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
+                            int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
+                            (ohlc_5m.iloc[-1].name[
+                             14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
+                        try:
+                            ExtraccionOanda(client, 500, 'M5', par)
+                            ohlc_5m = pd.read_csv("datos_M5.csv", index_col="time")
+                            adx_5m = ADX(ohlc_5m)
+                            rsi_5m = RSI(ohlc_5m)
                         except Exception as e:
                             print(f"excepcion {e}: {type(e)}")
                             client = oandapyV20.API(
@@ -87,7 +134,6 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                 environment="practice")
                     try:
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
-                        ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                         punto_ultimo_macd = MACD(ohlc_10s)["MACD"].iloc[-1]
                     except Exception as e:
                         print(f"excepcion {e}: {type(e)}")

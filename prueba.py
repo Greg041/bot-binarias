@@ -29,14 +29,4 @@ def proceso():
 
 
 if __name__ == "__main__":
-    click_image("par.jpg", (489, 228), "left", 0.05)
-    time.sleep(0.3)
-    pyautogui.leftClick(x=1072, y=290)
-    pyautogui.leftClick(x=1072, y=290)
-    pyautogui.leftClick(x=1072, y=290)
-    pyautogui.leftClick(x=1072, y=290)
-    pyautogui.leftClick(x=1072, y=290)
-    pyautogui.leftClick(x=1072, y=290)
-    pyautogui.leftClick(x=1072, y=290)
-    pyautogui.leftClick(x=1072, y=290)
-    click_image("par_eur_usd.jpg", (817, 475), "left", 0.05)
+    click_image("x.jpg", (1388, 292), "left", 0.05)

@@ -47,6 +47,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
                             environment="practice")
     ExtraccionOanda(client, 500, 'M1', divisa)
     ExtraccionOanda(client, 500, 'M5', divisa)
+    ExtraccionOanda(client, 500, 'M30', divisa)
     proceso_10s = Process(target=extraccion_10s_continua, args=(divisa,))
     proceso_10s.start()
     datos_1min = pd.read_csv("datos_M1.csv", index_col="time")
@@ -57,6 +58,10 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
     # Se calcula el rango de soporte y resistencia de 5 minuto a un rango de 50 velas
     resistencia_punto_mayor_5m, resistencia_punto_menor_5m, soporte_punto_menor_5m, soporte_punto_mayor_5m = \
         calcular_rango_sop_res(datos_5min, 50)
+    datos_30min = pd.read_csv("datos_M30.csv", index_col="time")
+    # Se calcula el rango de soporte y resistencia de 30 minuto a un rango de 50 velas
+    resistencia_punto_mayor_30m, resistencia_punto_menor_30m, soporte_punto_menor_30m, soporte_punto_mayor_30m = \
+        calcular_rango_sop_res(datos_30min, 50)
     while time.time() <= timeout:
         try:
             if numero_noticias == 1:
@@ -74,8 +79,9 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
                     time.sleep(3600)
                 elif time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[:-3] == horas_noticias[2]:
                     time.sleep(3600)
+            # actualizacion de datos 1m
             if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
-                datos_1min.iloc[-1].name[14:16]):
+                    datos_1min.iloc[-1].name[14:16]):
                 try:
                     ExtraccionOanda(client, 500, 'M1', divisa)
                 except Exception as e:
@@ -86,6 +92,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
                 datos_1min = pd.read_csv("datos_M1.csv", index_col="time")
                 resistencia_punto_mayor_1m, resistencia_punto_menor_1m, soporte_punto_menor_1m, soporte_punto_mayor_1m = \
                     calcular_rango_sop_res(datos_1min, 120)
+            # actualizacion de datos 5m
             if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
                     int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 6) and \
                     (datos_5min.iloc[-1].name[
@@ -100,6 +107,22 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
                 datos_5min = pd.read_csv("datos_M5.csv", index_col="time")
                 resistencia_punto_mayor_5m, resistencia_punto_menor_5m, soporte_punto_menor_5m, soporte_punto_mayor_5m = \
                     calcular_rango_sop_res(datos_5min, 50)
+            # actualizacion de datos 30m
+            if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16])) == 31 or
+                time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) == "01" and \
+                    (datos_30min.iloc[-1].name[
+                     14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
+                try:
+                    ExtraccionOanda(client, 500, 'M30', divisa)
+                except Exception as e:
+                    print(f"excepcion {e}: {type(e)}")
+                    client = oandapyV20.API(
+                        access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                        environment="practice")
+                datos_30min = pd.read_csv("datos_M30.csv", index_col="time")
+                print(datos_30min)
+                resistencia_punto_mayor_30m, resistencia_punto_menor_30m, soporte_punto_menor_30m, soporte_punto_mayor_30m = \
+                    calcular_rango_sop_res(datos_30min, 50)
             datos_10s = pd.read_csv("datos_10s.csv", index_col="time")
         except Exception as e:
             print(f"excepcion {e}: {type(e)}")
@@ -108,7 +131,9 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
             analisis_y_estrategia(datos_10s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
                                   resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
                                   resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
-                                  soporte_punto_menor_5m, soporte_punto_mayor_5m, monto, client)
+                                  soporte_punto_menor_5m, soporte_punto_mayor_5m, resistencia_punto_mayor_30m,
+                                  resistencia_punto_menor_30m, soporte_punto_menor_30m, soporte_punto_mayor_30m,
+                                  monto, client)
         elif tipo_de_est == "favor":
             analisis_y_estrategia_favor(datos_10s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
                                         resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
