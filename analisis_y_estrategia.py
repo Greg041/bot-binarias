@@ -64,8 +64,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
             -1] > res_min_5min) \
                 and detectar_div_macd(macd_1m, ohlc_1m, "bajista"):
             seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_1m["MACD"].iloc[-2],
-                            macd_1m["MACD"].iloc[-1],
-                            monto, client)
+                            macd_1m["MACD"].iloc[-1], monto, client)
             return ""
         else:
             return ""
@@ -133,7 +132,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         print(bollinger_1m["BB_dn"].iloc[-1])
         if (ohlc_10s['c'].iloc[-1] > bollinger_1m["BB_up"].iloc[-1]) and (adx_1m["ADX"].iloc[-1] < 32.0) and (
                 rsi_1m.iloc[-1] < 70):
-            ejecucion("ventac", par, '9', monto)
+            ejecucion("ventac", par, '6', monto)
             fichero_est_4 = open("datos estrategia 4.txt", "at")
             fichero_est_4.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
                                 f"precio actual: {ohlc_10s.iloc[-1]} \n"
@@ -145,13 +144,13 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
                                 f"kijun-sen 1m: {ichi_1m['kijun-sen'].iloc[-1]} \n"
                                 f"rsi 1m: {rsi_1m.iloc[-2]}, {rsi_1m.iloc[-1]} \n"
                                 f"adx 1m: {adx_1m['ADX'].iloc[-2]}, {adx_1m['ADX'].iloc[-1]} \n"
-                                f"DI+ 1m: {adx_1m['DI+'].iloc[-1]}, DI- 1m: {adx_1m['DI-'].iloc[-1]}"
+                                f"DI+ 1m: {adx_1m['DI+'].iloc[-1]}, DI- 1m: {adx_1m['DI-'].iloc[-1]} \n"
                                 f"venta \n")
             fichero_est_4.close()
             time.sleep(60)
         elif (ohlc_10s['c'].iloc[-1] < bollinger_1m["BB_dn"].iloc[-1]) and (adx_1m["ADX"].iloc[-1] < 32.0) and (
                 rsi_1m.iloc[-1] > 30):
-            ejecucion("comprac", par, '9', monto)
+            ejecucion("comprac", par, '6', monto)
             fichero_est_4 = open("datos estrategia 4.txt", "at")
             fichero_est_4.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
                                 f"precio actual: {ohlc_10s.iloc[-1]} \n"
@@ -163,7 +162,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
                                 f"kijun-sen 1m: {ichi_1m['kijun-sen'].iloc[-1]} \n"
                                 f"rsi 1m: {rsi_1m.iloc[-2]}, {rsi_1m.iloc[-1]} \n"
                                 f"adx 1m: {adx_1m['ADX'].iloc[-2]}, {adx_1m['ADX'].iloc[-1]} \n"
-                                f"DI+ 1m: {adx_1m['DI+'].iloc[-1]}, DI- 1m: {adx_1m['DI-'].iloc[-1]}"
+                                f"DI+ 1m: {adx_1m['DI+'].iloc[-1]}, DI- 1m: {adx_1m['DI-'].iloc[-1]} \n"
                                 f"compra \n")
             fichero_est_4.close()
             time.sleep(60)

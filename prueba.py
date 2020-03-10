@@ -29,4 +29,4 @@ def proceso():
 
 
 if __name__ == "__main__":
-    click_image("x.jpg", (1388, 292), "left", 0.05)
+    print(4 < 8 > 7 > 8 > 5)

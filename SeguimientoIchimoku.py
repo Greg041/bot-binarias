@@ -68,7 +68,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                 ichi_10s = ichimoku(ohlc_10s)
                 if (ichi_10s["tenkan-sen"].iloc[-2] <= ichi_10s["kijun-sen"].iloc[-2] and
                          ichi_10s["tenkan-sen"].iloc[-1] > ichi_10s["kijun-sen"].iloc[-1]):
-                    ejecucion(tipo_de_operacion, par, '9', monto)
+                    ejecucion(tipo_de_operacion, par, '3', monto)
                     adx_1m = ADX(ohlc_1m)
                     rsi_1m = RSI(ohlc_1m)
                     fichero_est_1 = open("datos estrategia 1.txt", "at")
@@ -82,7 +82,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                                         f"kijun-sen 10s: {ichi_10s['kijun-sen'].iloc[-1]} \n"
                                         f"rsi 1m: {rsi_1m.iloc[-2]}, {rsi_1m.iloc[-1]} \n"
                                         f"adx 1m: {adx_1m['ADX'].iloc[-2]}, {adx_1m['ADX'].iloc[-1]} \n"
-                                        f"DI+ 1m: {adx_1m['DI+'].iloc[-1]}, DI- 1m: {adx_1m['DI-'].iloc[-1]}"
+                                        f"DI+ 1m: {adx_1m['DI+'].iloc[-1]}, DI- 1m: {adx_1m['DI-'].iloc[-1]} \n"
                                         f"compra \n")
                     fichero_est_1.close()
                     break
@@ -154,7 +154,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                     -26]) and \
                         (ichi_10s["tenkan-sen"].iloc[-2] >= ichi_10s["kijun-sen"].iloc[-2] and
                          ichi_10s["tenkan-sen"].iloc[-1] < ichi_10s["kijun-sen"].iloc[-1]):
-                    ejecucion(tipo_de_operacion, par, '9', monto)
+                    ejecucion(tipo_de_operacion, par, '3', monto)
                     adx_1m = ADX(ohlc_1m)
                     rsi_1m = RSI(ohlc_1m)
                     fichero_est_1 = open("datos estrategia 1.txt", "at")
@@ -168,7 +168,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                                         f"kijun-sen 10s: {ichi_10s['kijun-sen'].iloc[-1]} \n"
                                         f"rsi 1m: {rsi_1m.iloc[-2]}, {rsi_1m.iloc[-1]} \n"
                                         f"adx 1m: {adx_1m['ADX'].iloc[-2]}, {adx_1m['ADX'].iloc[-1]} \n"
-                                        f"DI+ 1m: {adx_1m['DI+'].iloc[-1]}, DI- 1m: {adx_1m['DI-'].iloc[-1]}"
+                                        f"DI+ 1m: {adx_1m['DI+'].iloc[-1]}, DI- 1m: {adx_1m['DI-'].iloc[-1]} \n"
                                         f"venta \n")
                     fichero_est_1.close()
                     break
@@ -234,7 +234,7 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
             ichimoku_10s = ichimoku(ohlc_10s)
             print(ichimoku_10s["tenkan-sen"].iloc[-1], ichimoku_10s["kijun-sen"].iloc[-1])
             if ichimoku_10s["tenkan-sen"].iloc[-1] - ichimoku_10s["kijun-sen"].iloc[-1] > 0.00005:
-                ejecucion(tipo_de_operacion, par, '9', monto)
+                ejecucion(tipo_de_operacion, par, '4', monto)
                 fichero_est_3 = open("datos estrategia 3.txt", "at")
                 fichero_est_3.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
                                     f"precio actual: {ohlc_10s.iloc[-1]} \n"
@@ -304,7 +304,7 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
             ichimoku_10s = ichimoku(ohlc_10s)
             print(ichimoku_10s["tenkan-sen"].iloc[-1], ichimoku_10s["kijun-sen"].iloc[-1])
             if ichimoku_10s["kijun-sen"].iloc[-1] - ichimoku_10s["tenkan-sen"].iloc[-1] > 0.00005 :
-                ejecucion(tipo_de_operacion, par, '9', monto)
+                ejecucion(tipo_de_operacion, par, '4', monto)
                 fichero_est_3 = open("datos estrategia 3.txt", "at")
                 fichero_est_3.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
                                     f"precio actual: {ohlc_10s.iloc[-1]} \n"

@@ -64,3 +64,49 @@ tenkan-sen 10s: 1.1182025000000002
 kijun-sen 10s: 1.1180525000000001
 compra perdida
 
+
+engulfing: False
+precio anterior: o         1.135480
+h         1.135585
+l         1.135480
+c         1.135565
+volume         NaN
+Name: 2020-03-10T09:27:48.472836012Z, dtype: float64 
+precio actual: o         1.135565
+h         1.135570
+l         1.135465
+c         1.135470
+volume         NaN
+Name: 2020-03-10T09:27:58.642738419Z, dtype: float64 
+ichimoku 10s sspan A: 1.13635125 
+ichimoku 10s sspan B: 1.13665 
+ichimoku 10s sspan A -26: 1.1367812499999999 
+ichimoku 10s sspan B -26: 1.13682 
+tenkan-sen 10s: 1.1355 
+kijun-sen 10s: 1.1357624999999998 
+venta 
+
+engulfing: False
+precio anterior: o         1.135230
+h         1.135345
+l         1.135220
+c         1.135320
+volume         NaN
+Name: 2020-03-10T09:36:04.148531476Z, dtype: float64 
+precio actual: o         1.135325
+h         1.135370
+l         1.135300
+c         1.135340
+volume         NaN
+Name: 2020-03-10T09:36:14.252263605Z, dtype: float64 
+ichimoku 10s sspan A: 1.13571625 
+ichimoku 10s sspan B: 1.1358125000000001 
+ichimoku 10s sspan A -26: 1.1356375 
+ichimoku 10s sspan B -26: 1.136025 
+tenkan-sen 10s: 1.1355525000000002 
+kijun-sen 10s: 1.135605 
+venta ganada todas
+
+engulfing: True
+engulfing: True
+engulfing: True

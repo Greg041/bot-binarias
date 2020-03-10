@@ -8,7 +8,8 @@ from Ejecucion import ejecucion
 from RSI import RSI
 
 
-def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_max_min_macd, punto_ultimo, monto, client):
+def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_max_min_macd, punto_ultimo,
+                    monto, client):
     print("estamos en seguimiento divergencia")
     if tipo_de_divergencia == "bajista":
         punto_max_macd = punto_max_min_macd
@@ -26,7 +27,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                         and (adx_10s["DI-"].iloc[-1] > adx_10s["DI+"].iloc[-1])\
                         and (adx_10s["DI-"].iloc[-1] > adx_10s["DI-"].iloc[-2]) and (adx_5m["ADX"].iloc[-2] >
                                                                                      adx_5m["ADX"].iloc[-1]):
-                    ejecucion("ventac", par, '9', monto)
+                    ejecucion("ventac", par, '5', monto)
                     fichero_div = open("datos divergencias.txt", "at")
                     fichero_div.write(f"\nprecio anterior: {ohlc_1m.iloc[-2]} \n"
                                       f"precio actual: {ohlc_1m.iloc[-1]} \n"
@@ -45,6 +46,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                             ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                             adx_1m = ADX(ohlc_1m)
                             rsi_1m = RSI(ohlc_1m)
+                            punto_ultimo_macd = MACD(ohlc_1m)["MACD"].iloc[-1]
                         except Exception as e:
                             print(f"excepcion {e}: {type(e)}")
                             client = oandapyV20.API(
@@ -66,7 +68,6 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                 environment="practice")
                     try:
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
-                        punto_ultimo_macd = MACD(ohlc_10s)["MACD"].iloc[-1]
                     except Exception as e:
                         print(f"excepcion {e}: {type(e)}")
                         print("reintentando lectura ohlc_10s")
@@ -94,7 +95,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                         and (adx_10s["DI+"].iloc[-1] > adx_10s["DI-"].iloc[-1])\
                         and (adx_10s["DI+"].iloc[-1] > adx_10s["DI+"].iloc[-2]) and (adx_5m["ADX"].iloc[-2] >
                                                                                      adx_5m["ADX"].iloc[-1]):
-                    ejecucion("comprac", par, '9', monto)
+                    ejecucion("comprac", par, '5', monto)
                     fichero_div = open("datos divergencias.txt", "at")
                     fichero_div.write(f"\nprecio anterior: {ohlc_1m.iloc[-2]} \n"
                                       f"precio actual: {ohlc_1m.iloc[-1]} \n"
@@ -113,6 +114,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                             ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                             adx_1m = ADX(ohlc_1m)
                             rsi_1m = RSI(ohlc_1m)
+                            punto_ultimo_macd = MACD(ohlc_1m)["MACD"].iloc[-1]
                         except Exception as e:
                             print(f"excepcion {e}: {type(e)}")
                             client = oandapyV20.API(
@@ -134,7 +136,6 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                 environment="practice")
                     try:
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
-                        punto_ultimo_macd = MACD(ohlc_10s)["MACD"].iloc[-1]
                     except Exception as e:
                         print(f"excepcion {e}: {type(e)}")
                         print("reintentando lectura ohlc_10s")
