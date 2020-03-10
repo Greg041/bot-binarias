@@ -26,7 +26,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                         and (adx_10s["DI-"].iloc[-1] > adx_10s["DI+"].iloc[-1])\
                         and (adx_10s["DI-"].iloc[-1] > adx_10s["DI-"].iloc[-2]) and (adx_5m["ADX"].iloc[-2] >
                                                                                      adx_5m["ADX"].iloc[-1]):
-                    ejecucion("ventac", par, '10', monto)
+                    ejecucion("ventac", par, '9', monto)
                     fichero_div = open("datos divergencias.txt", "at")
                     fichero_div.write(f"\nprecio anterior: {ohlc_1m.iloc[-2]} \n"
                                       f"precio actual: {ohlc_1m.iloc[-1]} \n"
@@ -94,7 +94,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                         and (adx_10s["DI+"].iloc[-1] > adx_10s["DI-"].iloc[-1])\
                         and (adx_10s["DI+"].iloc[-1] > adx_10s["DI+"].iloc[-2]) and (adx_5m["ADX"].iloc[-2] >
                                                                                      adx_5m["ADX"].iloc[-1]):
-                    ejecucion("comprac", par, '10', monto)
+                    ejecucion("comprac", par, '9', monto)
                     fichero_div = open("datos divergencias.txt", "at")
                     fichero_div.write(f"\nprecio anterior: {ohlc_1m.iloc[-2]} \n"
                                       f"precio actual: {ohlc_1m.iloc[-1]} \n"

@@ -62,7 +62,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         print("en res 5 min", res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min)
         if (res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min or res_max_5min > ohlc_10s['c'].iloc[
             -1] > res_min_5min) \
-                and detectar_div_macd(macd_1m, ohlc_10s, "bajista"):
+                and detectar_div_macd(macd_1m, ohlc_1m, "bajista"):
             seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_1m["MACD"].iloc[-2],
                             macd_1m["MACD"].iloc[-1],
                             monto, client)
@@ -74,7 +74,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         print("en sop 5 min", sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min)
         if (sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min or sop_min_5min < ohlc_10s['c'].iloc[
             -1] < sop_max_5min) \
-                and detectar_div_macd(macd_1m, ohlc_10s, "alcista"):
+                and detectar_div_macd(macd_1m, ohlc_1m, "alcista"):
             seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "alcista", macd_1m["MACD"].iloc[-2],
                             macd_1m["MACD"].iloc[-1], monto, client)
             return ""
@@ -124,19 +124,49 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         else:
             return ""
     # estrategia #4
-    if (ichi_5m["Senkou span A"].iloc[-26] < ohlc_1m['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]) or \
-            (ichi_5m["Senkou span B"].iloc[-26] < ohlc_1m['c'].iloc[-1] < ichi_5m["Senkou span A"].iloc[-26]):
+    if (ichi_5m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]) or \
+            (ichi_5m["Senkou span B"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_5m["Senkou span A"].iloc[-26]):
         bollinger_1m = boll_bnd(ohlc_1m)
         adx_1m = ADX(ohlc_1m, 14)
         rsi_1m = RSI(ohlc_1m, periodo=7)
         print(bollinger_1m["BB_up"].iloc[-1])
         print(bollinger_1m["BB_dn"].iloc[-1])
-        if (ohlc_1m['c'].iloc[-1] > bollinger_1m["BB_up"].iloc[-1]) and (adx_1m["ADX"].iloc[-1] < 32.0) and (
+        if (ohlc_10s['c'].iloc[-1] > bollinger_1m["BB_up"].iloc[-1]) and (adx_1m["ADX"].iloc[-1] < 32.0) and (
                 rsi_1m.iloc[-1] < 70):
-            ejecucion("ventac", par, '10', monto)
-        elif (ohlc_1m['c'].iloc[-1] < bollinger_1m["BB_dn"].iloc[-1]) and (adx_1m["ADX"].iloc[-1] < 32.0) and (
+            ejecucion("ventac", par, '9', monto)
+            fichero_est_4 = open("datos estrategia 4.txt", "at")
+            fichero_est_4.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
+                                f"precio actual: {ohlc_10s.iloc[-1]} \n"
+                                f"ichimoku 1m sspan A: {ichi_1m['Senkou span A'].iloc[-1]} \n"
+                                f"ichimoku 1m sspan B: {ichi_1m['Senkou span B'].iloc[-1]} \n"
+                                f"ichimoku 1m sspan A -26: {ichi_1m['Senkou span A'].iloc[-26]} \n"
+                                f"ichimoku 1m sspan B -26: {ichi_1m['Senkou span B'].iloc[-26]} \n"
+                                f"tenkan-sen 1m: {ichi_1m['tenkan-sen'].iloc[-1]} \n"
+                                f"kijun-sen 1m: {ichi_1m['kijun-sen'].iloc[-1]} \n"
+                                f"rsi 1m: {rsi_1m.iloc[-2]}, {rsi_1m.iloc[-1]} \n"
+                                f"adx 1m: {adx_1m['ADX'].iloc[-2]}, {adx_1m['ADX'].iloc[-1]} \n"
+                                f"DI+ 1m: {adx_1m['DI+'].iloc[-1]}, DI- 1m: {adx_1m['DI-'].iloc[-1]}"
+                                f"venta \n")
+            fichero_est_4.close()
+            time.sleep(60)
+        elif (ohlc_10s['c'].iloc[-1] < bollinger_1m["BB_dn"].iloc[-1]) and (adx_1m["ADX"].iloc[-1] < 32.0) and (
                 rsi_1m.iloc[-1] > 30):
-            ejecucion("comprac", par, '10', monto)
+            ejecucion("comprac", par, '9', monto)
+            fichero_est_4 = open("datos estrategia 4.txt", "at")
+            fichero_est_4.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
+                                f"precio actual: {ohlc_10s.iloc[-1]} \n"
+                                f"ichimoku 1m sspan A: {ichi_1m['Senkou span A'].iloc[-1]} \n"
+                                f"ichimoku 1m sspan B: {ichi_1m['Senkou span B'].iloc[-1]} \n"
+                                f"ichimoku 1m sspan A -26: {ichi_1m['Senkou span A'].iloc[-26]} \n"
+                                f"ichimoku 1m sspan B -26: {ichi_1m['Senkou span B'].iloc[-26]} \n"
+                                f"tenkan-sen 1m: {ichi_1m['tenkan-sen'].iloc[-1]} \n"
+                                f"kijun-sen 1m: {ichi_1m['kijun-sen'].iloc[-1]} \n"
+                                f"rsi 1m: {rsi_1m.iloc[-2]}, {rsi_1m.iloc[-1]} \n"
+                                f"adx 1m: {adx_1m['ADX'].iloc[-2]}, {adx_1m['ADX'].iloc[-1]} \n"
+                                f"DI+ 1m: {adx_1m['DI+'].iloc[-1]}, DI- 1m: {adx_1m['DI-'].iloc[-1]}"
+                                f"compra \n")
+            fichero_est_4.close()
+            time.sleep(60)
 
 
 def analisis_y_estrategia_favor(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
