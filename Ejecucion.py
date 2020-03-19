@@ -117,6 +117,10 @@ def ejecucion(signal, par, tiempo, monto):
         pyautogui.doubleClick(x=685, y=415)
         time.sleep(0.1)
         pyautogui.keyDown(tiempo[0])
+        try:
+            pyautogui.keyDown(tiempo[1])
+        except:
+            pass
         time.sleep(2)
         click_image("imagen compra.jpg", (1089, 340), "left", 0.05)
         winsound.Beep(440, 1000)
@@ -141,6 +145,10 @@ def ejecucion(signal, par, tiempo, monto):
         pyautogui.doubleClick(x=685, y=415)
         time.sleep(0.1)
         pyautogui.keyDown(tiempo[0])
+        try:
+            pyautogui.keyDown(tiempo[1])
+        except:
+            pass
         time.sleep(2)
         click_image("imagen compra.jpg", (1088, 495), "left", 0.05)
         winsound.Beep(440, 1000)

@@ -53,6 +53,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                 print(f"excepcion {e}: {type(e)}")
                 print("reintentando lectura ohlc_10s")
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
+            # Si el precio se encuentra en una resistencia de 5 minutos se cancela el seguimiento a la estrategia
             if res_max_5m > ohlc_10s['c'].iloc[-1] > res_min_5m:
                 break
             if res_max_1m > ohlc_10s['c'].iloc[-1] > res_min_1m:
@@ -67,10 +68,12 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
             else:
                 ichi_10s = ichimoku(ohlc_10s)
                 if (ichi_10s["tenkan-sen"].iloc[-2] <= ichi_10s["kijun-sen"].iloc[-2] and
-                         ichi_10s["tenkan-sen"].iloc[-1] > ichi_10s["kijun-sen"].iloc[-1]):
+                        ichi_10s["tenkan-sen"].iloc[-1] > ichi_10s["kijun-sen"].iloc[-1]):
                     ejecucion(tipo_de_operacion, par, '3', monto)
                     adx_1m = ADX(ohlc_1m)
                     rsi_1m = RSI(ohlc_1m)
+                    adx_5m = ADX(datos_5min)
+                    rsi_5m = RSI(datos_5min)
                     fichero_est_1 = open("datos estrategia 1.txt", "at")
                     fichero_est_1.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
                                         f"precio actual: {ohlc_10s.iloc[-1]} \n"
@@ -80,9 +83,18 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                                         f"ichimoku 10s sspan B -26: {ichi_10s['Senkou span B'].iloc[-26]} \n"
                                         f"tenkan-sen 10s: {ichi_10s['tenkan-sen'].iloc[-1]} \n"
                                         f"kijun-sen 10s: {ichi_10s['kijun-sen'].iloc[-1]} \n"
+                                        f"ichimoku 1m sspan A -26: {ichimoku_1m['Senkou span A'].iloc[-26]} \n"
+                                        f"ichimoku 1m sspan B -26: {ichimoku_1m['Senkou span B'].iloc[-26]} \n"
+                                        f"tenkan-sen 1m: {ichimoku_1m['tenkan-sen'].iloc[-1]} \n"
+                                        f"kijun-sen 1m: {ichimoku_1m['kijun-sen'].iloc[-1]} \n"
                                         f"rsi 1m: {rsi_1m.iloc[-2]}, {rsi_1m.iloc[-1]} \n"
                                         f"adx 1m: {adx_1m['ADX'].iloc[-2]}, {adx_1m['ADX'].iloc[-1]} \n"
-                                        f"DI+ 1m: {adx_1m['DI+'].iloc[-1]}, DI- 1m: {adx_1m['DI-'].iloc[-1]} \n"
+                                        f"DI+ 1m: {adx_1m['DI+'].iloc[-2]}, {adx_1m['DI+'].iloc[-1]} \n"
+                                        f"DI- 1m: {adx_1m['DI-'].iloc[-2]}, {adx_1m['DI-'].iloc[-1]} \n"
+                                        f"rsi 5m: {rsi_5m.iloc[-2]}, {rsi_5m.iloc[-1]} \n"
+                                        f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n"
+                                        f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
+                                        f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
                                         f"compra \n")
                     fichero_est_1.close()
                     break
@@ -137,6 +149,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                 print(f"excepcion {e}: {type(e)}")
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                 print("reintentando lectura ohlc_10s")
+            # Si el precio se encuentra en un soporte de 5 minutos se cancela el seguimiento a la estrategia
             if sop_min_5m < ohlc_10s['c'].iloc[-1] < sop_max_5m:
                 break
             if sop_min_1m < ohlc_10s['c'].iloc[-1] < sop_max_1m:
@@ -157,6 +170,8 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                     ejecucion(tipo_de_operacion, par, '3', monto)
                     adx_1m = ADX(ohlc_1m)
                     rsi_1m = RSI(ohlc_1m)
+                    adx_5m = ADX(datos_5min)
+                    rsi_5m = RSI(datos_5min)
                     fichero_est_1 = open("datos estrategia 1.txt", "at")
                     fichero_est_1.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
                                         f"precio actual: {ohlc_10s.iloc[-1]} \n"
@@ -166,9 +181,18 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                                         f"ichimoku 10s sspan B -26: {ichi_10s['Senkou span B'].iloc[-26]} \n"
                                         f"tenkan-sen 10s: {ichi_10s['tenkan-sen'].iloc[-1]} \n"
                                         f"kijun-sen 10s: {ichi_10s['kijun-sen'].iloc[-1]} \n"
+                                        f"ichimoku 1m sspan A -26: {ichimoku_1m['Senkou span A'].iloc[-26]} \n"
+                                        f"ichimoku 1m sspan B -26: {ichimoku_1m['Senkou span B'].iloc[-26]} \n"
+                                        f"tenkan-sen 1m: {ichimoku_1m['tenkan-sen'].iloc[-1]} \n"
+                                        f"kijun-sen 1m: {ichimoku_1m['kijun-sen'].iloc[-1]} \n"
                                         f"rsi 1m: {rsi_1m.iloc[-2]}, {rsi_1m.iloc[-1]} \n"
                                         f"adx 1m: {adx_1m['ADX'].iloc[-2]}, {adx_1m['ADX'].iloc[-1]} \n"
-                                        f"DI+ 1m: {adx_1m['DI+'].iloc[-1]}, DI- 1m: {adx_1m['DI-'].iloc[-1]} \n"
+                                        f"DI+ 1m: {adx_1m['DI+'].iloc[-2]}, {adx_1m['DI+'].iloc[-1]} \n"
+                                        f"DI- 1m: {adx_1m['DI-'].iloc[-2]}, {adx_1m['DI-'].iloc[-1]} \n"
+                                        f"rsi 5m: {rsi_5m.iloc[-2]}, {rsi_5m.iloc[-1]} \n"
+                                        f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n"
+                                        f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
+                                        f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
                                         f"venta \n")
                     fichero_est_1.close()
                     break
@@ -234,16 +258,24 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
             ichimoku_10s = ichimoku(ohlc_10s)
             print(ichimoku_10s["tenkan-sen"].iloc[-1], ichimoku_10s["kijun-sen"].iloc[-1])
             if ichimoku_10s["tenkan-sen"].iloc[-1] - ichimoku_10s["kijun-sen"].iloc[-1] > 0.00005:
-                ejecucion(tipo_de_operacion, par, '4', monto)
+                ejecucion(tipo_de_operacion, par, '5', monto)
                 fichero_est_3 = open("datos estrategia 3.txt", "at")
                 fichero_est_3.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
                                     f"precio actual: {ohlc_10s.iloc[-1]} \n"
+                                    f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n"
+                                    f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
+                                    f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
+                                    f"rsi 5m: {rsi_5m.iloc[-2]}, {rsi_5m.iloc[-1]} \n"
+                                    f"ichimoku 1m sspan A: {ichimoku_1m['Senkou span A'].iloc[-1]} \n"
+                                    f"ichimoku 1m sspan B: {ichimoku_1m['Senkou span B'].iloc[-1]} \n"
+                                    f"ichimoku tenkan 1m: {ichimoku_1m['tenkan-sen'].iloc[-2]}, {ichimoku_1m['tenkan-sen'].iloc[-1]} \n"
+                                    f"ichimoku kijun 1m: {ichimoku_1m['kijun-sen'].iloc[-2]}, {ichimoku_1m['kijun-sen'].iloc[-1]} \n"
                                     f"ichimoku 10s sspan A: {ichimoku_10s['Senkou span A'].iloc[-1]} \n"
                                     f"ichimoku 10s sspan B: {ichimoku_10s['Senkou span B'].iloc[-1]} \n"
                                     f"ichimoku 10s sspan A -26: {ichimoku_10s['Senkou span A'].iloc[-26]} \n"
                                     f"ichimoku 10s sspan B -26: {ichimoku_10s['Senkou span B'].iloc[-26]} \n"
-                                    f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
-                                    f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-1]} \n"
+                                    f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-2]}, {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
+                                    f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-2]}, {ichimoku_10s['kijun-sen'].iloc[-1]} \n"
                                     f"compra \n")
                 fichero_est_3.close()
                 time.sleep(120)
@@ -283,7 +315,7 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                     print("hubo un error en la lectura de datos 1m o 5m en seguimiento ichimoku 2")
                 time.sleep(10 - ((time.time() - starttime) % 10))
         if res_max_5m > ohlc_10s['c'].iloc[-1] > res_min_5m or res_max_1m > ohlc_10s['c'].iloc[-1] > res_min_1m or \
-                    res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m:
+                res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m:
             print("se sale del seguimiento porque hay una resistencia cercana")
         else:
             print("se sale del seguimiento porque se ejecutó operacion o",
@@ -297,23 +329,31 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
         while (adx_5m["ADX"].iloc[-1] > 20.0) \
                 and (rsi_5m.iloc[-1] > 30.0) and (ichimoku_1m["Senkou span A"].iloc[-26] > ohlc_10s['c'].iloc[-1] <
                                                   ichimoku_1m["Senkou span B"].iloc[-26]):
-            if sop_max_5m > ohlc_10s['c'].iloc[-1] > sop_min_5m or sop_max_1m > ohlc_10s['c'].iloc[-1] > sop_min_1m or\
+            if sop_max_5m > ohlc_10s['c'].iloc[-1] > sop_min_5m or sop_max_1m > ohlc_10s['c'].iloc[-1] > sop_min_1m or \
                     sop_max_30m > ohlc_10s['c'].iloc[-1] > sop_min_30m:
                 break
             starttime = time.time()
             ichimoku_10s = ichimoku(ohlc_10s)
             print(ichimoku_10s["tenkan-sen"].iloc[-1], ichimoku_10s["kijun-sen"].iloc[-1])
-            if ichimoku_10s["kijun-sen"].iloc[-1] - ichimoku_10s["tenkan-sen"].iloc[-1] > 0.00005 :
-                ejecucion(tipo_de_operacion, par, '4', monto)
+            if ichimoku_10s["kijun-sen"].iloc[-1] - ichimoku_10s["tenkan-sen"].iloc[-1] > 0.00005:
+                ejecucion(tipo_de_operacion, par, '5', monto)
                 fichero_est_3 = open("datos estrategia 3.txt", "at")
                 fichero_est_3.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
                                     f"precio actual: {ohlc_10s.iloc[-1]} \n"
+                                    f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n"
+                                    f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
+                                    f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
+                                    f"rsi 5m: {rsi_5m.iloc[-2]}, {rsi_5m.iloc[-1]} \n"
+                                    f"ichimoku 1m sspan A: {ichimoku_1m['Senkou span A'].iloc[-1]} \n"
+                                    f"ichimoku 1m sspan B: {ichimoku_1m['Senkou span B'].iloc[-1]} \n"
+                                    f"ichimoku tenkan 1m: {ichimoku_1m['tenkan-sen'].iloc[-2]}, {ichimoku_1m['tenkan-sen'].iloc[-1]} \n"
+                                    f"ichimoku kijun 1m: {ichimoku_1m['kijun-sen'].iloc[-2]}, {ichimoku_1m['kijun-sen'].iloc[-1]} \n"
                                     f"ichimoku 10s sspan A: {ichimoku_10s['Senkou span A'].iloc[-1]} \n"
                                     f"ichimoku 10s sspan B: {ichimoku_10s['Senkou span B'].iloc[-1]} \n"
                                     f"ichimoku 10s sspan A -26: {ichimoku_10s['Senkou span A'].iloc[-26]} \n"
                                     f"ichimoku 10s sspan B -26: {ichimoku_10s['Senkou span B'].iloc[-26]} \n"
-                                    f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
-                                    f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-1]} \n"
+                                    f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-2]}, {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
+                                    f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-2]}, {ichimoku_10s['kijun-sen'].iloc[-1]} \n"
                                     f"venta \n")
                 fichero_est_3.close()
                 time.sleep(120)
@@ -352,8 +392,8 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                     print(f"excepcion {e}: {type(e)}")
                     print("hubo un error en la lectura de datos 1m o 5m en seguimiento ichimoku 2")
                 time.sleep(10 - ((time.time() - starttime) % 10))
-        if sop_max_5m > ohlc_10s['c'].iloc[-1] > sop_min_5m or sop_max_1m > ohlc_10s['c'].iloc[-1] > sop_min_1m or\
-                    sop_max_30m > ohlc_10s['c'].iloc[-1] > sop_min_30m:
+        if sop_max_5m > ohlc_10s['c'].iloc[-1] > sop_min_5m or sop_max_1m > ohlc_10s['c'].iloc[-1] > sop_min_1m or \
+                sop_max_30m > ohlc_10s['c'].iloc[-1] > sop_min_30m:
             print("Se sale del seguimiento porque hay un soporte cercano")
         else:
             print("se sale del seguimiento porque se ejecutó operacion o ",

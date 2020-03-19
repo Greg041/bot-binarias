@@ -63,6 +63,10 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         if (res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min or res_max_5min > ohlc_10s['c'].iloc[
             -1] > res_min_5min) \
                 and detectar_div_macd(macd_1m, ohlc_1m, "bajista"):
+            fichero_div = open("datos divergencias.txt", "at")
+            fichero_div.write(f"\nen res 1 min: {res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min} \n"
+                              f"en res 5 min: {res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min} \n")
+            fichero_div.close()
             seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_1m["MACD"].iloc[-2],
                             macd_1m["MACD"].iloc[-1], monto, client)
             return ""
@@ -74,6 +78,10 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         if (sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min or sop_min_5min < ohlc_10s['c'].iloc[
             -1] < sop_max_5min) \
                 and detectar_div_macd(macd_1m, ohlc_1m, "alcista"):
+            fichero_div = open("datos divergencias.txt", "at")
+            fichero_div.write(f"\nen sop 1 min: {sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min} \n"
+                              f"en sop 5 min: {sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min} \n")
+            fichero_div.close()
             seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "alcista", macd_1m["MACD"].iloc[-2],
                             macd_1m["MACD"].iloc[-1], monto, client)
             return ""
@@ -132,7 +140,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         print(bollinger_1m["BB_dn"].iloc[-1])
         if (ohlc_10s['c'].iloc[-1] > bollinger_1m["BB_up"].iloc[-1]) and (adx_1m["ADX"].iloc[-1] < 32.0) and (
                 rsi_1m.iloc[-1] < 70):
-            ejecucion("ventac", par, '6', monto)
+            ejecucion("ventac", par, '7', monto)
             fichero_est_4 = open("datos estrategia 4.txt", "at")
             fichero_est_4.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
                                 f"precio actual: {ohlc_10s.iloc[-1]} \n"
@@ -144,13 +152,18 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
                                 f"kijun-sen 1m: {ichi_1m['kijun-sen'].iloc[-1]} \n"
                                 f"rsi 1m: {rsi_1m.iloc[-2]}, {rsi_1m.iloc[-1]} \n"
                                 f"adx 1m: {adx_1m['ADX'].iloc[-2]}, {adx_1m['ADX'].iloc[-1]} \n"
-                                f"DI+ 1m: {adx_1m['DI+'].iloc[-1]}, DI- 1m: {adx_1m['DI-'].iloc[-1]} \n"
+                                f"DI+ 1m: {adx_1m['DI+'].iloc[-2]}, {adx_1m['DI+'].iloc[-1]} \n"
+                                f"DI- 1m: {adx_1m['DI-'].iloc[-2]}, {adx_1m['DI-'].iloc[-1]} \n"
+                                f"rsi 5m: {rsi_5m.iloc[-2]}, {rsi_5m.iloc[-1]} \n"
+                                f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n"
+                                f"DI+ 5m: {adx_5m['DI+'].iloc[-1]}, {adx_5m['DI+'].iloc[-1]} \n"
+                                f"DI- 5m: {adx_5m['DI-'].iloc[-1]}, {adx_5m['DI-'].iloc[-1]} \n"
                                 f"venta \n")
             fichero_est_4.close()
-            time.sleep(60)
+            time.sleep(120)
         elif (ohlc_10s['c'].iloc[-1] < bollinger_1m["BB_dn"].iloc[-1]) and (adx_1m["ADX"].iloc[-1] < 32.0) and (
                 rsi_1m.iloc[-1] > 30):
-            ejecucion("comprac", par, '6', monto)
+            ejecucion("comprac", par, '7', monto)
             fichero_est_4 = open("datos estrategia 4.txt", "at")
             fichero_est_4.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
                                 f"precio actual: {ohlc_10s.iloc[-1]} \n"
@@ -162,10 +175,15 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
                                 f"kijun-sen 1m: {ichi_1m['kijun-sen'].iloc[-1]} \n"
                                 f"rsi 1m: {rsi_1m.iloc[-2]}, {rsi_1m.iloc[-1]} \n"
                                 f"adx 1m: {adx_1m['ADX'].iloc[-2]}, {adx_1m['ADX'].iloc[-1]} \n"
-                                f"DI+ 1m: {adx_1m['DI+'].iloc[-1]}, DI- 1m: {adx_1m['DI-'].iloc[-1]} \n"
+                                f"DI+ 1m: {adx_1m['DI+'].iloc[-2]}, {adx_1m['DI+'].iloc[-1]} \n"
+                                f"DI- 1m: {adx_1m['DI-'].iloc[-2]}, {adx_1m['DI-'].iloc[-1]} \n"
+                                f"rsi 5m: {rsi_5m.iloc[-2]}, {rsi_5m.iloc[-1]} \n"
+                                f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n"
+                                f"DI+ 5m: {adx_5m['DI+'].iloc[-1]}, {adx_5m['DI+'].iloc[-1]} \n"
+                                f"DI- 5m: {adx_5m['DI-'].iloc[-1]}, {adx_5m['DI-'].iloc[-1]} \n"
                                 f"compra \n")
             fichero_est_4.close()
-            time.sleep(60)
+            time.sleep(120)
 
 
 def analisis_y_estrategia_favor(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
