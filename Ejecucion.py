@@ -123,6 +123,7 @@ def ejecucion(signal, par, tiempo, monto):
             pass
         time.sleep(2)
         click_image("imagen compra.jpg", (1089, 340), "left", 0.05)
+        click_image("imagen compra.jpg", (1089, 340), "left", 0.05)
         winsound.Beep(440, 1000)
         time.sleep(3)
         click_image("x.jpg", (1388, 292), "left", 0.05)
@@ -134,6 +135,7 @@ def ejecucion(signal, par, tiempo, monto):
         time.sleep(0.1)
         pyautogui.keyDown(tiempo[0])
         time.sleep(2)
+        click_image("imagen compra.jpg", (1089, 340), "left", 0.05)
         click_image("imagen compra.jpg", (1089, 340), "left", 0.05)
         winsound.Beep(440, 1000)
         time.sleep(3)
@@ -151,6 +153,7 @@ def ejecucion(signal, par, tiempo, monto):
             pass
         time.sleep(2)
         click_image("imagen compra.jpg", (1088, 495), "left", 0.05)
+        click_image("imagen compra.jpg", (1088, 495), "left", 0.05)
         winsound.Beep(440, 1000)
         time.sleep(3)
         click_image("x.jpg", (1388, 292), "left", 0.05)
@@ -162,6 +165,7 @@ def ejecucion(signal, par, tiempo, monto):
         time.sleep(0.1)
         pyautogui.keyDown(tiempo[0])
         time.sleep(2)
+        click_image("imagen compra.jpg", (1088, 495), "left", 0.05)
         click_image("imagen compra.jpg", (1088, 495), "left", 0.05)
         winsound.Beep(440, 1000)
         time.sleep(3)
