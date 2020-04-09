@@ -1,6 +1,5 @@
 from ExtraccionDatosOanda import ExtraccionOanda
-from analisis_y_estrategia import analisis_y_estrategia, analisis_y_estrategia_favor, \
-    analisis_y_estrategia_contra
+from analisis_y_estrategia import analisis_y_estrategia
 from multiprocessing import Process
 from ExtraccionDatos10s import extraccion_10s_continua
 import time

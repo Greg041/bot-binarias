@@ -155,13 +155,6 @@
       <option name="presentableId" value="Default" />
       <updated>1578051824094</updated>
     </task>
-    <task id="LOCAL-00018" summary="- refinada estrategia para tomar en cuenta cuando el precio se encuentre en un rango de soporte o resistencia&#10;- modificado el tiempo de sleep en los modulos de extraccion de datos para comprobar la buena sincronización con la nueva configuracion de horario de la pc ya que tenia la hora desconfigurada">
-      <created>1578717680318</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1578717680319</updated>
-    </task>
     <task id="LOCAL-00019" summary="- refinado y corregido forma de calcular rango de resistencias a 1 minuto debido a fallas de lógica">
       <created>1578783768035</created>
       <option name="number" value="00019" />
@@ -498,7 +491,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586390510620</updated>
     </task>
-    <option name="localTasksCounter" value="67" />
+    <task id="LOCAL-00067" summary="- eliminado código basura en módulo main y módulo analisis_y_estrategia.py">
+      <created>1586390729990</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1586390729992</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -516,7 +516,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- pulida estrategia divergencia y ichimoku" />
     <MESSAGE value="- creada funcion para hacer seguimiento al cálculo soportes y resistencias en SeguimientoIchimoku.py" />
     <MESSAGE value="- modificado código en estrategia 2 para que solo haga seguimiento inchimoku cuando se crucen las 2 senkou span y el precio se encuentre por encima o debajo de la nube kumo segun corresponda" />
     <MESSAGE value="- las ventas a favor ahora se ejecutan a 5 minutos" />
@@ -541,7 +540,8 @@
     <MESSAGE value="-corregido codigo en SeguimientoDivergencia.py para actualizar el ultimo punto del macd" />
     <MESSAGE value="- añadido código para guardado de informacion" />
     <MESSAGE value="- añadido código para ejecución de estrategia #2 de divergencias para tomar mejor en cuenta los soportes y las resistencias en caso de que sus mínimos y máximos sean iguales,&#10;- Añadido código a SeguimientoIchimoku.py en seguimiento_ichimoku1 para esperar a que el precio en temporalidad de 10s choque con un soporte o resistencia según corresponda y luego realizar la operacion de compra o venta y modificado código para tomar mejor en cuenta los soportes y resistencia en caso de que sus valores máximos y mínimos sean iguales" />
-    <option name="LAST_COMMIT_MESSAGE" value="- añadido código para ejecución de estrategia #2 de divergencias para tomar mejor en cuenta los soportes y las resistencias en caso de que sus mínimos y máximos sean iguales,&#10;- Añadido código a SeguimientoIchimoku.py en seguimiento_ichimoku1 para esperar a que el precio en temporalidad de 10s choque con un soporte o resistencia según corresponda y luego realizar la operacion de compra o venta y modificado código para tomar mejor en cuenta los soportes y resistencia en caso de que sus valores máximos y mínimos sean iguales" />
+    <MESSAGE value="- eliminado código basura en módulo main y módulo analisis_y_estrategia.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="- eliminado código basura en módulo main y módulo analisis_y_estrategia.py" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
@@ -564,10 +564,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="679" y="135" key="#main/0.0.1920.1040@0.0.1920.1040" timestamp="1579064399171" />
-    <state x="343" y="123" key="CommitChangelistDialog2" timestamp="1586390480809">
+    <state x="0" y="123" key="CommitChangelistDialog2" timestamp="1586390728023">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="343" y="123" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586390480809" />
+    <state x="0" y="123" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586390728023" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1583803910788">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -612,10 +612,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="512" y="158" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1581055407181" />
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1586390546676">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1586390736220">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586390546676" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586390736220" />
     <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1586364024092">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
