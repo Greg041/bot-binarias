@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SeguimientoDivergencia.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoDivergencia.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SeguimientoIchimoku.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoIchimoku.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datos estrategia 3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/datos estrategia 3.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datos_10s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_10s.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datos_M1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M1.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datos_M30.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M30.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -165,13 +154,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1578051824094</updated>
-    </task>
-    <task id="LOCAL-00017" summary="- agregado codigo en main para calcular rango de soportes y resistencias en periodos de 1m y 5m, ya no se calculan en los modulos de extraccion de datos">
-      <created>1578696211777</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1578696211777</updated>
     </task>
     <task id="LOCAL-00018" summary="- refinada estrategia para tomar en cuenta cuando el precio se encuentre en un rango de soporte o resistencia&#10;- modificado el tiempo de sleep en los modulos de extraccion de datos para comprobar la buena sincronización con la nueva configuracion de horario de la pc ya que tenia la hora desconfigurada">
       <created>1578717680318</created>
@@ -509,7 +491,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585883115231</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="- añadido código para ejecución de estrategia #2 de divergencias para tomar mejor en cuenta los soportes y las resistencias en caso de que sus mínimos y máximos sean iguales,&#10;- Añadido código a SeguimientoIchimoku.py en seguimiento_ichimoku1 para esperar a que el precio en temporalidad de 10s choque con un soporte o resistencia según corresponda y luego realizar la operacion de compra o venta y modificado código para tomar mejor en cuenta los soportes y resistencia en caso de que sus valores máximos y mínimos sean iguales">
+      <created>1586390510619</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1586390510620</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -527,7 +516,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- pulida estrategia divergencia" />
     <MESSAGE value="- pulida estrategia divergencia y ichimoku" />
     <MESSAGE value="- creada funcion para hacer seguimiento al cálculo soportes y resistencias en SeguimientoIchimoku.py" />
     <MESSAGE value="- modificado código en estrategia 2 para que solo haga seguimiento inchimoku cuando se crucen las 2 senkou span y el precio se encuentre por encima o debajo de la nube kumo segun corresponda" />
@@ -552,7 +540,8 @@
     <MESSAGE value="- agregado código para guardar datos al ejecutarse una señal en cada estrategia" />
     <MESSAGE value="-corregido codigo en SeguimientoDivergencia.py para actualizar el ultimo punto del macd" />
     <MESSAGE value="- añadido código para guardado de informacion" />
-    <option name="LAST_COMMIT_MESSAGE" value="- añadido código para guardado de informacion" />
+    <MESSAGE value="- añadido código para ejecución de estrategia #2 de divergencias para tomar mejor en cuenta los soportes y las resistencias en caso de que sus mínimos y máximos sean iguales,&#10;- Añadido código a SeguimientoIchimoku.py en seguimiento_ichimoku1 para esperar a que el precio en temporalidad de 10s choque con un soporte o resistencia según corresponda y luego realizar la operacion de compra o venta y modificado código para tomar mejor en cuenta los soportes y resistencia en caso de que sus valores máximos y mínimos sean iguales" />
+    <option name="LAST_COMMIT_MESSAGE" value="- añadido código para ejecución de estrategia #2 de divergencias para tomar mejor en cuenta los soportes y las resistencias en caso de que sus mínimos y máximos sean iguales,&#10;- Añadido código a SeguimientoIchimoku.py en seguimiento_ichimoku1 para esperar a que el precio en temporalidad de 10s choque con un soporte o resistencia según corresponda y luego realizar la operacion de compra o venta y modificado código para tomar mejor en cuenta los soportes y resistencia en caso de que sus valores máximos y mínimos sean iguales" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
@@ -575,10 +564,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="679" y="135" key="#main/0.0.1920.1040@0.0.1920.1040" timestamp="1579064399171" />
-    <state x="343" y="123" key="CommitChangelistDialog2" timestamp="1585883109434">
+    <state x="343" y="123" key="CommitChangelistDialog2" timestamp="1586390480809">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="343" y="123" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1585883109434" />
+    <state x="343" y="123" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586390480809" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1583803910788">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -623,10 +612,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="512" y="158" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1581055407181" />
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1585883128258">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1586390546676">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1585883128258" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586390546676" />
     <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1586364024092">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

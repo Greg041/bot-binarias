@@ -38,7 +38,7 @@ def calcular_rango_sop_res(ohlc, rango_velas):
     return resistencia_punto_mayor, resistencia_punto_menor, soporte_punto_menor, soporte_punto_mayor
 
 
-def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est, numero_noticias,
+def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, numero_noticias,
         horas_noticias, monto):
     print("comenzando")
     timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
@@ -126,31 +126,18 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
         except Exception as e:
             print(f"excepcion {e}: {type(e)}")
             print("hubo error en lectura de datos csv")
-        if tipo_de_est == "todo":
-            analisis_y_estrategia(datos_10s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
-                                  resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
-                                  resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
-                                  soporte_punto_menor_5m, soporte_punto_mayor_5m, resistencia_punto_mayor_30m,
-                                  resistencia_punto_menor_30m, soporte_punto_menor_30m, soporte_punto_mayor_30m,
-                                  monto, client)
-        elif tipo_de_est == "favor":
-            analisis_y_estrategia_favor(datos_10s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
-                                        resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
-                                        resistencia_punto_menor_5m,
-                                        soporte_punto_menor_1m, soporte_punto_mayor_1m, soporte_punto_menor_5m,
-                                        soporte_punto_mayor_5m, monto)
-        elif tipo_de_est == "contra":
-            analisis_y_estrategia_contra(datos_10s, datos_1min, divisa, resistencia_punto_mayor_1m,
-                                         resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
-                                         resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
-                                         soporte_punto_menor_5m, soporte_punto_mayor_5m, monto)
+        analisis_y_estrategia(datos_10s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
+                              resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
+                              resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
+                              soporte_punto_menor_5m, soporte_punto_mayor_5m, resistencia_punto_mayor_30m,
+                              resistencia_punto_menor_30m, soporte_punto_menor_30m, soporte_punto_mayor_30m,
+                              monto, client)
         time.sleep(10)
 
 
 if __name__ == "__main__":
     primera_divisa = input("introduzca la primera divisa: ")
     segunda_divisa = input("introduzca la segunda divisa: ")
-    tipo_de_estrategia = input("estategia en contra, favor o todo?: ")
     monto = input("introduzca el monto a invertir: ")
     mes = input("introduzca el mes de inicio: ")
     dia = input("introduzca el dia de inicio: ")
@@ -186,5 +173,4 @@ if __name__ == "__main__":
         noticia3 = f'2020-{mes}-{dia} {hora_noticia1}:{minuto_noticia1}'
     while time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())) != f'2020-{mes}-{dia} {hora}:{minuto}:00':
         pass
-    run(tiempo, primera_divisa, segunda_divisa, tipo_de_estrategia, numero_noticias,
-        (noticia1, noticia2, noticia3), monto)
+    run(tiempo, primera_divisa, segunda_divisa,numero_noticias, (noticia1, noticia2, noticia3), monto)
