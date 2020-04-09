@@ -120,7 +120,6 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, tipo_de_est
                         access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                         environment="practice")
                 datos_30min = pd.read_csv("datos_M30.csv", index_col="time")
-                print(datos_30min)
                 resistencia_punto_mayor_30m, resistencia_punto_menor_30m, soporte_punto_menor_30m, soporte_punto_mayor_30m = \
                     calcular_rango_sop_res(datos_30min, 50)
             datos_10s = pd.read_csv("datos_10s.csv", index_col="time")

@@ -3,11 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ejecucion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ejecucion.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SeguimientoDivergencia.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoDivergencia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SeguimientoIchimoku.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoIchimoku.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/datos divergencias.txt" beforeDir="false" afterPath="$PROJECT_DIR$/datos divergencias.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos estrategia 3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/datos estrategia 3.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_10s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_10s.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M1.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M30.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M30.csv" afterDir="false" />
@@ -166,13 +165,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1578051824094</updated>
-    </task>
-    <task id="LOCAL-00016" summary="- agregado codigo en main para calcular rango de soportes y resistencias en periodos de 1m y 5m, ya no se calculan en los modulos de extraccion de datos">
-      <created>1578674062907</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1578674062907</updated>
     </task>
     <task id="LOCAL-00017" summary="- agregado codigo en main para calcular rango de soportes y resistencias en periodos de 1m y 5m, ya no se calculan en los modulos de extraccion de datos">
       <created>1578696211777</created>
@@ -510,7 +502,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584579511710</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="- añadido código para guardado de informacion">
+      <created>1585883115230</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1585883115231</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -560,6 +559,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="179" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1578063180337" />
+    <state x="710" y="322" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1586221955824">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="710" y="322" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1586221955824" />
     <state x="640" y="396" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1583708276392">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -572,10 +575,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="679" y="135" key="#main/0.0.1920.1040@0.0.1920.1040" timestamp="1579064399171" />
-    <state x="343" y="123" key="CommitChangelistDialog2" timestamp="1584579485056">
+    <state x="343" y="123" key="CommitChangelistDialog2" timestamp="1585883109434">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="343" y="123" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1584579485056" />
+    <state x="343" y="123" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1585883109434" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1583803910788">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -620,14 +623,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="512" y="158" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1581055407181" />
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1585883097699">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1585883128258">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1585883097699" />
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1585877989160">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1585883128258" />
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1586364024092">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585877989160" />
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586364024092" />
     <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578071106605">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
