@@ -76,7 +76,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                     print("error en lectura datos m1 seguimiento ichimoku")
             print("posible compra, low 10s: ", ohlc_10s['l'].iloc[-1], " soporte max 10s: ", sop_max_10s)
             if ohlc_10s['l'].iloc[-1] <= sop_max_10s or ohlc_10s['l'].iloc[-2] <= sop_max_10s:
-                while ohlc_10s['c'].iloc[-1] > sop_max_10s:
+                while ohlc_10s['c'].iloc[-1] < sop_max_10s:
                     try:
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                         res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
@@ -202,7 +202,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                     print("error en lectura datos m1 seguimiento ichimoku")
             print("posible venta, high 10s: ", ohlc_10s['h'].iloc[-1], " resistencia menor 10s: ", res_min_10s)
             if ohlc_10s['h'].iloc[-1] >= res_min_10s or ohlc_10s['h'].iloc[-2] >= res_min_10s:
-                while ohlc_10s['c'].iloc[-1] < res_min_10s:
+                while ohlc_10s['c'].iloc[-1] > res_min_10s:
                     try:
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                         res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
@@ -333,7 +333,7 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                 time.sleep(60)
             print("posible compra, low 10s: ", ohlc_10s['l'].iloc[-1], " soporte max 10s: ", sop_max_10s)
             if ohlc_10s['l'].iloc[-1] <= sop_max_10s or ohlc_10s['l'].iloc[-2] <= sop_max_10s:
-                while ohlc_10s['c'].iloc[-1] > sop_max_10s:
+                while ohlc_10s['c'].iloc[-1] < sop_max_10s:
                     try:
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                         res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
@@ -440,7 +440,7 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                 print("Se encuentra en soporte de 1 minuto")
             print("posible venta, high 10s: ", ohlc_10s['h'].iloc[-1], " resistencia menor 10s: ", res_min_10s)
             if ohlc_10s['h'].iloc[-1] >= res_min_10s or ohlc_10s['h'].iloc[-2] >= res_min_10s:
-                while ohlc_10s['c'].iloc[-1] < res_min_10s:
+                while ohlc_10s['c'].iloc[-1] > res_min_10s:
                     try:
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                         res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
