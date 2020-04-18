@@ -6,14 +6,20 @@ import time
 
 
 def extraccion_10s_continua(divisa):
-    params = {"count": 500, "granularity": "S5"}  # granularity can be in seconds S5 -
+    params = {"count": 500, "granularity": "S10"}  # granularity can be in seconds S5 -
     # S30, minutes M1 - M30, hours H1 - H12, days D, weeks W or months M
     client = oandapyV20.API(access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                             environment="practice")
     account_id = "101-011-12930479-001"
-    candles = instruments.InstrumentsCandles(instrument=divisa, params=params)
-    client.request(candles)
-    ohlc_dict = candles.response["candles"]
+    try:
+        candles = instruments.InstrumentsCandles(instrument=divisa, params=params)
+        client.request(candles)
+        ohlc_dict = candles.response["candles"]
+    except Exception as e:
+        if e == KeyboardInterrupt:
+            return
+        print(f"excepcion {e}: {type(e)}")
+        print("hubo error, verificar si la ejecucion continua")
     ohlc = pd.DataFrame(ohlc_dict)
     datos_10s = ohlc.mid.dropna().apply(pd.Series)
     datos_10s["volume"] = ohlc["volume"]
@@ -50,3 +56,4 @@ def extraccion_10s_continua(divisa):
                 return
             print(f"excepcion {e}: {type(e)}")
             print("hubo error, verificar si la ejecucion continua")
+            extraccion_10s_continua(divisa)

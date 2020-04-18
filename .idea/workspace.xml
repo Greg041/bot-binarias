@@ -3,8 +3,18 @@
   <component name="ChangeListManager">
     <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExtraccionDatos10s.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExtraccionDatos10s.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SeguimientoDivergencia.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoDivergencia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SeguimientoIchimoku.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoIchimoku.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos divergencias.txt" beforeDir="false" afterPath="$PROJECT_DIR$/datos divergencias.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos estrategia 3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/datos estrategia 3.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_10s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_10s.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_M1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_M30.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M30.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prueba.py" beforeDir="false" afterPath="$PROJECT_DIR$/prueba.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,13 +168,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1578051824094</updated>
-    </task>
-    <task id="LOCAL-00021" summary="- añadida estrategia 2, modulo para indicador ichimoku.py y opcion para elegir estrategia a ejecutar">
-      <created>1578972608035</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1578972608035</updated>
     </task>
     <task id="LOCAL-00022" summary="- creada funcion para detectar divergencias en el macd en el módulo macd&#10;- mejorada función estrategia2 para operar en contratendencia cuando se detecten divergencias, y editada condicionales para operar a favor de la tendencia con el ichimoku para generar un mayor número de señales&#10;- mejorada función ejecutar en módulo analisis_y_estrategia.py para que detecte que par está mandando la señal de compra o venta y cambiar a la ventana de ese par antes de ejecutar la operación">
       <created>1579235891857</created>
@@ -502,7 +505,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586399967823</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="- modificado función de SeguimientoDivergencia.py para esperar a que el precio toque un soporte o resistencia en temporalidad de 10s y salga de ella para realizar la operación de compra o venta según corresponda">
+      <created>1586403574203</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1586403574203</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -520,7 +530,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- modificado código en estrategia 2 para que solo haga seguimiento inchimoku cuando se crucen las 2 senkou span y el precio se encuentre por encima o debajo de la nube kumo segun corresponda" />
     <MESSAGE value="- las ventas a favor ahora se ejecutan a 5 minutos" />
     <MESSAGE value="- modificada señal de compra y venta para ichimoky en analisis_y_estrategia.py numero 2 para intento de señales con mayor precision" />
     <MESSAGE value="- corregido bug en SeguimientoIchimoku.py" />
@@ -545,13 +554,10 @@
     <MESSAGE value="- añadido código para ejecución de estrategia #2 de divergencias para tomar mejor en cuenta los soportes y las resistencias en caso de que sus mínimos y máximos sean iguales,&#10;- Añadido código a SeguimientoIchimoku.py en seguimiento_ichimoku1 para esperar a que el precio en temporalidad de 10s choque con un soporte o resistencia según corresponda y luego realizar la operacion de compra o venta y modificado código para tomar mejor en cuenta los soportes y resistencia en caso de que sus valores máximos y mínimos sean iguales" />
     <MESSAGE value="- eliminado código basura en módulo main y módulo analisis_y_estrategia.py" />
     <MESSAGE value="- modificado función de SeguimientoIchimoku.py seguimiento_ichimoku2 para esperar a que el precio toque un soporte o resistencia en temporalidad de 10s y salga de ella para realizar la operación de compra o venta según corresponda" />
-    <option name="LAST_COMMIT_MESSAGE" value="- modificado función de SeguimientoIchimoku.py seguimiento_ichimoku2 para esperar a que el precio toque un soporte o resistencia en temporalidad de 10s y salga de ella para realizar la operación de compra o venta según corresponda" />
+    <MESSAGE value="- modificado función de SeguimientoDivergencia.py para esperar a que el precio toque un soporte o resistencia en temporalidad de 10s y salga de ella para realizar la operación de compra o venta según corresponda" />
+    <option name="LAST_COMMIT_MESSAGE" value="- modificado función de SeguimientoDivergencia.py para esperar a que el precio toque un soporte o resistencia en temporalidad de 10s y salga de ella para realizar la operación de compra o venta según corresponda" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="552" y="179" key="#Notifications" timestamp="1578063180337">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="552" y="179" key="#Notifications/0.0.1920.1040@0.0.1920.1040" timestamp="1578063180337" />
     <state x="710" y="322" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1586221955824">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -568,30 +574,30 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="679" y="135" key="#main/0.0.1920.1040@0.0.1920.1040" timestamp="1579064399171" />
-    <state x="0" y="123" key="CommitChangelistDialog2" timestamp="1586399942841">
+    <state x="0" y="123" key="CommitChangelistDialog2" timestamp="1587233382749">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="0" y="123" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1586399942841" />
+    <state x="0" y="123" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1587233382749" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1583803910788">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="739" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1583803910788" />
-    <state width="1899" height="326" key="GridCell.Tab.0.bottom" timestamp="1583879292734">
+    <state width="1899" height="326" key="GridCell.Tab.0.bottom" timestamp="1587233169611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="326" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1583879292734" />
-    <state width="1899" height="326" key="GridCell.Tab.0.center" timestamp="1583879292733">
+    <state width="1899" height="326" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587233169611" />
+    <state width="1899" height="326" key="GridCell.Tab.0.center" timestamp="1587233169610">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="326" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1583879292733" />
-    <state width="1899" height="326" key="GridCell.Tab.0.left" timestamp="1583879292733">
+    <state width="1899" height="326" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587233169610" />
+    <state width="1899" height="326" key="GridCell.Tab.0.left" timestamp="1587233169609">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="326" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1583879292733" />
-    <state width="1899" height="326" key="GridCell.Tab.0.right" timestamp="1583879292733">
+    <state width="1899" height="326" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587233169609" />
+    <state width="1899" height="326" key="GridCell.Tab.0.right" timestamp="1587233169611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="326" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1583879292733" />
+    <state width="1899" height="326" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587233169611" />
     <state width="1899" height="347" key="GridCell.Tab.1.bottom" timestamp="1582121675764">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -608,26 +614,18 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1899" height="347" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582121675764" />
-    <state x="540" y="255" key="IDE.errors.dialog" timestamp="1578087577117">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="540" y="255" key="IDE.errors.dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1578087577117" />
     <state x="512" y="158" key="SettingsEditor" timestamp="1581055407181">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="512" y="158" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1581055407181" />
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1586400220328">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1586403578983">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586400220328" />
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1586394946181">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1586403578983" />
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1587233048886">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1586394946181" />
-    <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1578071106605">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="769" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1578071106605" />
+    <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587233048886" />
     <state x="138" y="0" width="1688" height="722" key="dock-window-1" timestamp="1578971391716">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

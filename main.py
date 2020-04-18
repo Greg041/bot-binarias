@@ -125,7 +125,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, numero_noti
         except Exception as e:
             print(f"excepcion {e}: {type(e)}")
             print("hubo error en lectura de datos csv")
-        analisis_y_estrategia(datos_10s, datos_1min, datos_5min, divisa, resistencia_punto_mayor_1m,
+        analisis_y_estrategia(datos_10s, datos_1min, datos_5min, datos_30min, divisa, resistencia_punto_mayor_1m,
                               resistencia_punto_menor_1m, resistencia_punto_mayor_5m,
                               resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
                               soporte_punto_menor_5m, soporte_punto_mayor_5m, resistencia_punto_mayor_30m,

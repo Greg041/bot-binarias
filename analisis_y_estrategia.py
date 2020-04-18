@@ -37,7 +37,7 @@ def setenta_por_ciento(ohlc_vela, alcista_o_bajista: str) -> bool:
             return (((ohlc_vela['l'] - ohlc_vela['o']) * 70) / 100) >= (ohlc_vela['c'] - ohlc_vela['o'])
 
 
-def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
+def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
                           sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min, res_max_30m, res_min_30m, sop_min_30m,
                           sop_max_30m, monto, client):
     ichi_1m = ichimoku(ohlc_1m)
@@ -47,6 +47,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
     ichi_5m = ichimoku(ohlc_5m)
     adx_5m = ADX(ohlc_5m)
     rsi_5m = RSI(ohlc_5m)
+    ichi_30m = ichimoku(ohlc_30m)
     print((ichi_5m["Senkou span A"].iloc[-26] < ohlc_5m['c'].iloc[-1] > ichi_5m["Senkou span B"].iloc[-26]),
           (adx_5m["ADX"].iloc[-2] < adx_5m["ADX"].iloc[-1] > 20.0),
           (adx_5m["DI+"].iloc[-1] > adx_5m["DI-"].iloc[-1]), (rsi_5m.iloc[-1] > rsi_5m.iloc[-2]))
@@ -69,10 +70,15 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
                  ichi_1m["Senkou span B"].iloc[-26] <= ohlc_1m['c'].iloc[-1] <= ichi_1m["Senkou span A"].iloc[-26] or
                  ichi_1m["Senkou span A"].iloc[-26] < ohlc_1m['c'].iloc[-1] > ichi_1m["Senkou span B"].iloc[-26]) and \
                 (ichi_1m["Senkou span A"].iloc[-2] <= ichi_1m["Senkou span A"].iloc[-1]):
-            seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichi_1m, par, "compraf", res_max_30m, res_min_30m,
-                                 sop_min_30m, sop_max_30m, res_max_5min, res_min_5min,
-                                 sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                                 sop_min_1min, sop_max_1min, monto, client)
+            if res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min or res_max_30m > ohlc_10s['c'].iloc[
+                -1] > res_min_30m:
+                print("Se encuentra en una resistencia fuerte")
+                pass
+            else:
+                seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichi_1m, par, "compraf", res_max_30m, res_min_30m,
+                                     sop_min_30m, sop_max_30m, res_max_5min, res_min_5min,
+                                     sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                                     sop_min_1min, sop_max_1min, monto, client)
     elif (ichi_5m["Senkou span A"].iloc[-26] <= ohlc_5m['o'].iloc[-1] <= ichi_5m["Senkou span B"].iloc[-26] or
           ichi_5m["Senkou span B"].iloc[-26] <= ohlc_5m['o'].iloc[-1] <= ichi_5m["Senkou span A"].iloc[-26]) and \
             ichi_5m["Senkou span A"].iloc[-26] > ohlc_5m['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]:
@@ -88,11 +94,15 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
                  ichi_1m["Senkou span B"].iloc[-26] <= ohlc_1m['c'].iloc[-1] <= ichi_1m["Senkou span A"].iloc[-26] or
                  ichi_1m["Senkou span A"].iloc[-26] > ohlc_1m['c'].iloc[-1] < ichi_1m["Senkou span B"].iloc[-26]) and \
                 (ichi_1m["Senkou span A"].iloc[-2] >= ichi_1m["Senkou span A"].iloc[-1]):
-            seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichi_1m, par, "ventaf", res_max_30m, res_min_30m,
-                                 sop_min_30m, sop_max_30m, res_max_5min, res_min_5min,
-                                 sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                                 sop_min_1min, sop_max_1min, monto, client)
-            return ""
+            if sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min or sop_min_30m < ohlc_10s['c'].iloc[
+                -1] < sop_max_30m:
+                print("Se encuentra en un soporte fuerte")
+                pass
+            else:
+                seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichi_1m, par, "ventaf", res_max_30m, res_min_30m,
+                                     sop_min_30m, sop_max_30m, res_max_5min, res_min_5min,
+                                     sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                                     sop_min_1min, sop_max_1min, monto, client)
     # estrategia #2 divergencias
     if adx_1m["ADX"].iloc[-1] > 25.0 and adx_1m["DI+"].iloc[-1] > adx_1m["DI-"].iloc[-1]:
         print("en res 1 min", ohlc_10s['c'].iloc[-1] > res_min_1min)
@@ -192,16 +202,18 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
                   setenta_por_ciento(ohlc_1m.iloc[-1], "alcista"))) and \
                 (adx_1m["ADX"].iloc[-2] <= adx_1m["ADX"].iloc[-1]) and (rsi_1m.iloc[-1] > rsi_1m.iloc[-2]) and \
                 (ichi_1m["tenkan-sen"].iloc[-1] >= ichi_1m["kijun-sen"].iloc[-1]):
-            fichero_est_3 = open("datos estrategia 3.txt", "at")
-            fichero_est_3.write(f"\nengulfing: {engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], 'alcista')}")
-            fichero_est_3.close()
-            seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, "compraf", res_max_30m, res_min_30m, sop_min_30m,
-                                  sop_max_30m, res_max_5min, res_min_5min,
-                                  sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                                  sop_min_1min, sop_max_1min, monto, client)
-            return ""
-        else:
-            return ""
+            if res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min or res_max_30m > ohlc_10s['c'].iloc[
+                -1] > res_min_30m:
+                print("Se encuentra en una resistencia fuerte")
+                pass
+            else:
+                fichero_est_3 = open("datos estrategia 3.txt", "at")
+                fichero_est_3.write(f"\nengulfing: {engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], 'alcista')}")
+                fichero_est_3.close()
+                seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, "compraf", res_max_30m, res_min_30m, sop_min_30m,
+                                      sop_max_30m, res_max_5min, res_min_5min,
+                                      sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                                      sop_min_1min, sop_max_1min, monto, client)
     elif (ichi_5m["Senkou span A"].iloc[-26] > ohlc_5m['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]) and \
             (adx_5m["ADX"].iloc[-2] < adx_5m["ADX"].iloc[-1] > 20.0) and \
             (adx_5m["DI-"].iloc[-1] > adx_5m["DI+"].iloc[-1]) and (rsi_5m.iloc[-2] > rsi_5m.iloc[-1]):
@@ -213,18 +225,22 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
                   setenta_por_ciento(ohlc_1m.iloc[-1], "bajista"))) and \
                 (adx_1m["ADX"].iloc[-2] <= adx_1m["ADX"].iloc[-1]) and (rsi_1m.iloc[-1] < rsi_1m.iloc[-2]) and \
                 (ichi_1m["tenkan-sen"].iloc[-1] <= ichi_1m["kijun-sen"].iloc[-1]):
-            fichero_est_3 = open("datos estrategia 3.txt", "at")
-            fichero_est_3.write(f"\nengulfing: {engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], 'bajista')}")
-            fichero_est_3.close()
-            seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, "ventaf", res_max_30m, res_min_30m, sop_min_30m,
-                                  sop_max_30m, res_max_5min, res_min_5min,
-                                  sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                                  sop_min_1min, sop_max_1min, monto, client)
-            return ""
-        else:
-            return ""
+            if sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min or sop_min_30m < ohlc_10s['c'].iloc[
+                -1] < sop_max_30m:
+                print("Se encuentra en un soporte fuerte")
+                pass
+            else:
+                fichero_est_3 = open("datos estrategia 3.txt", "at")
+                fichero_est_3.write(f"\nengulfing: {engulfing(ohlc_1m.iloc[-2], ohlc_1m.iloc[-1], 'bajista')}")
+                fichero_est_3.close()
+                seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, "ventaf", res_max_30m, res_min_30m, sop_min_30m,
+                                      sop_max_30m, res_max_5min, res_min_5min,
+                                      sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
+                                      sop_min_1min, sop_max_1min, monto, client)
     # estrategia #4
-    if (ichi_5m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]) or \
+    if (ichi_30m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_30m["Senkou span B"].iloc[-26]) or \
+            (ichi_30m["Senkou span B"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_30m["Senkou span A"].iloc[-26]) or\
+        (ichi_5m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]) or \
             (ichi_5m["Senkou span B"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_5m["Senkou span A"].iloc[-26]):
         bollinger_1m = boll_bnd(ohlc_1m)
         adx_1m = ADX(ohlc_1m, 14)
@@ -237,13 +253,13 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
         print("en soporte ", sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min,
               sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min, sop_min_30m < ohlc_10s['c'].iloc[-1] < sop_max_30m)
         if (ohlc_10s['c'].iloc[-1] > bollinger_1m["BB_up"].iloc[-1]) and (adx_1m["ADX"].iloc[-1] < 32.0) and (
-                rsi_1m.iloc[-1] < 70) and ((res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min and
+                rsi_1m.iloc[-1] < 70) and (((res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min or res_max_1min <= ohlc_10s['c'].iloc[-1]) and
                                            sop_min_5min < ohlc_10s['c'].iloc[-1] > sop_max_5min and
                                            sop_max_30m < ohlc_10s['c'].iloc[-1] > sop_min_30m) or
-                ((res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min or res_max_5min < ohlc_10s['c'].iloc[-1]) and
+                ((res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min or res_max_5min <= ohlc_10s['c'].iloc[-1]) and
                  sop_min_30m < ohlc_10s['c'].iloc[-1] > sop_max_30m) or
-                res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m):
-            ejecucion("ventac", par, '4', monto)
+                (res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m)):
+            ejecucion("ventac", par, '3', monto)
             fichero_est_4 = open("datos estrategia 4.txt", "at")
             fichero_est_4.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
                                 f"precio actual: {ohlc_10s.iloc[-1]} \n"
@@ -264,17 +280,18 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
                                 f"en resistencia 1m: {res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min} \n"
                                 f"en resistencia 5m: {res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min} \n"
                                 f"en resistencia 30m: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n"
+                                f"sobre resistencia 1m: {res_max_1min <= ohlc_10s['c'].iloc[-1]}"
                                 f"venta \n")
             fichero_est_4.close()
             time.sleep(120)
         elif (ohlc_10s['c'].iloc[-1] < bollinger_1m["BB_dn"].iloc[-1]) and (adx_1m["ADX"].iloc[-1] < 32.0) and (
-                rsi_1m.iloc[-1] > 30) and ((sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min and
+                rsi_1m.iloc[-1] > 30) and (((sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min or ohlc_10s['c'].iloc[-1] <= sop_min_1min) and
                                            (res_max_5min > ohlc_10s['c'].iloc[-1] < res_min_5min) and
                                            res_max_30m > ohlc_10s['c'].iloc[-1] < res_min_30m) or
-                ((sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min or ohlc_10s['c'].iloc[-1] < sop_min_5min) and
+                ((sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min or ohlc_10s['c'].iloc[-1] <= sop_min_5min) and
                  res_max_30m > ohlc_10s['c'].iloc[-1] < res_min_30m) or
                 sop_min_30m < ohlc_10s['c'].iloc[-1] < sop_max_30m):
-            ejecucion("comprac", par, '4', monto)
+            ejecucion("comprac", par, '3', monto)
             fichero_est_4 = open("datos estrategia 4.txt", "at")
             fichero_est_4.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
                                 f"precio actual: {ohlc_10s.iloc[-1]} \n"
@@ -292,9 +309,10 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, par, res_max_1min, res_min
                                 f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n"
                                 f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
                                 f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
-                                f"en resistencia 1m: {res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min} \n"
-                                f"en resistencia 5m: {res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min} \n"
-                                f"en resistencia 30m: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n"
+                                f"en soporte 1m: {sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min} \n"
+                                f"en soporte 5m: {sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min} \n"
+                                f"en soporte 30m: {sop_min_30m < ohlc_10s['c'].iloc[-1] < sop_max_30m} \n"
+                                f"debajo soporte 1m: {ohlc_10s['c'].iloc[-1] <= sop_min_1min}"
                                 f"compra \n")
             fichero_est_4.close()
             time.sleep(120)
