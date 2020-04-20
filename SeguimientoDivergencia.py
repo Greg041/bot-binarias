@@ -93,23 +93,22 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                         ejecucion("ventac", par, '4', monto)
                         adx_10s = ADX(ohlc_10s)
                         rsi_10s = RSI(ohlc_10s)
-                        fichero_div = open("datos divergencias.txt", "at")
-                        fichero_div.write(f"precio anterior: {ohlc_1m.iloc[-2]} \n"
-                                          f"precio actual: {ohlc_1m.iloc[-1]} \n"
-                                          f"adx 5m: {adx_5m['ADX'].iloc[-2]} {adx_5m['ADX'].iloc[-1]} \n"
-                                          f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
-                                          f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
-                                          f"rsi 5m: {rsi_5m.iloc[-2]} {rsi_5m.iloc[-1]} \n"
-                                          f"adx 1m {adx_1m['ADX'].iloc[-2]} {adx_1m['ADX'].iloc[-1]} \n"
-                                          f"DI+ 1m: {adx_1m['DI+'].iloc[-2]}, {adx_1m['DI+'].iloc[-1]} \n"
-                                          f"DI- 1m: {adx_1m['DI-'].iloc[-2]}, {adx_1m['DI-'].iloc[-1]} \n"
-                                          f"rsi 1m {rsi_1m.iloc[-2]} {rsi_1m.iloc[-1]} \n"
-                                          f"adx 10s {adx_10s['ADX'].iloc[-2]} {adx_10s['ADX'].iloc[-1]} \n"
-                                          f"DI+ 10s: {adx_10s['DI+'].iloc[-2]}, {adx_10s['DI+'].iloc[-1]} \n"
-                                          f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
-                                          f"rsi 10s: {rsi_10s.iloc[-2]} {rsi_10s.iloc[-1]} \n"
-                                          "venta \n")
-                        fichero_div.close()
+                        with open("datos divergencias.txt", "at") as fichero_div:
+                            fichero_div.write(f"precio anterior: {ohlc_1m.iloc[-2]} \n"
+                                              f"precio actual: {ohlc_1m.iloc[-1]} \n"
+                                              f"adx 5m: {adx_5m['ADX'].iloc[-2]} {adx_5m['ADX'].iloc[-1]} \n"
+                                              f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
+                                              f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
+                                              f"rsi 5m: {rsi_5m.iloc[-2]} {rsi_5m.iloc[-1]} \n"
+                                              f"adx 1m {adx_1m['ADX'].iloc[-2]} {adx_1m['ADX'].iloc[-1]} \n"
+                                              f"DI+ 1m: {adx_1m['DI+'].iloc[-2]}, {adx_1m['DI+'].iloc[-1]} \n"
+                                              f"DI- 1m: {adx_1m['DI-'].iloc[-2]}, {adx_1m['DI-'].iloc[-1]} \n"
+                                              f"rsi 1m {rsi_1m.iloc[-2]} {rsi_1m.iloc[-1]} \n"
+                                              f"adx 10s {adx_10s['ADX'].iloc[-2]} {adx_10s['ADX'].iloc[-1]} \n"
+                                              f"DI+ 10s: {adx_10s['DI+'].iloc[-2]}, {adx_10s['DI+'].iloc[-1]} \n"
+                                              f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
+                                              f"rsi 10s: {rsi_10s.iloc[-2]} {rsi_10s.iloc[-1]} \n"
+                                              "venta \n")
                         time.sleep(120)
                         break
             except Exception as e:
@@ -189,23 +188,22 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                         ejecucion("comprac", par, '4', monto)
                         adx_10s = ADX(ohlc_10s)
                         rsi_10s = RSI(ohlc_10s)
-                        fichero_div = open("datos divergencias.txt", "at")
-                        fichero_div.write(f"precio anterior: {ohlc_1m.iloc[-2]} \n"
-                                          f"precio actual: {ohlc_1m.iloc[-1]} \n"
-                                          f"adx 5m: {adx_5m['ADX'].iloc[-2]} {adx_5m['ADX'].iloc[-1]} \n"
-                                          f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
-                                          f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
-                                          f"rsi 5m: {rsi_5m.iloc[-2]} {rsi_5m.iloc[-1]} \n"
-                                          f"adx 1m {adx_1m['ADX'].iloc[-2]} {adx_1m['ADX'].iloc[-1]} \n"
-                                          f"DI+ 1m: {adx_1m['DI+'].iloc[-2]}, {adx_1m['DI+'].iloc[-1]} \n"
-                                          f"DI- 1m: {adx_1m['DI-'].iloc[-2]}, {adx_1m['DI-'].iloc[-1]} \n"
-                                          f"rsi 1m {rsi_1m.iloc[-2]} {rsi_1m.iloc[-1]} \n"
-                                          f"adx 10s {adx_10s['ADX'].iloc[-2]} {adx_10s['ADX'].iloc[-1]} \n"
-                                          f"DI+ 10s: {adx_10s['DI+'].iloc[-2]}, {adx_10s['DI+'].iloc[-1]} \n"
-                                          f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
-                                          f"rsi 10s: {rsi_10s.iloc[-2]} {rsi_10s.iloc[-1]} \n"
-                                          "compra \n")
-                        fichero_div.close()
+                        with open("datos divergencias.txt", "at") as fichero_div:
+                            fichero_div.write(f"precio anterior: {ohlc_1m.iloc[-2]} \n"
+                                              f"precio actual: {ohlc_1m.iloc[-1]} \n"
+                                              f"adx 5m: {adx_5m['ADX'].iloc[-2]} {adx_5m['ADX'].iloc[-1]} \n"
+                                              f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
+                                              f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
+                                              f"rsi 5m: {rsi_5m.iloc[-2]} {rsi_5m.iloc[-1]} \n"
+                                              f"adx 1m {adx_1m['ADX'].iloc[-2]} {adx_1m['ADX'].iloc[-1]} \n"
+                                              f"DI+ 1m: {adx_1m['DI+'].iloc[-2]}, {adx_1m['DI+'].iloc[-1]} \n"
+                                              f"DI- 1m: {adx_1m['DI-'].iloc[-2]}, {adx_1m['DI-'].iloc[-1]} \n"
+                                              f"rsi 1m {rsi_1m.iloc[-2]} {rsi_1m.iloc[-1]} \n"
+                                              f"adx 10s {adx_10s['ADX'].iloc[-2]} {adx_10s['ADX'].iloc[-1]} \n"
+                                              f"DI+ 10s: {adx_10s['DI+'].iloc[-2]}, {adx_10s['DI+'].iloc[-1]} \n"
+                                              f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
+                                              f"rsi 10s: {rsi_10s.iloc[-2]} {rsi_10s.iloc[-1]} \n"
+                                              "compra \n")
                         time.sleep(120)
                         break
             except Exception as e:
