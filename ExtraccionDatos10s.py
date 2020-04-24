@@ -32,10 +32,11 @@ def extraccion_10s_continua(divisa):
         try:
             starttime = time.time()
             timeout2 = starttime + 10
-            while starttime <= timeout2:  # Se cuenta 5 segundos de extraccion de datos para luego filtrar
+            while starttime <= timeout2:  # Se cuenta 10 segundos de extraccion de datos para luego filtrar
                 live_price_data = client.request(live_price_request)
                 live_data.append(live_price_data)
                 starttime = time.time()
+                time.sleep(1)
             for i in range(len(live_data) - 1):  # Se saca la media entre el Bid y el ask para tener el precio real
                 precio = (float(live_data[i]["prices"][0]["closeoutBid"])
                           + float(live_data[i]["prices"][0]["closeoutAsk"])) / 2

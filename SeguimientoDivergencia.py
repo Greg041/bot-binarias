@@ -1,11 +1,14 @@
 import pandas as pd
 import time
 import oandapyV20
+import oandapyV20.endpoints.instruments as instruments
+import oandapyV20.endpoints.pricing as pricing
 from ADX import ADX
 from macd import MACD
 from ExtraccionDatosOanda import ExtraccionOanda
 from Ejecucion import ejecucion
 from RSI import RSI
+from cambiar_monto import cambio_de_monto
 
 
 def calcular_rango_sop_res(ohlc, rango_velas):
@@ -53,8 +56,9 @@ def setenta_por_ciento(ohlc_vela, alcista_o_bajista: str) -> bool:
 
 
 def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_max_min_macd, punto_ultimo,
-                    monto, client):
+                    monto, client, request):
     print("estamos en seguimiento divergencia")
+    tiempo_de_operacion = "3"
     if tipo_de_divergencia == "bajista":
         punto_max_macd = punto_max_min_macd
         punto_ultimo_macd = punto_ultimo
@@ -90,7 +94,10 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                 print("reintentando lectura ohlc_10s")
                                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                                 res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
-                        ejecucion("ventac", par, '4', monto)
+                        ejecucion("ventac", par, tiempo_de_operacion, monto)
+                        live_price_data = client.request(request)
+                        precio = (float(live_price_data["prices"][0]["closeoutBid"])
+                                  + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
                         adx_10s = ADX(ohlc_10s)
                         rsi_10s = RSI(ohlc_10s)
                         with open("datos divergencias.txt", "at") as fichero_div:
@@ -109,7 +116,16 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                               f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
                                               f"rsi 10s: {rsi_10s.iloc[-2]} {rsi_10s.iloc[-1]} \n"
                                               "venta \n")
-                        time.sleep(120)
+                        time.sleep(int(tiempo_de_operacion) * 60)
+                        live_price_data = client.request(request)
+                        precio2 = (float(live_price_data["prices"][0]["closeoutBid"])
+                                   + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
+                        if precio > precio2:
+                            print("operacion ganada, disminyendo martingala")
+                            cambio_de_monto(monto, "disminuir")
+                        elif precio < precio2:
+                            print("operacion perdida, aumentando martingala")
+                            cambio_de_monto(monto, "aumentar")
                         break
             except Exception as e:
                 print(f"excepcion {e}: {type(e)}")
@@ -185,7 +201,10 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                 print("reintentando lectura ohlc_10s")
                                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                                 res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
-                        ejecucion("comprac", par, '4', monto)
+                        ejecucion("comprac", par, tiempo_de_operacion, monto)
+                        live_price_data = client.request(request)
+                        precio = (float(live_price_data["prices"][0]["closeoutBid"])
+                                  + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
                         adx_10s = ADX(ohlc_10s)
                         rsi_10s = RSI(ohlc_10s)
                         with open("datos divergencias.txt", "at") as fichero_div:
@@ -204,7 +223,16 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                               f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
                                               f"rsi 10s: {rsi_10s.iloc[-2]} {rsi_10s.iloc[-1]} \n"
                                               "compra \n")
-                        time.sleep(120)
+                        time.sleep(int(tiempo_de_operacion) * 60)
+                        live_price_data = client.request(request)
+                        precio2 = (float(live_price_data["prices"][0]["closeoutBid"])
+                                   + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
+                        if precio < precio2:
+                            print("operacion ganada, disminyendo martingala")
+                            cambio_de_monto(monto, "disminuir")
+                        elif precio > precio2:
+                            print("operacion perdida, aumentando martingala")
+                            cambio_de_monto(monto, "aumentar")
                         break
             except Exception as e:
                 print(f"excepcion {e}: {type(e)}")

@@ -5,6 +5,13 @@ from ExtraccionDatos10s import extraccion_10s_continua
 import time
 import pandas as pd
 import oandapyV20
+import oandapyV20.endpoints.instruments as instruments
+import oandapyV20.endpoints.pricing as pricing
+
+
+class dinero_invertido:
+    def __init__(self, monto):
+        self.monto = monto
 
 
 def calcular_rango_sop_res(ohlc, rango_velas):
@@ -40,10 +47,12 @@ def calcular_rango_sop_res(ohlc, rango_velas):
 def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, numero_noticias,
         horas_noticias, monto):
     print("comenzando")
+    cantidad = dinero_invertido(monto)
     timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
     divisa = f"{primera_divisa}_{segunda_divisa}"
     client = oandapyV20.API(access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                             environment="practice")
+    live_price_request = pricing.PricingInfo(accountID="101-011-12930479-001", params={"instruments": divisa})
     ExtraccionOanda(client, 500, 'M1', divisa)
     ExtraccionOanda(client, 500, 'M5', divisa)
     ExtraccionOanda(client, 500, 'M30', divisa)
@@ -130,7 +139,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, numero_noti
                               resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
                               soporte_punto_menor_5m, soporte_punto_mayor_5m, resistencia_punto_mayor_30m,
                               resistencia_punto_menor_30m, soporte_punto_menor_30m, soporte_punto_mayor_30m,
-                              monto, client)
+                              cantidad, client, live_price_request)
         time.sleep(10)
 
 

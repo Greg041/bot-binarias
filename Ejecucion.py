@@ -63,9 +63,9 @@ def click_image(image, pos, action, timestamp, offset=5):
 
 def ejecucion(signal, par, tiempo, monto):
     if signal != "":
-        click_image("par.jpg", (489, 228), "left", 0.05)
+        click_image("par.jpg", (489, 338), "left", 0.05)
         time.sleep(0.3)
-        pyautogui.leftClick(x=504, y=242)
+        pyautogui.leftClick(x=504, y=375)
         pyautogui.keyDown(par[0])
         pyautogui.keyDown(par[1])
         pyautogui.keyDown(par[2])
@@ -73,21 +73,24 @@ def ejecucion(signal, par, tiempo, monto):
         pyautogui.keyDown(par[4])
         pyautogui.keyDown(par[5])
         pyautogui.keyDown(par[6])
-        click_image("par_sel.jpg", (635, 356), "left", 0.05)
+        click_image("par_sel.jpg", (635, 490), "left", 0.05)
         time.sleep(1)
     if monto is not None:
-        pyautogui.doubleClick(x=710, y=475)
-        pyautogui.doubleClick(x=710, y=475)
-        pyautogui.keyDown(monto[0])
-        pyautogui.keyDown(monto[1])
-        pyautogui.keyDown(monto[2])
-        pyautogui.keyDown(monto[3])
+        pyautogui.doubleClick(x=710, y=600)
+        pyautogui.doubleClick(x=710, y=600)
+        try:
+            pyautogui.keyDown(monto[0])
+            pyautogui.keyDown(monto[1])
+            pyautogui.keyDown(monto[2])
+            pyautogui.keyDown(monto[3])
+        except:
+            pass
         time.sleep(1)
     if signal == "comprac":
         print("compra contratendencia")
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-        pyautogui.doubleClick(x=685, y=415)
-        pyautogui.doubleClick(x=685, y=415)
+        pyautogui.doubleClick(x=685, y=540)
+        pyautogui.doubleClick(x=685, y=540)
         time.sleep(0.1)
         pyautogui.keyDown(tiempo[0])
         try:
@@ -95,29 +98,16 @@ def ejecucion(signal, par, tiempo, monto):
         except:
             pass
         time.sleep(2)
-        click_image("imagen compra.jpg", (1089, 340), "left", 0.05)
-        click_image("imagen compra.jpg", (1089, 340), "left", 0.05)
+        click_image("imagen compra.jpg", (1089, 460), "left", 0.05)
+        click_image("imagen compra.jpg", (1089, 460), "left", 0.05)
         #winsound.Beep(440, 1000)
         time.sleep(3)
-        click_image("x.jpg", (1388, 292), "left", 0.05)
+        click_image("x.jpg", (1388, 405), "left", 0.05)
     elif signal == "compraf":
         print("compra a favor")
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-        pyautogui.doubleClick(x=685, y=415)
-        pyautogui.doubleClick(x=685, y=415)
-        time.sleep(0.1)
-        pyautogui.keyDown(tiempo[0])
-        time.sleep(2)
-        click_image("imagen compra.jpg", (1089, 340), "left", 0.05)
-        click_image("imagen compra.jpg", (1089, 340), "left", 0.05)
-        #winsound.Beep(440, 1000)
-        time.sleep(3)
-        click_image("x.jpg", (1388, 292), "left", 0.05)
-    elif signal == "ventac":
-        print("venta contratendencia")
-        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-        pyautogui.doubleClick(x=685, y=415)
-        pyautogui.doubleClick(x=685, y=415)
+        pyautogui.doubleClick(x=685, y=540)
+        pyautogui.doubleClick(x=685, y=540)
         time.sleep(0.1)
         pyautogui.keyDown(tiempo[0])
         try:
@@ -125,21 +115,42 @@ def ejecucion(signal, par, tiempo, monto):
         except:
             pass
         time.sleep(2)
-        click_image("imagen compra.jpg", (1088, 495), "left", 0.05)
-        click_image("imagen compra.jpg", (1088, 495), "left", 0.05)
+        click_image("imagen compra.jpg", (1089, 460), "left", 0.05)
+        click_image("imagen compra.jpg", (1089, 460), "left", 0.05)
         #winsound.Beep(440, 1000)
         time.sleep(3)
-        click_image("x.jpg", (1388, 292), "left", 0.05)
+        click_image("x.jpg", (1388, 405), "left", 0.05)
+    elif signal == "ventac":
+        print("venta contratendencia")
+        print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+        pyautogui.doubleClick(x=685, y=540)
+        pyautogui.doubleClick(x=685, y=540)
+        time.sleep(0.1)
+        pyautogui.keyDown(tiempo[0])
+        try:
+            pyautogui.keyDown(tiempo[1])
+        except:
+            pass
+        time.sleep(2)
+        click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
+        click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
+        #winsound.Beep(440, 1000)
+        time.sleep(3)
+        click_image("x.jpg", (1388, 405), "left", 0.05)
     elif signal == "ventaf":
         print("venta a favor")
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
-        pyautogui.doubleClick(x=685, y=415)
-        pyautogui.doubleClick(x=685, y=415)
+        pyautogui.doubleClick(x=685, y=540)
+        pyautogui.doubleClick(x=685, y=540)
         time.sleep(0.1)
         pyautogui.keyDown(tiempo[0])
+        try:
+            pyautogui.keyDown(tiempo[1])
+        except:
+            pass
         time.sleep(2)
-        click_image("imagen compra.jpg", (1088, 495), "left", 0.05)
-        click_image("imagen compra.jpg", (1088, 495), "left", 0.05)
+        click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
+        click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
         #winsound.Beep(440, 1000)
         time.sleep(3)
-        click_image("x.jpg", (1388, 292), "left", 0.05)
+        click_image("x.jpg", (1388, 405), "left", 0.05)

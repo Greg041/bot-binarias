@@ -6,6 +6,9 @@ from ExtraccionDatosOanda import ExtraccionOanda
 import oandapyV20
 import pandas as pd
 import time
+import oandapyV20.endpoints.instruments as instruments
+import oandapyV20.endpoints.pricing as pricing
+from cambiar_monto import cambio_de_monto
 
 
 def calcular_rango_sop_res(ohlc, rango_velas):
@@ -54,8 +57,9 @@ def setenta_por_ciento(ohlc_vela, alcista_o_bajista: str) -> bool:
 
 def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_de_operacion, res_max_30m, res_min_30m,
                          sop_min_30m, sop_max_30m, res_max_5m, res_min_5m, sop_min_5m, sop_max_5m,
-                         res_max_1m, res_min_1m, sop_min_1m, sop_max_1m, monto, client):
+                         res_max_1m, res_min_1m, sop_min_1m, sop_max_1m, monto, client, request):
     print("estamos en seguimiento")
+    tiempo_de_operacion = "6"
     if tipo_de_operacion == "compraf":
         while (ichimoku_1m["tenkan-sen"].iloc[-2] <= ichimoku_1m["tenkan-sen"].iloc[-1] and
                ichimoku_1m["tenkan-sen"].iloc[-1] >= ichimoku_1m["kijun-sen"].iloc[-1]) and (
@@ -74,7 +78,8 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                 res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
             print("posible compra, low 10s: ", ohlc_10s['l'].iloc[-1], " soporte max 10s: ", sop_max_10s)
             if ohlc_10s['l'].iloc[-1] <= sop_max_10s or ohlc_10s['l'].iloc[-2] <= sop_max_10s:
-                while not setenta_por_ciento(ohlc_10s.iloc[-1], "alcista"):
+                while ohlc_10s['c'].iloc[-1] < ichimoku_10s['kijun-sen'].iloc[-1] or \
+                        ohlc_10s['c'].iloc[-1] < ichimoku_10s['tenkan-sen'].iloc[-1]:
                     try:
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                         ichimoku_10s = ichimoku(ohlc_10s)
@@ -86,11 +91,14 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                         ichimoku_10s = ichimoku(ohlc_10s)
                         res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
-                if (ichimoku_10s["Senkou span B"].iloc[-26] > ohlc_10s['o'].iloc[-1] <
-                    ichimoku_10s["Senkou span A"].iloc[-26]) \
-                        and (ichimoku_10s['tenkan-sen'].iloc[-2] <= ichimoku_10s['tenkan-sen'].iloc[-1]) \
-                        and (ichimoku_10s['kijun-sen'].iloc[-2] <= ichimoku_10s['kijun-sen'].iloc[-1]):
-                    ejecucion(tipo_de_operacion, par, '6', monto)
+                if (ichimoku_10s["Senkou span B"].iloc[-26] > ohlc_10s['c'].iloc[-1] < ichimoku_10s["Senkou span A"].iloc[-26] <
+                    ichimoku_10s["Senkou span B"].iloc[-26]) \
+                        and (ichimoku_10s['tenkan-sen'].iloc[-2] < ichimoku_10s['tenkan-sen'].iloc[-1]) \
+                        and (ohlc_10s['o'].iloc[-1] < ichimoku_10s['kijun-sen'].iloc[-1] < ohlc_10s['c'].iloc[-1]):
+                    ejecucion(tipo_de_operacion, par, tiempo_de_operacion, monto)
+                    live_price_data = client.request(request)
+                    precio = (float(live_price_data["prices"][0]["closeoutBid"])
+                              + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
                     adx_10s = ADX(ohlc_10s)
                     rsi_10s = RSI(ohlc_10s)
                     adx_1m = ADX(ohlc_1m)
@@ -133,10 +141,80 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                                             f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
                                             f"compra \n")
                     print("se sale del seguimiento porque se ejecutó operacion")
-                    time.sleep(120)
+                    time.sleep(int(tiempo_de_operacion) * 60)
+                    live_price_data = client.request(request)
+                    precio2 = (float(live_price_data["prices"][0]["closeoutBid"])
+                              + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
+                    if precio < precio2:
+                        print("operacion ganada, disminuyendo martingala")
+                        cambio_de_monto(monto, "disminuir")
+                    elif precio > precio2:
+                        print("operacion perdida, aumentando martingala")
+                        cambio_de_monto(monto, "aumentar")
                     return
-                    # Se verifica que el dataframe esté actualizado tomando en cuenta el minuto actual y el ultimo
-                    # minuto del dataframe para actualizar los valores del ichimoku
+                elif (ichimoku_10s["Senkou span B"].iloc[-26] < ohlc_10s['c'].iloc[-1] > ichimoku_10s["Senkou span A"].iloc[-26] >
+                    ichimoku_10s["Senkou span B"].iloc[-26]) \
+                        and (ichimoku_10s['tenkan-sen'].iloc[-2] < ichimoku_10s['tenkan-sen'].iloc[-1]) \
+                        and (ohlc_10s['o'].iloc[-1] < ichimoku_10s['tenkan-sen'].iloc[-1] < ohlc_10s['c'].iloc[-1]):
+                    ejecucion(tipo_de_operacion, par, tiempo_de_operacion, monto)
+                    live_price_data = client.request(request)
+                    precio = (float(live_price_data["prices"][0]["closeoutBid"])
+                              + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
+                    adx_10s = ADX(ohlc_10s)
+                    rsi_10s = RSI(ohlc_10s)
+                    adx_1m = ADX(ohlc_1m)
+                    rsi_1m = RSI(ohlc_1m)
+                    adx_5m = ADX(datos_5min)
+                    rsi_5m = RSI(datos_5min)
+                    ichimoku_5m = ichimoku(datos_5min)
+                    with open("datos estrategia 1.txt", "at") as fichero_est_1:
+                        fichero_est_1.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
+                                            f"precio actual: {ohlc_10s.iloc[-1]} \n"
+                                            f"ichimoku 10s sspan A: {ichimoku_10s['Senkou span A'].iloc[-2]}, {ichimoku_10s['Senkou span A'].iloc[-1]} \n"
+                                            f"ichimoku 10s sspan B: {ichimoku_10s['Senkou span B'].iloc[-2]}, {ichimoku_10s['Senkou span B'].iloc[-1]} \n"
+                                            f"ichimoku 10s sspan A -26: {ichimoku_10s['Senkou span A'].iloc[-26]} \n"
+                                            f"ichimoku 10s sspan B -26: {ichimoku_10s['Senkou span B'].iloc[-26]} \n"
+                                            f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-2]}, {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
+                                            f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-2]}, {ichimoku_10s['kijun-sen'].iloc[-1]} \n"
+                                            f"ichimoku 1m sspan A: {ichimoku_1m['Senkou span A'].iloc[-2]}, {ichimoku_1m['Senkou span A'].iloc[-1]} \n"
+                                            f"ichimoku 1m sspan B: {ichimoku_1m['Senkou span B'].iloc[-2]}, {ichimoku_1m['Senkou span B'].iloc[-1]} \n"
+                                            f"ichimoku 1m sspan A -26: {ichimoku_1m['Senkou span A'].iloc[-26]} \n"
+                                            f"ichimoku 1m sspan B -26: {ichimoku_1m['Senkou span B'].iloc[-26]} \n"
+                                            f"tenkan-sen 1m: {ichimoku_1m['tenkan-sen'].iloc[-2]}. {ichimoku_1m['tenkan-sen'].iloc[-1]} \n"
+                                            f"kijun-sen 1m: {ichimoku_1m['kijun-sen'].iloc[-2]}, {ichimoku_1m['kijun-sen'].iloc[-1]}\n"
+                                            f"ichimoku 5m sspan A: {ichimoku_5m['Senkou span A'].iloc[-2]}, {ichimoku_5m['Senkou span A'].iloc[-1]} \n"
+                                            f"ichimoku 5m sspan B: {ichimoku_5m['Senkou span B'].iloc[-2]}, {ichimoku_5m['Senkou span B'].iloc[-1]} \n"
+                                            f"ichimoku 5m sspan A -26: {ichimoku_5m['Senkou span A'].iloc[-26]} \n"
+                                            f"ichimoku 5m sspan B -26: {ichimoku_5m['Senkou span B'].iloc[-26]} \n"
+                                            f"tenkan-sen 5m: {ichimoku_5m['tenkan-sen'].iloc[-2]}. {ichimoku_5m['tenkan-sen'].iloc[-1]} \n"
+                                            f"kijun-sen 5m: {ichimoku_5m['kijun-sen'].iloc[-2]}, {ichimoku_5m['kijun-sen'].iloc[-1]}\n"
+                                            f"rsi 10s: {rsi_10s.iloc[-2]}, {rsi_10s.iloc[-1]} \n"
+                                            f"adx 10s: {adx_10s['ADX'].iloc[-2]}, {adx_10s['ADX'].iloc[-1]} \n"
+                                            f"DI+ 10s: {adx_10s['DI+'].iloc[-2]}, {adx_10s['DI+'].iloc[-1]} \n"
+                                            f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
+                                            f"rsi 1m: {rsi_1m.iloc[-2]}, {rsi_1m.iloc[-1]} \n"
+                                            f"adx 1m: {adx_1m['ADX'].iloc[-2]}, {adx_1m['ADX'].iloc[-1]} \n"
+                                            f"DI+ 1m: {adx_1m['DI+'].iloc[-2]}, {adx_1m['DI+'].iloc[-1]} \n"
+                                            f"DI- 1m: {adx_1m['DI-'].iloc[-2]}, {adx_1m['DI-'].iloc[-1]} \n"
+                                            f"rsi 5m: {rsi_5m.iloc[-2]}, {rsi_5m.iloc[-1]} \n"
+                                            f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n"
+                                            f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
+                                            f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
+                                            f"compra \n")
+                    print("se sale del seguimiento porque se ejecutó operacion")
+                    time.sleep(int(tiempo_de_operacion) * 60)
+                    live_price_data = client.request(request)
+                    precio2 = (float(live_price_data["prices"][0]["closeoutBid"])
+                               + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
+                    if precio < precio2:
+                        print("operacion ganada, disminuyendo martingala")
+                        cambio_de_monto(monto, "disminuir")
+                    elif precio > precio2:
+                        print("operacion perdida, aumentando martingala")
+                        cambio_de_monto(monto, "aumentar")
+                    return
+            # Se verifica que el dataframe esté actualizado tomando en cuenta el minuto actual y el ultimo
+            # minuto del dataframe para actualizar los valores del ichimoku
             try:
                 if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
                         ohlc_1m.iloc[-1].name[14:16]):
@@ -186,7 +264,8 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                 res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
             print("posible venta, high 10s: ", ohlc_10s['h'].iloc[-1], " resistencia menor 10s: ", res_min_10s)
             if ohlc_10s['h'].iloc[-1] >= res_min_10s or ohlc_10s['h'].iloc[-2] >= res_min_10s:
-                while not setenta_por_ciento(ohlc_10s.iloc[-1], "bajista"):
+                while ohlc_10s['c'].iloc[-1] > ichimoku_10s['kijun-sen'].iloc[-1] or \
+                        ohlc_10s['c'].iloc[-1] > ichimoku_10s['tenkan-sen'].iloc[-1]:
                     try:
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                         ichimoku_10s = ichimoku(ohlc_10s)
@@ -198,11 +277,14 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                         ichimoku_10s = ichimoku(ohlc_10s)
                         res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
-                if (ichimoku_10s["Senkou span B"].iloc[-26] < ohlc_10s['o'].iloc[-1] >
-                    ichimoku_10s["Senkou span A"].iloc[-26]) \
-                        and (ichimoku_10s['tenkan-sen'].iloc[-2] >= ichimoku_10s['tenkan-sen'].iloc[-1]) \
-                        and (ichimoku_10s['kijun-sen'].iloc[-2] >= ichimoku_10s['kijun-sen'].iloc[-1]):
-                    ejecucion(tipo_de_operacion, par, '6', monto)
+                if (ichimoku_10s["Senkou span B"].iloc[-26] < ohlc_10s['c'].iloc[-1] > ichimoku_10s["Senkou span A"].iloc[-26] >
+                    ichimoku_10s["Senkou span B"].iloc[-26]) \
+                        and (ichimoku_10s['tenkan-sen'].iloc[-2] > ichimoku_10s['tenkan-sen'].iloc[-1]) \
+                        and (ohlc_10s['o'].iloc[-1] > ichimoku_10s['kijun-sen'].iloc[-1] > ohlc_10s['c'].iloc[-1]):
+                    ejecucion(tipo_de_operacion, par, tiempo_de_operacion, monto)
+                    live_price_data = client.request(request)
+                    precio = (float(live_price_data["prices"][0]["closeoutBid"])
+                              + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
                     adx_10s = ADX(ohlc_10s)
                     rsi_10s = RSI(ohlc_10s)
                     adx_1m = ADX(ohlc_1m)
@@ -245,7 +327,77 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
                                             f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
                                             f"venta \n")
                     print("se sale del seguimiento porque se ejecutó operacion")
-                    time.sleep(120)
+                    time.sleep(int(tiempo_de_operacion) * 60)
+                    live_price_data = client.request(request)
+                    precio2 = (float(live_price_data["prices"][0]["closeoutBid"])
+                               + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
+                    if precio > precio2:
+                        print("operacion ganada, disminuyendo martingala")
+                        cambio_de_monto(monto, "disminuir")
+                    elif precio < precio2:
+                        print("operacion perdida, aumentando martingala")
+                        cambio_de_monto(monto, "aumentar")
+                    return
+                elif (ichimoku_10s["Senkou span B"].iloc[-26] > ohlc_10s['c'].iloc[-1] < ichimoku_10s["Senkou span A"].iloc[-26] <
+                    ichimoku_10s["Senkou span B"].iloc[-26]) \
+                        and (ichimoku_10s['tenkan-sen'].iloc[-2] > ichimoku_10s['tenkan-sen'].iloc[-1]) \
+                        and (ohlc_10s['o'].iloc[-1] > ichimoku_10s['tenkan-sen'].iloc[-1] > ohlc_10s['c'].iloc[-1]):
+                    ejecucion(tipo_de_operacion, par, tiempo_de_operacion, monto)
+                    live_price_data = client.request(request)
+                    precio = (float(live_price_data["prices"][0]["closeoutBid"])
+                              + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
+                    adx_10s = ADX(ohlc_10s)
+                    rsi_10s = RSI(ohlc_10s)
+                    adx_1m = ADX(ohlc_1m)
+                    rsi_1m = RSI(ohlc_1m)
+                    adx_5m = ADX(datos_5min)
+                    rsi_5m = RSI(datos_5min)
+                    ichimoku_5m = ichimoku(datos_5min)
+                    with open("datos estrategia 1.txt", "at") as fichero_est_1:
+                        fichero_est_1.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
+                                            f"precio actual: {ohlc_10s.iloc[-1]} \n"
+                                            f"ichimoku 10s sspan A: {ichimoku_10s['Senkou span A'].iloc[-2]}, {ichimoku_10s['Senkou span A'].iloc[-1]} \n"
+                                            f"ichimoku 10s sspan B: {ichimoku_10s['Senkou span B'].iloc[-2]}, {ichimoku_10s['Senkou span B'].iloc[-1]} \n"
+                                            f"ichimoku 10s sspan A -26: {ichimoku_10s['Senkou span A'].iloc[-26]} \n"
+                                            f"ichimoku 10s sspan B -26: {ichimoku_10s['Senkou span B'].iloc[-26]} \n"
+                                            f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-2]}, {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
+                                            f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-2]}, {ichimoku_10s['kijun-sen'].iloc[-1]} \n"
+                                            f"ichimoku 1m sspan A: {ichimoku_1m['Senkou span A'].iloc[-2]}, {ichimoku_1m['Senkou span A'].iloc[-1]} \n"
+                                            f"ichimoku 1m sspan B: {ichimoku_1m['Senkou span B'].iloc[-2]}, {ichimoku_1m['Senkou span B'].iloc[-1]} \n"
+                                            f"ichimoku 1m sspan A -26: {ichimoku_1m['Senkou span A'].iloc[-26]} \n"
+                                            f"ichimoku 1m sspan B -26: {ichimoku_1m['Senkou span B'].iloc[-26]} \n"
+                                            f"tenkan-sen 1m: {ichimoku_1m['tenkan-sen'].iloc[-2]}. {ichimoku_1m['tenkan-sen'].iloc[-1]} \n"
+                                            f"kijun-sen 1m: {ichimoku_1m['kijun-sen'].iloc[-2]}, {ichimoku_1m['kijun-sen'].iloc[-1]}\n"
+                                            f"ichimoku 5m sspan A: {ichimoku_5m['Senkou span A'].iloc[-2]}, {ichimoku_5m['Senkou span A'].iloc[-1]} \n"
+                                            f"ichimoku 5m sspan B: {ichimoku_5m['Senkou span B'].iloc[-2]}, {ichimoku_5m['Senkou span B'].iloc[-1]} \n"
+                                            f"ichimoku 5m sspan A -26: {ichimoku_5m['Senkou span A'].iloc[-26]} \n"
+                                            f"ichimoku 5m sspan B -26: {ichimoku_5m['Senkou span B'].iloc[-26]} \n"
+                                            f"tenkan-sen 5m: {ichimoku_5m['tenkan-sen'].iloc[-2]}. {ichimoku_5m['tenkan-sen'].iloc[-1]} \n"
+                                            f"kijun-sen 5m: {ichimoku_5m['kijun-sen'].iloc[-2]}, {ichimoku_5m['kijun-sen'].iloc[-1]}\n"
+                                            f"rsi 10s: {rsi_10s.iloc[-2]}, {rsi_10s.iloc[-1]} \n"
+                                            f"adx 10s: {adx_10s['ADX'].iloc[-2]}, {adx_10s['ADX'].iloc[-1]} \n"
+                                            f"DI+ 10s: {adx_10s['DI+'].iloc[-2]}, {adx_10s['DI+'].iloc[-1]} \n"
+                                            f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
+                                            f"rsi 1m: {rsi_1m.iloc[-2]}, {rsi_1m.iloc[-1]} \n"
+                                            f"adx 1m: {adx_1m['ADX'].iloc[-2]}, {adx_1m['ADX'].iloc[-1]} \n"
+                                            f"DI+ 1m: {adx_1m['DI+'].iloc[-2]}, {adx_1m['DI+'].iloc[-1]} \n"
+                                            f"DI- 1m: {adx_1m['DI-'].iloc[-2]}, {adx_1m['DI-'].iloc[-1]} \n"
+                                            f"rsi 5m: {rsi_5m.iloc[-2]}, {rsi_5m.iloc[-1]} \n"
+                                            f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n"
+                                            f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
+                                            f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
+                                            f"venta \n")
+                    print("se sale del seguimiento porque se ejecutó operacion")
+                    time.sleep(int(tiempo_de_operacion) * 60)
+                    live_price_data = client.request(request)
+                    precio2 = (float(live_price_data["prices"][0]["closeoutBid"])
+                               + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
+                    if precio > precio2:
+                        print("operacion ganada, disminuyendo martingala")
+                        cambio_de_monto(monto, "disminuir")
+                    elif precio < precio2:
+                        print("operacion perdida, aumentando martingala")
+                        cambio_de_monto(monto, "aumentar")
                     return
                     # Se verifica que el dataframe esté actualizado tomando en cuenta el minuto actual y el ultimo
                     # minuto del dataframe para actualizar los valores del ichimoku
@@ -287,8 +439,9 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, datos_5min, ichimoku_1m, par, tipo_d
 
 def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, res_max_30m, res_min_30m, sop_min_30m,
                           sop_max_30m, res_max_5m, res_min_5m, sop_min_5m, sop_max_5m, res_max_1m, res_min_1m,
-                          sop_min_1m, sop_max_1m, monto, client):
+                          sop_min_1m, sop_max_1m, monto, client, request):
     print("estamos en seguimiento")
+    tiempo_de_operacion = "3"
     if tipo_de_operacion == "compraf":
         adx_5m = ADX(ohlc_5m)
         rsi_5m = RSI(ohlc_5m)
@@ -309,21 +462,28 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                 ichimoku_10s = ichimoku(ohlc_10s)
             print("posible compra, low 10s: ", ohlc_10s['l'].iloc[-1], " soporte max 10s: ", sop_max_10s)
             if ohlc_10s['l'].iloc[-1] <= sop_max_10s or ohlc_10s['l'].iloc[-2] <= sop_max_10s:
-                while not setenta_por_ciento(ohlc_10s.iloc[-1], "alcista"):
+                while ohlc_10s['c'].iloc[-1] < ichimoku_10s['kijun-sen'].iloc[-1] or \
+                        ohlc_10s['c'].iloc[-1] < ichimoku_10s['tenkan-sen'].iloc[-1]:
                     try:
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
+                        ichimoku_10s = ichimoku(ohlc_10s)
                         res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
                         time.sleep(10)
                     except Exception as e:
                         print(f"excepcion {e}: {type(e)}")
                         print("reintentando lectura ohlc_10s")
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
+                        ichimoku_10s = ichimoku(ohlc_10s)
                         res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
-                if (ichimoku_10s["Senkou span B"].iloc[-26] > ohlc_10s['o'].iloc[-1] <
-                    ichimoku_10s["Senkou span A"].iloc[-26]) \
-                        and (ichimoku_10s['tenkan-sen'].iloc[-2] <= ichimoku_10s['tenkan-sen'].iloc[-1]) \
-                        and (ichimoku_10s['kijun-sen'].iloc[-2] <= ichimoku_10s['kijun-sen'].iloc[-1]):
-                    ejecucion(tipo_de_operacion, par, '3', monto)
+                if (ichimoku_10s["Senkou span B"].iloc[-26] > ohlc_10s['c'].iloc[-1] <
+                    ichimoku_10s["Senkou span A"].iloc[-26] <
+                    ichimoku_10s["Senkou span B"].iloc[-26]) \
+                        and (ichimoku_10s['tenkan-sen'].iloc[-2] < ichimoku_10s['tenkan-sen'].iloc[-1]) \
+                        and (ohlc_10s['o'].iloc[-1] < ichimoku_10s['kijun-sen'].iloc[-1] < ohlc_10s['c'].iloc[-1]):
+                    ejecucion(tipo_de_operacion, par, tiempo_de_operacion, monto)
+                    live_price_data = client.request(request)
+                    precio = (float(live_price_data["prices"][0]["closeoutBid"])
+                              + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
                     adx_1m = ADX(ohlc_1m)
                     rsi_1m = RSI(ohlc_1m)
                     with open("datos estrategia 3.txt", "at") as fichero_est_3:
@@ -348,7 +508,59 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                                             f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-2]}, {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
                                             f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-2]}, {ichimoku_10s['kijun-sen'].iloc[-1]} \n"
                                             f"compra \n")
-                    time.sleep(120)
+                    time.sleep(int(tiempo_de_operacion) * 60)
+                    live_price_data = client.request(request)
+                    precio2 = (float(live_price_data["prices"][0]["closeoutBid"])
+                               + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
+                    if precio < precio2:
+                        print("operacion ganada, disminuyendo martingala")
+                        cambio_de_monto(monto, "disminuir")
+                    elif precio > precio2:
+                        print("operacion perdida, aumentando martingala")
+                        cambio_de_monto(monto, "aumentar")
+                    break
+                elif (ichimoku_10s["Senkou span B"].iloc[-26] < ohlc_10s['c'].iloc[-1] > ichimoku_10s["Senkou span A"].iloc[-26] >
+                    ichimoku_10s["Senkou span B"].iloc[-26]) \
+                        and (ichimoku_10s['tenkan-sen'].iloc[-2] < ichimoku_10s['tenkan-sen'].iloc[-1]) \
+                        and (ohlc_10s['o'].iloc[-1] < ichimoku_10s['tenkan-sen'].iloc[-1] < ohlc_10s['c'].iloc[-1]):
+                    ejecucion(tipo_de_operacion, par, tiempo_de_operacion, monto)
+                    live_price_data = client.request(request)
+                    precio = (float(live_price_data["prices"][0]["closeoutBid"])
+                              + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
+                    adx_1m = ADX(ohlc_1m)
+                    rsi_1m = RSI(ohlc_1m)
+                    with open("datos estrategia 3.txt", "at") as fichero_est_3:
+                        fichero_est_3.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
+                                            f"precio actual: {ohlc_10s.iloc[-1]} \n"
+                                            f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n"
+                                            f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
+                                            f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
+                                            f"rsi 5m: {rsi_5m.iloc[-2]}, {rsi_5m.iloc[-1]} \n"
+                                            f"adx 1m: {adx_1m['ADX'].iloc[-2]}, {adx_1m['ADX'].iloc[-1]} \n"
+                                            f"DI+ 1m: {adx_1m['DI+'].iloc[-2]}, {adx_1m['DI+'].iloc[-1]} \n"
+                                            f"DI- 1m: {adx_1m['DI-'].iloc[-2]}, {adx_1m['DI-'].iloc[-1]} \n"
+                                            f"rsi 1m: {rsi_1m.iloc[-2]}, {rsi_1m.iloc[-1]} \n"
+                                            f"ichimoku 1m sspan A: {ichimoku_1m['Senkou span A'].iloc[-2]}, {ichimoku_1m['Senkou span A'].iloc[-1]} \n"
+                                            f"ichimoku 1m sspan B: {ichimoku_1m['Senkou span B'].iloc[-2]}, {ichimoku_1m['Senkou span B'].iloc[-1]} \n"
+                                            f"ichimoku tenkan 1m: {ichimoku_1m['tenkan-sen'].iloc[-2]}, {ichimoku_1m['tenkan-sen'].iloc[-1]} \n"
+                                            f"ichimoku kijun 1m: {ichimoku_1m['kijun-sen'].iloc[-2]}, {ichimoku_1m['kijun-sen'].iloc[-1]} \n"
+                                            f"ichimoku 10s sspan A: {ichimoku_10s['Senkou span A'].iloc[-2]}, {ichimoku_10s['Senkou span A'].iloc[-1]} \n"
+                                            f"ichimoku 10s sspan B: {ichimoku_10s['Senkou span B'].iloc[-2]}, {ichimoku_10s['Senkou span B'].iloc[-1]} \n"
+                                            f"ichimoku 10s sspan A -26: {ichimoku_10s['Senkou span A'].iloc[-26]} \n"
+                                            f"ichimoku 10s sspan B -26: {ichimoku_10s['Senkou span B'].iloc[-26]} \n"
+                                            f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-2]}, {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
+                                            f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-2]}, {ichimoku_10s['kijun-sen'].iloc[-1]} \n"
+                                            f"compra \n")
+                    time.sleep(int(tiempo_de_operacion) * 60)
+                    live_price_data = client.request(request)
+                    precio2 = (float(live_price_data["prices"][0]["closeoutBid"])
+                               + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
+                    if precio < precio2:
+                        print("operacion ganada, disminuyendo martingala")
+                        cambio_de_monto(monto, "disminuir")
+                    elif precio > precio2:
+                        print("operacion perdida, aumentando martingala")
+                        cambio_de_monto(monto, "aumentar")
                     break
             try:
                 if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
@@ -409,21 +621,27 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                 ichimoku_10s = ichimoku(ohlc_10s)
             print("posible venta, high 10s: ", ohlc_10s['h'].iloc[-1], " resistencia menor 10s: ", res_min_10s)
             if ohlc_10s['h'].iloc[-1] >= res_min_10s or ohlc_10s['h'].iloc[-2] >= res_min_10s:
-                while not setenta_por_ciento(ohlc_10s.iloc[-1], "bajista"):
+                while ohlc_10s['c'].iloc[-1] > ichimoku_10s['kijun-sen'].iloc[-1] or \
+                        ohlc_10s['c'].iloc[-1] > ichimoku_10s['tenkan-sen'].iloc[-1]:
                     try:
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
+                        ichimoku_10s = ichimoku(ohlc_10s)
                         res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
                         time.sleep(10)
                     except Exception as e:
                         print(f"excepcion {e}: {type(e)}")
                         print("reintentando lectura ohlc_10s")
                         ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
+                        ichimoku_10s = ichimoku(ohlc_10s)
                         res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
-                if (ichimoku_10s["Senkou span B"].iloc[-26] < ohlc_10s['o'].iloc[-1] >
-                    ichimoku_10s["Senkou span A"].iloc[-26]) \
-                        and (ichimoku_10s['tenkan-sen'].iloc[-2] >= ichimoku_10s['tenkan-sen'].iloc[-1]) \
-                        and (ichimoku_10s['kijun-sen'].iloc[-2] >= ichimoku_10s['kijun-sen'].iloc[-1]):
-                    ejecucion(tipo_de_operacion, par, '3', monto)
+                if (ichimoku_10s["Senkou span B"].iloc[-26] < ohlc_10s['c'].iloc[-1] > ichimoku_10s["Senkou span A"].iloc[-26] >
+                    ichimoku_10s["Senkou span B"].iloc[-26]) \
+                        and (ichimoku_10s['tenkan-sen'].iloc[-2] > ichimoku_10s['tenkan-sen'].iloc[-1]) \
+                        and (ohlc_10s['o'].iloc[-1] > ichimoku_10s['kijun-sen'].iloc[-1] > ohlc_10s['c'].iloc[-1]):
+                    ejecucion(tipo_de_operacion, par, tiempo_de_operacion, monto)
+                    live_price_data = client.request(request)
+                    precio = (float(live_price_data["prices"][0]["closeoutBid"])
+                              + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
                     adx_1m = ADX(ohlc_1m)
                     rsi_1m = RSI(ohlc_1m)
                     with open("datos estrategia 3.txt", "at") as fichero_est_3:
@@ -448,7 +666,59 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                                             f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-2]}, {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
                                             f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-2]}, {ichimoku_10s['kijun-sen'].iloc[-1]} \n"
                                             f"venta \n")
-                    time.sleep(120)
+                    time.sleep(int(tiempo_de_operacion) * 60)
+                    live_price_data = client.request(request)
+                    precio2 = (float(live_price_data["prices"][0]["closeoutBid"])
+                               + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
+                    if precio > precio2:
+                        print("operacion ganada, disminuyendo martingala")
+                        cambio_de_monto(monto, "disminuir")
+                    elif precio < precio2:
+                        print("operacion perdida, aumentando martingala")
+                        cambio_de_monto(monto, "aumentar")
+                    break
+                elif (ichimoku_10s["Senkou span B"].iloc[-26] > ohlc_10s['c'].iloc[-1] <
+                    ichimoku_10s["Senkou span A"].iloc[-26] < ichimoku_10s["Senkou span B"].iloc[-26]) \
+                        and (ichimoku_10s['tenkan-sen'].iloc[-2] > ichimoku_10s['tenkan-sen'].iloc[-1]) \
+                        and (ohlc_10s['o'].iloc[-1] > ichimoku_10s['tenkan-sen'].iloc[-1] > ohlc_10s['c'].iloc[-1]):
+                    ejecucion(tipo_de_operacion, par, tiempo_de_operacion, monto)
+                    live_price_data = client.request(request)
+                    precio = (float(live_price_data["prices"][0]["closeoutBid"])
+                              + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
+                    adx_1m = ADX(ohlc_1m)
+                    rsi_1m = RSI(ohlc_1m)
+                    with open("datos estrategia 3.txt", "at") as fichero_est_3:
+                        fichero_est_3.write(f"\nprecio anterior: {ohlc_10s.iloc[-2]} \n"
+                                            f"precio actual: {ohlc_10s.iloc[-1]} \n"
+                                            f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n"
+                                            f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
+                                            f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
+                                            f"rsi 5m: {rsi_5m.iloc[-2]}, {rsi_5m.iloc[-1]} \n"
+                                            f"adx 1m: {adx_1m['ADX'].iloc[-2]}, {adx_1m['ADX'].iloc[-1]} \n"
+                                            f"DI+ 1m: {adx_1m['DI+'].iloc[-2]}, {adx_1m['DI+'].iloc[-1]} \n"
+                                            f"DI- 1m: {adx_1m['DI-'].iloc[-2]}, {adx_1m['DI-'].iloc[-1]} \n"
+                                            f"rsi 1m: {rsi_1m.iloc[-2]}, {rsi_1m.iloc[-1]} \n"
+                                            f"ichimoku 1m sspan A: {ichimoku_1m['Senkou span A'].iloc[-2]}, {ichimoku_1m['Senkou span A'].iloc[-1]} \n"
+                                            f"ichimoku 1m sspan B: {ichimoku_1m['Senkou span B'].iloc[-2]}, {ichimoku_1m['Senkou span B'].iloc[-1]} \n"
+                                            f"ichimoku tenkan 1m: {ichimoku_1m['tenkan-sen'].iloc[-2]}, {ichimoku_1m['tenkan-sen'].iloc[-1]} \n"
+                                            f"ichimoku kijun 1m: {ichimoku_1m['kijun-sen'].iloc[-2]}, {ichimoku_1m['kijun-sen'].iloc[-1]} \n"
+                                            f"ichimoku 10s sspan A: {ichimoku_10s['Senkou span A'].iloc[-2]}, {ichimoku_10s['Senkou span A'].iloc[-1]} \n"
+                                            f"ichimoku 10s sspan B: {ichimoku_10s['Senkou span B'].iloc[-2]}, {ichimoku_10s['Senkou span B'].iloc[-1]} \n"
+                                            f"ichimoku 10s sspan A -26: {ichimoku_10s['Senkou span A'].iloc[-26]} \n"
+                                            f"ichimoku 10s sspan B -26: {ichimoku_10s['Senkou span B'].iloc[-26]} \n"
+                                            f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-2]}, {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
+                                            f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-2]}, {ichimoku_10s['kijun-sen'].iloc[-1]} \n"
+                                            f"venta \n")
+                    time.sleep(int(tiempo_de_operacion) * 60)
+                    live_price_data = client.request(request)
+                    precio2 = (float(live_price_data["prices"][0]["closeoutBid"])
+                               + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
+                    if precio > precio2:
+                        print("operacion ganada, disminuyendo martingala")
+                        cambio_de_monto(monto, "disminuir")
+                    elif precio < precio2:
+                        print("operacion perdida, aumentando martingala")
+                        cambio_de_monto(monto, "aumentar")
                     break
             try:
                 if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=

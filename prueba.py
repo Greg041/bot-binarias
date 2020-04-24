@@ -9,31 +9,31 @@ import psutil
 from multiprocessing import Process
 from ExtraccionDatos10s import extraccion_10s_continua
 import os
+from prueba2 import cambio_de_monto
 
-def r(num, rand):
-    return num + rand * random.random()
-
-
-def click_image(image, pos, action, timestamp, offset=5):
-    img = cv2.imread(image)
-    height, width, channels = img.shape
-    pyautogui.moveTo(pos[0] + r(width / 2, offset), pos[1] + r(height / 2, offset),
-                     timestamp)
-    pyautogui.click(button=action)
-
+class dinero_invertido:
+    def __init__(self, monto):
+        self.monto = monto
 
 
 if __name__ == "__main__":
-    par = "EUR_JPY"
-    click_image("par.jpg", (489, 228), "left", 0.05)
-    time.sleep(0.3)
-    pyautogui.leftClick(x=515, y=242)
-    pyautogui.keyDown(par[0])
-    pyautogui.keyDown(par[1])
-    pyautogui.keyDown(par[2])
-    pyautogui.keyDown("/")
-    pyautogui.keyDown(par[4])
-    pyautogui.keyDown(par[5])
-    pyautogui.keyDown(par[6])
-    time.sleep(0.3)
-    click_image("par_sel.jpg", (635, 356), "left", 0.05)
+    apuesta = dinero_invertido("1.45")
+    print(apuesta.monto)
+    cambio_de_monto(apuesta, "aumentar")
+    print(apuesta.monto)
+    cambio_de_monto(apuesta, "aumentar")
+    print(apuesta.monto)
+    cambio_de_monto(apuesta, "aumentar")
+    print(apuesta.monto)
+    cambio_de_monto(apuesta, "disminuir")
+    print(apuesta.monto)
+    cambio_de_monto(apuesta, "aumentar")
+    print(apuesta.monto)
+    cambio_de_monto(apuesta, "disminuir")
+    print(apuesta.monto)
+    cambio_de_monto(apuesta, "disminuir")
+    print(apuesta.monto)
+    cambio_de_monto(apuesta, "disminuir")
+    print(apuesta.monto)
+    cambio_de_monto(apuesta, "disminuir")
+    print(apuesta.monto)
