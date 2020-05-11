@@ -5,7 +5,6 @@ from ExtraccionDatos10s import extraccion_10s_continua
 import time
 import pandas as pd
 import oandapyV20
-import oandapyV20.endpoints.instruments as instruments
 import oandapyV20.endpoints.pricing as pricing
 
 
@@ -56,8 +55,9 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, numero_noti
     ExtraccionOanda(client, 500, 'M1', divisa)
     ExtraccionOanda(client, 500, 'M5', divisa)
     ExtraccionOanda(client, 500, 'M30', divisa)
-    proceso_10s = Process(target=extraccion_10s_continua, args=(divisa,))
+    proceso_10s = Process(target=extraccion_10s_continua, args=(divisa, timeout))
     proceso_10s.start()
+    time.sleep(30)	
     datos_1min = pd.read_csv("datos_M1.csv", index_col="time")
     # Se calcula el rango de soporte y resistencia de 1 minuto a un rango de 120 velas
     resistencia_punto_mayor_1m, resistencia_punto_menor_1m, soporte_punto_menor_1m, soporte_punto_mayor_1m = \

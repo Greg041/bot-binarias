@@ -74,15 +74,15 @@ def ejecucion(signal, par, tiempo, monto):
         pyautogui.keyDown(par[5])
         pyautogui.keyDown(par[6])
         click_image("par_sel.jpg", (635, 490), "left", 0.05)
-        time.sleep(1)
-    if monto is not None:
+        time.sleep(1.5)
+    if monto.monto is not None:
         pyautogui.doubleClick(x=710, y=600)
         pyautogui.doubleClick(x=710, y=600)
         try:
-            pyautogui.keyDown(monto[0])
-            pyautogui.keyDown(monto[1])
-            pyautogui.keyDown(monto[2])
-            pyautogui.keyDown(monto[3])
+            pyautogui.keyDown(monto.monto[0])
+            pyautogui.keyDown(monto.monto[1])
+            pyautogui.keyDown(monto.monto[2])
+            pyautogui.keyDown(monto.monto[3])
         except:
             pass
         time.sleep(1)
@@ -98,11 +98,11 @@ def ejecucion(signal, par, tiempo, monto):
         except:
             pass
         time.sleep(2)
-        click_image("imagen compra.jpg", (1089, 460), "left", 0.05)
-        click_image("imagen compra.jpg", (1089, 460), "left", 0.05)
-        #winsound.Beep(440, 1000)
-        time.sleep(3)
-        click_image("x.jpg", (1388, 405), "left", 0.05)
+        click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
+        click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
+        winsound.Beep(440, 1000)
+        time.sleep(4)
+        click_image("x.jpg", (1388, 415), "left", 0.05)
     elif signal == "compraf":
         print("compra a favor")
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
@@ -115,11 +115,11 @@ def ejecucion(signal, par, tiempo, monto):
         except:
             pass
         time.sleep(2)
-        click_image("imagen compra.jpg", (1089, 460), "left", 0.05)
-        click_image("imagen compra.jpg", (1089, 460), "left", 0.05)
-        #winsound.Beep(440, 1000)
-        time.sleep(3)
-        click_image("x.jpg", (1388, 405), "left", 0.05)
+        click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
+        click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
+        winsound.Beep(440, 1000)
+        time.sleep(4)
+        click_image("x.jpg", (1388, 415), "left", 0.05)
     elif signal == "ventac":
         print("venta contratendencia")
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
@@ -134,9 +134,9 @@ def ejecucion(signal, par, tiempo, monto):
         time.sleep(2)
         click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
         click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
-        #winsound.Beep(440, 1000)
-        time.sleep(3)
-        click_image("x.jpg", (1388, 405), "left", 0.05)
+        winsound.Beep(440, 1000)
+        time.sleep(4)
+        click_image("x.jpg", (1388, 415), "left", 0.05)
     elif signal == "ventaf":
         print("venta a favor")
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
@@ -151,6 +151,6 @@ def ejecucion(signal, par, tiempo, monto):
         time.sleep(2)
         click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
         click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
-        #winsound.Beep(440, 1000)
-        time.sleep(3)
-        click_image("x.jpg", (1388, 405), "left", 0.05)
+        winsound.Beep(440, 1000)
+        time.sleep(4)
+        click_image("x.jpg", (1388, 415), "left", 0.05)

@@ -5,10 +5,7 @@ from macd import MACD, detectar_div_macd, detectar_div_historigrama
 from SeguimientoIchimoku import seguimiento_ichimoku, seguimiento_ichimoku2
 from BollingerBands import boll_bnd
 from SeguimientoDivergencia import seguimiento_div
-from Ejecucion import ejecucion
-from seguimiento_bollinger import seguimiento_boll
-import time
-import pandas as pd
+from seguimiento_bollinger import seguimiento_boll, seguimiento_boll5
 
 
 def engulfing(ohlc_vela_anterior, ohlc_vela_actual, alcista_o_bajista: str) -> bool:
@@ -44,7 +41,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                           sop_max_30m, monto, client, request):
 
     ichi_1m = ichimoku(ohlc_1m)
-    macd_1m = MACD(ohlc_1m)
+    macd_5m = MACD(ohlc_5m)
     adx_1m = ADX(ohlc_1m)
     rsi_1m = RSI(ohlc_1m)
     ichi_5m = ichimoku(ohlc_5m)
@@ -108,84 +105,84 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                                      sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
                                      sop_min_1min, sop_max_1min, monto, client, request)
     # estrategia #2 divergencias
-    if adx_1m["ADX"].iloc[-1] > 25.0 and adx_1m["DI+"].iloc[-1] > adx_1m["DI-"].iloc[-1]:
+    if adx_5m["ADX"].iloc[-1] > 25.0 and adx_5m["DI+"].iloc[-1] > adx_5m["DI-"].iloc[-1]:
         print("en res 1 min", ohlc_10s['c'].iloc[-1] > res_min_1min)
         print("en res 5 min", ohlc_10s['c'].iloc[-1] > res_min_5min)
-        if res_min_1min != res_min_1min:
-            if (res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min) and detectar_div_macd(macd_1m, ohlc_1m, "bajista") \
-                    and detectar_div_historigrama(macd_1m, ohlc_1m, "bajista"):
-                with open("datos divergencias.txt", "at") as fichero_div:
-                    fichero_div.write(f"\nen res 1 min: {res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min} \n"
-                                      f"en res 5 min: {res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min} \n"
-                                      f"en res 30 min: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n")
-                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_1m["MACD"].iloc[-2],
-                                macd_1m["MACD"].iloc[-1], monto, client, request)
-        else:
-            if ohlc_10s['c'].iloc[-1] > res_min_1min and detectar_div_macd(macd_1m, ohlc_1m, "bajista") \
-                    and detectar_div_historigrama(macd_1m, ohlc_1m, "bajista"):
-                with open("datos divergencias.txt", "at") as fichero_div:
-                    fichero_div.write(f"\nen res 1 min: {res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min} \n"
-                                      f"en res 5 min: {res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min} \n"
-                                      f"en res 30 min: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n")
-                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_1m["MACD"].iloc[-2],
-                                macd_1m["MACD"].iloc[-1], monto, client, request)
         if res_min_5min != res_max_5min:
-            if res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min and detectar_div_macd(macd_1m, ohlc_1m, "bajista") \
-                    and detectar_div_historigrama(macd_1m, ohlc_1m, "bajista"):
+            if res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min and detectar_div_macd(macd_5m, ohlc_5m, "bajista") \
+                    and detectar_div_historigrama(macd_5m, ohlc_5m, "bajista"):
                 with open("datos divergencias.txt", "at") as fichero_div:
                     fichero_div.write(f"\nen res 1 min: {res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min} \n"
                                       f"en res 5 min: {res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min} \n"
                                       f"en res 30 min: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n")
-                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_1m["MACD"].iloc[-2],
-                                macd_1m["MACD"].iloc[-1], monto, client, request)
+                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_5m["MACD"].iloc[-2],
+                                macd_5m["MACD"].iloc[-1], monto, client, request)
         else:
-            if ohlc_10s['c'].iloc[-1] > res_min_5min and detectar_div_macd(macd_1m, ohlc_1m, "bajista") \
-                    and detectar_div_historigrama(macd_1m, ohlc_1m, "bajista"):
+            if ohlc_10s['c'].iloc[-1] > res_min_5min and detectar_div_macd(macd_5m, ohlc_5m, "bajista") \
+                    and detectar_div_historigrama(macd_5m, ohlc_5m, "bajista"):
                 with open("datos divergencias.txt", "at") as fichero_div:
                     fichero_div.write(f"\nen res 1 min: {res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min} \n"
                                       f"en res 5 min: {res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min} \n"
                                       f"en res 30 min: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n")
-                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_1m["MACD"].iloc[-2],
-                                macd_1m["MACD"].iloc[-1], monto, client, request)
-    elif adx_1m["ADX"].iloc[-1] > 25.0 and adx_1m["DI-"].iloc[-1] > adx_1m["DI+"].iloc[-1]:
+                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_5m["MACD"].iloc[-2],
+                                macd_5m["MACD"].iloc[-1], monto, client, request)
+        if res_min_30m != res_max_30m:
+            if res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min and detectar_div_macd(macd_5m, ohlc_5m, "bajista") \
+                    and detectar_div_historigrama(macd_5m, ohlc_5m, "bajista"):
+                with open("datos divergencias.txt", "at") as fichero_div:
+                    fichero_div.write(f"\nen res 1 min: {res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min} \n"
+                                      f"en res 5 min: {res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min} \n"
+                                      f"en res 30 min: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n")
+                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_5m["MACD"].iloc[-2],
+                                macd_5m["MACD"].iloc[-1], monto, client, request)
+        else:
+            if ohlc_10s['c'].iloc[-1] > res_min_30m and detectar_div_macd(macd_5m, ohlc_5m, "bajista") \
+                    and detectar_div_historigrama(macd_5m, ohlc_5m, "bajista"):
+                with open("datos divergencias.txt", "at") as fichero_div:
+                    fichero_div.write(f"\nen res 1 min: {res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min} \n"
+                                      f"en res 5 min: {res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min} \n"
+                                      f"en res 30 min: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n")
+                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_5m["MACD"].iloc[-2],
+                                macd_5m["MACD"].iloc[-1], monto, client, request)
+    elif adx_5m["ADX"].iloc[-1] > 25.0 and adx_5m["DI-"].iloc[-1] > adx_5m["DI+"].iloc[-1]:
         print("en sop 1 min", ohlc_10s['c'].iloc[-1] < sop_max_1min)
         print("en sop 5 min", ohlc_10s['c'].iloc[-1] < sop_max_5min)
         if sop_max_1min != sop_min_1min:
-            if sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min and detectar_div_macd(macd_1m, ohlc_1m, "alcista") \
-                    and detectar_div_historigrama(macd_1m, ohlc_1m, "alcista"):
+            if sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min and detectar_div_macd(macd_5m, ohlc_5m, "alcista") \
+                    and detectar_div_historigrama(macd_5m, ohlc_5m, "alcista"):
                 with open("datos divergencias.txt", "at") as fichero_div:
                     fichero_div.write(f"\nen sop 1 min: {sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min} \n"
                                       f"en sop 5 min: {sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min} \n"
                                       f"en sop 30 min: {sop_min_30m > ohlc_10s['c'].iloc[-1] > sop_max_30m} \n")
-                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "alcista", macd_1m["MACD"].iloc[-2],
-                                macd_1m["MACD"].iloc[-1], monto, client, request)
+                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "alcista", macd_5m["MACD"].iloc[-2],
+                                macd_5m["MACD"].iloc[-1], monto, client, request)
         else:
-            if ohlc_10s['c'].iloc[-1] < sop_max_1min and detectar_div_macd(macd_1m, ohlc_1m, "alcista") \
-                    and detectar_div_historigrama(macd_1m, ohlc_1m, "alcista"):
+            if ohlc_10s['c'].iloc[-1] < sop_max_1min and detectar_div_macd(macd_5m, ohlc_5m, "alcista") \
+                    and detectar_div_historigrama(macd_5m, ohlc_5m, "alcista"):
                 with open("datos divergencias.txt", "at") as fichero_div:
                     fichero_div.write(f"\nen sop 1 min: {sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min} \n"
                                       f"en sop 5 min: {sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min} \n"
                                       f"en sop 30 min: {sop_min_30m > ohlc_10s['c'].iloc[-1] > sop_max_30m} \n")
-                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "alcista", macd_1m["MACD"].iloc[-2],
-                                macd_1m["MACD"].iloc[-1], monto, client, request)
+                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "alcista", macd_5m["MACD"].iloc[-2],
+                                macd_5m["MACD"].iloc[-1], monto, client, request)
         if sop_max_5min != sop_min_5min:
-            if sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min and detectar_div_macd(macd_1m, ohlc_1m, "alcista") \
-                    and detectar_div_historigrama(macd_1m, ohlc_1m, "alcista"):
+            if sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min and detectar_div_macd(macd_5m, ohlc_5m, "alcista") \
+                    and detectar_div_historigrama(macd_5m, ohlc_5m, "alcista"):
                 with open("datos divergencias.txt", "at") as fichero_div:
                     fichero_div.write(f"\nen sop 1 min: {sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min} \n"
                                       f"en sop 5 min: {sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min} \n"
                                       f"en sop 30 min: {sop_min_30m > ohlc_10s['c'].iloc[-1] > sop_max_30m} \n")
-                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "alcista", macd_1m["MACD"].iloc[-2],
-                                macd_1m["MACD"].iloc[-1], monto, client, request)
+                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "alcista", macd_5m["MACD"].iloc[-2],
+                                macd_5m["MACD"].iloc[-1], monto, client, request)
         else:
-            if ohlc_10s['c'].iloc[-1] < sop_max_5min and detectar_div_macd(macd_1m, ohlc_1m, "alcista") \
-                    and detectar_div_historigrama(macd_1m, ohlc_1m, "alcista"):
+            if ohlc_10s['c'].iloc[-1] < sop_max_5min and detectar_div_macd(macd_5m, ohlc_5m, "alcista") \
+                    and detectar_div_historigrama(macd_5m, ohlc_5m, "alcista"):
                 with open("datos divergencias.txt", "at") as fichero_div:
                     fichero_div.write(f"\nen sop 1 min: {sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min} \n"
                                       f"en sop 5 min: {sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min} \n"
                                       f"en sop 30 min: {sop_min_30m > ohlc_10s['c'].iloc[-1] > sop_max_30m} \n")
-                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "alcista", macd_1m["MACD"].iloc[-2],
-                                macd_1m["MACD"].iloc[-1], monto, client, request)
+                seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "alcista", macd_5m["MACD"].iloc[-2],
+                                macd_5m["MACD"].iloc[-1], monto, client, request)
     # estrategia #3 seguimiento de tendencia consolidada
     if (ichi_5m["Senkou span A"].iloc[-26] < ohlc_5m['c'].iloc[-1] > ichi_5m["Senkou span B"].iloc[-26]) and \
             (adx_5m["ADX"].iloc[-2] < adx_5m["ADX"].iloc[-1] > 20.0) and \
@@ -197,8 +194,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                  setenta_por_ciento(ohlc_1m.iloc[-1], "alcista")) and \
                 (adx_1m["ADX"].iloc[-2] <= adx_1m["ADX"].iloc[-1]) and (rsi_1m.iloc[-1] > rsi_1m.iloc[-2]) and \
                 (ichi_1m["tenkan-sen"].iloc[-1] >= ichi_1m["kijun-sen"].iloc[-1]):
-            if res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min or res_max_30m > ohlc_10s['c'].iloc[
-                -1] > res_min_30m:
+            if res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min or res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m:
                 print("Se encuentra en una resistencia fuerte")
                 pass
             else:
@@ -230,9 +226,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                                       sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
                                       sop_min_1min, sop_max_1min, monto, client, request)
     # estrategia #4
-    if (ichi_30m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_30m["Senkou span B"].iloc[-26]) or \
-            (ichi_30m["Senkou span B"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_30m["Senkou span A"].iloc[-26]) or \
-            (ichi_5m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]) or \
+    if (ichi_5m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]) or \
             (ichi_5m["Senkou span B"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_5m["Senkou span A"].iloc[-26]):
         bollinger_1m = boll_bnd(ohlc_1m)
         adx_1m = ADX(ohlc_1m, 14)
@@ -252,6 +246,8 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                 ((res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min or res_max_5min <= ohlc_10s['c'].iloc[-1]) and
                  sop_min_30m < ohlc_10s['c'].iloc[-1] > sop_max_30m) or
                 (res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m)):
+            with open("datos estrategia 4.txt", "a") as fichero_est_4:
+                fichero_est_4.write("\nencima de bollinger 1m")
             seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
                              res_max_30m, res_min_30m, sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min,
                              sop_min_30m, sop_max_30m, bollinger_1m, "ventac", par, monto, client, request)
@@ -263,6 +259,40 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                 ((sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min or ohlc_10s['c'].iloc[-1] <= sop_min_5min) and
                  res_max_30m > ohlc_10s['c'].iloc[-1] < res_min_30m) or
                 sop_min_30m < ohlc_10s['c'].iloc[-1] < sop_max_30m):
+            with open("datos estrategia 4.txt", "a") as fichero_est_4:
+                fichero_est_4.write("\ndebajo de bollinger 1m")
             seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
                              res_max_30m, res_min_30m, sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min,
                              sop_min_30m, sop_max_30m, bollinger_1m, "comprac", par, monto, client, request)
+    if (ichi_30m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_30m["Senkou span B"].iloc[-26]) or \
+    (ichi_30m["Senkou span B"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_30m["Senkou span A"].iloc[-26]):
+        bollinger_5m = boll_bnd(ohlc_5m)
+        adx_5m = ADX(ohlc_5m, 14)
+        rsi_5m = RSI(ohlc_5m, periodo=7)
+        print(bollinger_5m["BB_up"].iloc[-1])
+        print(bollinger_5m["BB_dn"].iloc[-1])
+        print(ohlc_10s['c'].iloc[-1])
+        print("en resistencia ", res_max_1min > ohlc_10s['c'].iloc[-1] > res_min_1min,
+              res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min, res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m)
+        print("en soporte ", sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min,
+              sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min, sop_min_30m < ohlc_10s['c'].iloc[-1] < sop_max_30m)
+        if (ohlc_10s['c'].iloc[-1] > bollinger_5m["BB_up"].iloc[-1]) and (adx_5m["ADX"].iloc[-1] < 32.0) and (
+                rsi_5m.iloc[-1] < 70) and (
+                ((res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min or res_max_5min <= ohlc_10s['c'].iloc[-1]) and
+                 sop_min_30m < ohlc_10s['c'].iloc[-1] > sop_max_30m) or
+                (res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m)):
+            with open("datos estrategia 4.txt", "a") as fichero_est_4:
+                fichero_est_4.write("\nencima de bollinger 5m")
+            seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
+                             res_max_30m, res_min_30m, sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min,
+                             sop_min_30m, sop_max_30m, bollinger_5m, "ventac", par, monto, client, request)
+        elif (ohlc_10s['c'].iloc[-1] < bollinger_5m["BB_dn"].iloc[-1]) and (adx_5m["ADX"].iloc[-1] < 32.0) and (
+                rsi_5m.iloc[-1] > 30) and (
+                ((sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min or ohlc_10s['c'].iloc[-1] <= sop_min_5min) and
+                 res_max_30m > ohlc_10s['c'].iloc[-1] < res_min_30m) or
+                sop_min_30m < ohlc_10s['c'].iloc[-1] < sop_max_30m):
+            with open("datos estrategia 4.txt", "a") as fichero_est_4:
+                fichero_est_4.write("\ndebajo de bollinger 5m")
+            seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
+                             res_max_30m, res_min_30m, sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min,
+                             sop_min_30m, sop_max_30m, bollinger_5m, "comprac", par, monto, client, request)

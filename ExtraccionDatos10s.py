@@ -5,7 +5,7 @@ import pandas as pd
 import time
 
 
-def extraccion_10s_continua(divisa):
+def extraccion_10s_continua(divisa, tiempo_finalizacion):
     params = {"count": 500, "granularity": "S10"}  # granularity can be in seconds S5 -
     # S30, minutes M1 - M30, hours H1 - H12, days D, weeks W or months M
     client = oandapyV20.API(access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
@@ -20,6 +20,9 @@ def extraccion_10s_continua(divisa):
             return
         print(f"excepcion {e}: {type(e)}")
         print("hubo error, verificar si la ejecucion continua")
+        candles = instruments.InstrumentsCandles(instrument=divisa, params=params)
+        client.request(candles)
+        ohlc_dict = candles.response["candles"]
     ohlc = pd.DataFrame(ohlc_dict)
     datos_10s = ohlc.mid.dropna().apply(pd.Series)
     datos_10s["volume"] = ohlc["volume"]
@@ -28,7 +31,8 @@ def extraccion_10s_continua(divisa):
     live_data = []  # precios que recorre el par de divisa en el timeframe seleccionado
     live_price_request = pricing.PricingInfo(accountID=account_id, params={"instruments": divisa})
     rango_precios = []
-    while True:
+    actual_time = time.time()
+    while actual_time < tiempo_finalizacion:
         try:
             starttime = time.time()
             timeout2 = starttime + 10
@@ -52,9 +56,10 @@ def extraccion_10s_continua(divisa):
             pd.DataFrame.to_csv(datos_10s, "datos_10s.csv")
             live_data.clear()
             rango_precios.clear()
+            actual_time = time.time()
         except Exception as e:
             if e == KeyboardInterrupt:
                 return
             print(f"excepcion {e}: {type(e)}")
             print("hubo error, verificar si la ejecucion continua")
-            extraccion_10s_continua(divisa)
+            extraccion_10s_continua(divisa, tiempo_finalizacion)
