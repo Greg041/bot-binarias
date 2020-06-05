@@ -6,7 +6,8 @@ from analisis_y_estrategia import engulfing
 import pyautogui
 import random
 import psutil
-from multiprocessing import Process
+from multiprocessing import Process, Value, Array, Manager
+import array
 from ExtraccionDatos10s import extraccion_10s_continua
 import os
 def r(num, rand):
@@ -24,34 +25,23 @@ pos : array containing the position of the top left corner of the image [x,y]
 action : button of the mouse to activate : "left" "right" "middle", see pyautogui.click documentation for more info
 time : time taken for the mouse to move from where it was to the new position
 '''
+class sumar:
+    def __init__(self):
+        self.numero = 0
 
-
-def click_image(image, pos, action, timestamp, offset=5):
-    img = cv2.imread(image)
-    height, width, channels = img.shape
-    pyautogui.moveTo(pos[0] + r(width / 2, offset), pos[1] + r(height / 2, offset),
-                     timestamp)
-    pyautogui.click(button=action)
-
-class dinero_invertido:
-    def __init__(self, monto):
-        self.monto = monto
+def sumar_numero(objeto, valor_a_retornar):
+    while True:
+        print(objeto.numero)
+        objeto.numero += 1
+        valor_a_retornar[1] = True
+        time.sleep(1)
 
 
 if __name__ == "__main__":
-    par = "EUR/USD"
-    tiempo = "10"
-    monto = "1.50"
-    pyautogui.doubleClick(x=685, y=540)
-    pyautogui.doubleClick(x=685, y=540)
-    time.sleep(0.1)
-    pyautogui.keyDown(tiempo[0])
-    try:
-        pyautogui.keyDown(tiempo[1])
-    except:
-        pass
-    time.sleep(2)
-    click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
-    click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
-    time.sleep(4)
-    click_image("x.jpg", (1388, 415), "left", 0.05)
+    objeto_sumar = sumar()
+    manager = Manager().Array('b', [True, False, True])
+    proceso = Process(target=sumar_numero, args=(objeto_sumar, manager))
+    proceso.start()
+    time.sleep(20)
+    print(manager[:])
+

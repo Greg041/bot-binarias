@@ -55,7 +55,7 @@ def setenta_por_ciento(ohlc_vela, alcista_o_bajista: str) -> bool:
 
 
 def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_max_min_macd, punto_ultimo,
-                    monto, client, request):
+                    monto, client, request, contador, array_de_precios, array_rangos_validos):
     print("estamos en seguimiento divergencia")
     tiempo_de_operacion = "5"
     if tipo_de_divergencia == "bajista":
@@ -72,6 +72,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
             try:
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                 adx_10s = ADX(ohlc_10s)
+                rsi_10s = RSI(ohlc_10s)
                 ichimoku_10s = ichimoku(ohlc_10s)
                 res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
             except Exception as e:
@@ -80,47 +81,21 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                 res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
             try:
-                print(adx_1m["ADX"].iloc[-1])
-                print("posible venta, high 10s: ", ohlc_10s['h'].iloc[-1], " resistencia menor 10s: ", res_min_10s)
-                if (ohlc_10s['h'].iloc[-1] <= res_min_10s or ohlc_10s['h'].iloc[-2] <= res_min_10s) or \
-                        (ohlc_10s['h'].iloc[-1] <= res_min_1m):
-                    while ohlc_10s['c'].iloc[-1] > ichimoku_10s['kijun-sen'].iloc[-1] and punto_ultimo_macd < punto_max_macd:
-                        try:
-                            ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
-                            ichimoku_10s = ichimoku(ohlc_10s)
-                            res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
-                            print(ohlc_10s['c'].iloc[-1], "kijun sen: ", ichimoku_10s['kijun-sen'].iloc[-1])
-                            time.sleep(10)
-                            if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
-                                    int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[
-                                        15:16])) == 6) and \
-                                    (ohlc_5m.iloc[-1].name[
-                                     14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
-                                try:
-                                    ExtraccionOanda(client, 500, 'M5', par)
-                                    ohlc_5m = pd.read_csv("datos_M5.csv", index_col="time")
-                                    punto_ultimo_macd = MACD(ohlc_5m)["MACD"].iloc[-1]
-                                except Exception as e:
-                                    print(f"excepcion {e}: {type(e)}")
-                                    client = oandapyV20.API(
-                                        access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
-                                        environment="practice")
-                        except Exception as e:
-                            print(f"excepcion {e}: {type(e)}")
-                            print("reintentando lectura ohlc_10s")
-                            ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
-                            ichimoku_10s = ichimoku(ohlc_10s)
-                            res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
-                    if (ichimoku_10s["tenkan-sen"].iloc[-1] > ichimoku_10s["kijun-sen"].iloc[-1]) and \
-                            (ichimoku_10s["Senkou span A"].iloc[-26] > ichimoku_10s["Senkou span B"].iloc[-26]) and \
-                            (ohlc_10s['o'].iloc[-1] > ichimoku_10s["kijun-sen"].iloc[-1] > ohlc_10s['c'].iloc[-1] or
-                             ohlc_10s['o'].iloc[-2] > ichimoku_10s["kijun-sen"].iloc[-2] > ohlc_10s['c'].iloc[-2]) and \
-                            (ichimoku_10s["tenkan-sen"].iloc[-2] > ichimoku_10s["tenkan-sen"].iloc[-1]) and \
-                            (adx_10s["ADX"].iloc[-2] > adx_10s["ADX"].iloc[-1]):
-                        ejecucion("ventac", par, tiempo_de_operacion, monto)
-                        live_price_data = client.request(request)
-                        precio = (float(live_price_data["prices"][0]["closeoutBid"])
-                                  + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
+                """
+                Indice de valores de los arrays:
+                    array_de_precios = [ultimo_precio, rango_setenta, rango_treinta]
+                    array_rangos_validos = [soporte_treinta, resistencia_setenta, soporte_inferior, resistencia_superior]
+                """
+                print("posible venta, precio: ", array_de_precios[0], "soporte valido: ",
+                      array_rangos_validos[0], "resistencia superior valida: ", array_rangos_validos[3])
+                # variación cuando el precio se encuentra en cualquier parte de la parte inferior del 30% del
+                # rango y la resistencia superior no está validada signigicando un rebote en el precio del rango
+                # superior
+                if (not array_rangos_validos[3]) and (array_de_precios[0] <= array_de_precios[2]):
+                    if contador.return_estrategia("venta", "estrategia2") <= 2:
+                        precio = ejecucion("venta1", par, tiempo_de_operacion, monto, array_de_precios)
+                        if precio == 0:
+                            return
                         if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
                                 ohlc_1m.iloc[-1].name[14:16]):
                             try:
@@ -138,8 +113,6 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                         live_price_data = client.request(request)
                         precio2 = (float(live_price_data["prices"][0]["closeoutBid"])
                                    + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
-                        adx_10s = ADX(ohlc_10s)
-                        rsi_10s = RSI(ohlc_10s)
                         with open("datos divergencias.txt", "at") as fichero_div:
                             fichero_div.write(f"precio anterior: {ohlc_1m.iloc[-2]} \n"
                                               f"precio actual: {ohlc_1m.iloc[-1]} \n"
@@ -155,10 +128,58 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                               f"DI+ 10s: {adx_10s['DI+'].iloc[-2]}, {adx_10s['DI+'].iloc[-1]} \n"
                                               f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
                                               f"rsi 10s: {rsi_10s.iloc[-2]} {rsi_10s.iloc[-1]} \n"
+                                              "soporte no validado \n"
                                               "venta \n")
                         if precio >= precio2:
                             print("operacion ganada, disminyendo martingala")
                             cambio_de_monto(monto, "disminuir")
+                            contador.sumar_estrategia("venta")
+                            return
+                        elif precio < precio2:
+                            print("operacion perdida, aumentando martingala")
+                            cambio_de_monto(monto, "aumentar")
+                            tiempo_limite = time.time() + 600
+                elif (array_rangos_validos[3]) and (array_de_precios[0] >= array_de_precios[1]):
+                    if contador.return_estrategia("venta", "estrategia2") <= 2:
+                        precio = ("venta2", par, tiempo_de_operacion, monto, array_de_precios)
+                        if precio == 0:
+                            return
+                        if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
+                                ohlc_1m.iloc[-1].name[14:16]):
+                            try:
+                                ExtraccionOanda(client, 500, 'M1', par)
+                                ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
+                                adx_1m = ADX(ohlc_1m)
+                                rsi_1m = RSI(ohlc_1m)
+                                punto_ultimo_macd = MACD(ohlc_1m)["MACD"].iloc[-1]
+                            except Exception as e:
+                                print(f"excepcion {e}: {type(e)}")
+                                client = oandapyV20.API(
+                                    access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                                    environment="practice")
+                        time.sleep(int(tiempo_de_operacion) * 60)
+                        precio2 = array_de_precios[0]
+                        with open("datos divergencias.txt", "at") as fichero_div:
+                            fichero_div.write(f"precio anterior: {ohlc_1m.iloc[-2]} \n"
+                                              f"precio actual: {ohlc_1m.iloc[-1]} \n"
+                                              f"adx 5m: {adx_5m['ADX'].iloc[-2]} {adx_5m['ADX'].iloc[-1]} \n"
+                                              f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
+                                              f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
+                                              f"rsi 5m: {rsi_5m.iloc[-2]} {rsi_5m.iloc[-1]} \n"
+                                              f"adx 1m {adx_1m['ADX'].iloc[-2]} {adx_1m['ADX'].iloc[-1]} \n"
+                                              f"DI+ 1m: {adx_1m['DI+'].iloc[-2]}, {adx_1m['DI+'].iloc[-1]} \n"
+                                              f"DI- 1m: {adx_1m['DI-'].iloc[-2]}, {adx_1m['DI-'].iloc[-1]} \n"
+                                              f"rsi 1m {rsi_1m.iloc[-2]} {rsi_1m.iloc[-1]} \n"
+                                              f"adx 10s {adx_10s['ADX'].iloc[-2]} {adx_10s['ADX'].iloc[-1]} \n"
+                                              f"DI+ 10s: {adx_10s['DI+'].iloc[-2]}, {adx_10s['DI+'].iloc[-1]} \n"
+                                              f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
+                                              f"rsi 10s: {rsi_10s.iloc[-2]} {rsi_10s.iloc[-1]} \n"
+                                              "precio encima de resistencia \n"
+                                              "venta \n")
+                        if precio >= precio2:
+                            print("operacion ganada, disminyendo martingala")
+                            cambio_de_monto(monto, "disminuir")
+                            contador.sumar_estrategia("venta")
                             return
                         elif precio < precio2:
                             print("operacion perdida, aumentando martingala")
@@ -198,7 +219,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                         access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                         environment="practice"
                     )
-            time.sleep(10 - ((time.time() - starttime) % 10))
+            time.sleep(1)
         print("Se sale del seguimiento porque se ejecuto o",
               punto_ultimo_macd < punto_max_macd, punto_ultimo_macd, punto_max_macd)
     elif tipo_de_divergencia == "alcista":
@@ -215,6 +236,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
             try:
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                 adx_10s = ADX(ohlc_10s)
+                rsi_10s = RSI(ohlc_10s)
                 ichimoku_10s = ichimoku(ohlc_10s)
                 res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
             except Exception as e:
@@ -223,49 +245,22 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                 res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
             try:
-                print(adx_1m["ADX"].iloc[-1])
-                print("posible compra, low 10s: ", ohlc_10s['l'].iloc[-1], " soporte max 10s: ", sop_max_10s)
-                if (ohlc_10s['l'].iloc[-1] <= sop_max_10s or ohlc_10s['l'].iloc[-2] <= sop_max_10s) or \
-                        (ohlc_1m['l'].iloc[-1] <= sop_max_1m):
-                    while ichimoku_10s["kijun-sen"].iloc[-1] > ohlc_10s['c'].iloc[-1] and punto_ultimo_macd > punto_min_macd:
-                        try:
-                            ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
-                            ichimoku_10s = ichimoku(ohlc_10s)
-                            res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
-                            print(ohlc_10s['c'].iloc[-1], "kijun sen: ", ichimoku_10s['kijun-sen'].iloc[-1])
-                            time.sleep(10)
-                            if ((int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[15:16])) == 1 or (
-                                    int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[
-                                        15:16])) == 6) and \
-                                    (ohlc_5m.iloc[-1].name[
-                                     14:16] != f"{int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1:02}"):
-                                try:
-                                    ExtraccionOanda(client, 500, 'M5', par)
-                                    ohlc_5m = pd.read_csv("datos_M5.csv", index_col="time")
-                                    punto_ultimo_macd = MACD(ohlc_5m)["MACD"].iloc[-1]
-                                except Exception as e:
-                                    print(f"excepcion {e}: {type(e)}")
-                                    client = oandapyV20.API(
-                                        access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
-                                        environment="practice")
-                        except Exception as e:
-                            print(f"excepcion {e}: {type(e)}")
-                            print("reintentando lectura ohlc_10s")
-                            ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
-                            ichimoku_10s = ichimoku(ohlc_10s)
-                            res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
-                    if (ichimoku_10s["tenkan-sen"].iloc[-1] < ichimoku_10s["kijun-sen"].iloc[-1]) and \
-                            (ichimoku_10s["Senkou span A"].iloc[-26] < ichimoku_10s["Senkou span B"].iloc[-26]) and \
-                            (ohlc_10s['o'].iloc[-1] < ichimoku_10s["kijun-sen"].iloc[-1] < ohlc_10s['c'].iloc[-1] or
-                             ohlc_10s['o'].iloc[-2] < ichimoku_10s["kijun-sen"].iloc[-2] < ohlc_10s['c'].iloc[
-                                 -2]) and \
-                            (ichimoku_10s["tenkan-sen"].iloc[-2] < ichimoku_10s["tenkan-sen"].iloc[-1]) and \
-                            (adx_10s["ADX"].iloc[-2] > adx_10s["ADX"].iloc[-1]):
-                        ejecucion("comprac", par, tiempo_de_operacion, monto)
-                        live_price_data = client.request(request)
-                        precio = (float(live_price_data["prices"][0]["closeoutBid"])
-                                  + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
-                        if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
+                """
+                Indice de valores de los arrays:
+                    array_de_precios = [ultimo_precio, rango_setenta, rango_treinta]
+                    array_rangos_validos = [soporte_treinta, resistencia_setenta, soporte_inferior, resistencia_superior]
+                """
+                print("posible compra, precio: ", array_de_precios[0], "resistencia valida: ",
+                      array_rangos_validos[1], "soporte inferior valido: ", array_rangos_validos[2])
+                # variación cuando el precio se encuentra en cualquier parte de la parte superior del 70% del
+                # rango y el soporte inferior no está validado signigicando un rebote en el precio del rango
+                # superior
+                if (not array_rangos_validos[2]) and (array_de_precios[0] >= array_de_precios[1]):
+                    if contador.return_estrategia("compra", "estrategia2") <= 2:
+                        precio = ejecucion("compra1", par, tiempo_de_operacion, monto, array_de_precios)
+                        if precio == 0:
+                            return
+                        if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
                                 ohlc_1m.iloc[-1].name[14:16]):
                             try:
                                 ExtraccionOanda(client, 500, 'M1', par)
@@ -278,11 +273,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                     access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                     environment="practice")
                         time.sleep(int(tiempo_de_operacion) * 60)
-                        live_price_data = client.request(request)
-                        precio2 = (float(live_price_data["prices"][0]["closeoutBid"])
-                                   + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
-                        adx_10s = ADX(ohlc_10s)
-                        rsi_10s = RSI(ohlc_10s)
+                        precio2 = array_de_precios[0]
                         with open("datos divergencias.txt", "at") as fichero_div:
                             fichero_div.write(f"precio anterior: {ohlc_1m.iloc[-2]} \n"
                                               f"precio actual: {ohlc_1m.iloc[-1]} \n"
@@ -298,10 +289,58 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                               f"DI+ 10s: {adx_10s['DI+'].iloc[-2]}, {adx_10s['DI+'].iloc[-1]} \n"
                                               f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
                                               f"rsi 10s: {rsi_10s.iloc[-2]} {rsi_10s.iloc[-1]} \n"
+                                              "rebote inferior \n"
                                               "compra \n")
                         if precio <= precio2:
                             print("operacion ganada, disminyendo martingala")
                             cambio_de_monto(monto, "disminuir")
+                            contador.sumar_estrategia("compra")
+                            return
+                        elif precio > precio2:
+                            print("operacion perdida, aumentando martingala")
+                            cambio_de_monto(monto, "aumentar")
+                            tiempo_limite = time.time() + 600
+                # Variacion con el precio debajo del 30%
+                elif array_de_precios[0] <= array_de_precios[2] and array_rangos_validos[2]:
+                    if contador.return_estrategia("compra", "estrategia2") <= 2:
+                        precio = ejecucion("compra2", par, tiempo_de_operacion, monto, array_de_precios)
+                        if precio ==0:
+                            return
+                        if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
+                                ohlc_1m.iloc[-1].name[14:16]):
+                            try:
+                                ExtraccionOanda(client, 500, 'M1', par)
+                                ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
+                                adx_1m = ADX(ohlc_1m)
+                                rsi_1m = RSI(ohlc_1m)
+                            except Exception as e:
+                                print(f"excepcion {e}: {type(e)}")
+                                client = oandapyV20.API(
+                                    access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
+                                    environment="practice")
+                        time.sleep(int(tiempo_de_operacion) * 60)
+                        precio2 = array_de_precios[0]
+                        with open("datos divergencias.txt", "at") as fichero_div:
+                            fichero_div.write(f"precio anterior: {ohlc_1m.iloc[-2]} \n"
+                                              f"precio actual: {ohlc_1m.iloc[-1]} \n"
+                                              f"adx 5m: {adx_5m['ADX'].iloc[-2]} {adx_5m['ADX'].iloc[-1]} \n"
+                                              f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
+                                              f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
+                                              f"rsi 5m: {rsi_5m.iloc[-2]} {rsi_5m.iloc[-1]} \n"
+                                              f"adx 1m {adx_1m['ADX'].iloc[-2]} {adx_1m['ADX'].iloc[-1]} \n"
+                                              f"DI+ 1m: {adx_1m['DI+'].iloc[-2]}, {adx_1m['DI+'].iloc[-1]} \n"
+                                              f"DI- 1m: {adx_1m['DI-'].iloc[-2]}, {adx_1m['DI-'].iloc[-1]} \n"
+                                              f"rsi 1m {rsi_1m.iloc[-2]} {rsi_1m.iloc[-1]} \n"
+                                              f"adx 10s {adx_10s['ADX'].iloc[-2]} {adx_10s['ADX'].iloc[-1]} \n"
+                                              f"DI+ 10s: {adx_10s['DI+'].iloc[-2]}, {adx_10s['DI+'].iloc[-1]} \n"
+                                              f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
+                                              f"rsi 10s: {rsi_10s.iloc[-2]} {rsi_10s.iloc[-1]} \n"
+                                              "precio debajo de soporte \n"
+                                              "compra \n")
+                        if precio <= precio2:
+                            print("operacion ganada, disminyendo martingala")
+                            cambio_de_monto(monto, "disminuir")
+                            contador.sumar_estrategia("compra")
                             return
                         elif precio > precio2:
                             print("operacion perdida, aumentando martingala")
@@ -311,7 +350,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                 print(f"excepcion {e}: {type(e)}")
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                 ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
-                time.sleep(10 - ((time.time() - starttime) % 10))
+                time.sleep(1)
             if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
                     ohlc_1m.iloc[-1].name[14:16]):
                 try:
@@ -341,6 +380,6 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                         access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                         environment="practice"
                     )
-            time.sleep(10 - ((time.time() - starttime) % 10))
+            time.sleep(1)
         print("Se sale del seguimiento porque se ejecuto o",
               punto_ultimo_macd > punto_min_macd, punto_ultimo_macd, punto_min_macd)

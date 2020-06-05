@@ -61,7 +61,7 @@ def click_image(image, pos, action, timestamp, offset=5):
     pyautogui.click(button=action)
 
 
-def ejecucion(signal, par, tiempo, monto):
+def ejecucion(signal, par, tiempo, monto, array_de_precios):
     if signal != "":
         click_image("par.jpg", (489, 338), "left", 0.05)
         time.sleep(0.3)
@@ -86,8 +86,8 @@ def ejecucion(signal, par, tiempo, monto):
         except:
             pass
         time.sleep(1)
-    if signal == "comprac":
-        print("compra contratendencia")
+    if signal == "compra1":
+        print("compra variacion 1")
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
         pyautogui.doubleClick(x=685, y=540)
         pyautogui.doubleClick(x=685, y=540)
@@ -98,13 +98,21 @@ def ejecucion(signal, par, tiempo, monto):
         except:
             pass
         time.sleep(2)
+        timeout = time.time() + 300
+        # Esperar a que el precio esté en la posición optima para ejecutar la operación y por un lapso de 5 minutos
+        while array_de_precios[0] >= array_de_precios[1] or time.time() >= timeout:
+            pass
+        if time.time() >= timeout:
+            return 0
+        precio_a_retornar = array_de_precios[0]
         click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
         click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
         winsound.Beep(440, 1000)
         time.sleep(4)
         click_image("x.jpg", (1388, 415), "left", 0.05)
-    elif signal == "compraf":
-        print("compra a favor")
+        return precio_a_retornar
+    elif signal == "compra2":
+        print("compra variacion 2")
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
         pyautogui.doubleClick(x=685, y=540)
         pyautogui.doubleClick(x=685, y=540)
@@ -115,13 +123,21 @@ def ejecucion(signal, par, tiempo, monto):
         except:
             pass
         time.sleep(2)
+        timeout = time.time() + 300
+        # Esperar a que el precio esté en la posición optima para ejecutar la operación y por un lapso de 5 minutos
+        while array_de_precios[0] >= array_de_precios[2] or time.time() >= timeout:
+            pass
+        if time.time() >= timeout:
+            return 0
+        precio_a_retornar = array_de_precios[0]
         click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
         click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
         winsound.Beep(440, 1000)
         time.sleep(4)
         click_image("x.jpg", (1388, 415), "left", 0.05)
-    elif signal == "ventac":
-        print("venta contratendencia")
+        return precio_a_retornar
+    elif signal == "venta1":
+        print("venta variacion 1")
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
         pyautogui.doubleClick(x=685, y=540)
         pyautogui.doubleClick(x=685, y=540)
@@ -132,12 +148,20 @@ def ejecucion(signal, par, tiempo, monto):
         except:
             pass
         time.sleep(2)
+        timeout = time.time() + 300
+        # Esperar a que el precio esté en la posición optima para ejecutar la operación y por un lapso de 5 minutos
+        while array_de_precios[0] <= array_de_precios[2] or time.time() >= timeout:
+            pass
+        if time.time() >= timeout:
+            return 0
+        precio_a_retornar = array_de_precios[0]
         click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
         click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
         winsound.Beep(440, 1000)
         time.sleep(4)
         click_image("x.jpg", (1388, 415), "left", 0.05)
-    elif signal == "ventaf":
+        return precio_a_retornar
+    elif signal == "venta2":
         print("venta a favor")
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
         pyautogui.doubleClick(x=685, y=540)
@@ -149,8 +173,16 @@ def ejecucion(signal, par, tiempo, monto):
         except:
             pass
         time.sleep(2)
+        timeout = time.time() + 300
+        # Esperar a que el precio esté en la posición optima para ejecutar la operación y por un lapso de 5 minutos
+        while array_de_precios[0] <= array_de_precios[1] or time.time() >= timeout:
+            pass
+        if time.time() >= timeout:
+            return 0
+        precio_a_retornar = array_de_precios[0]
         click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
         click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
         winsound.Beep(440, 1000)
         time.sleep(4)
         click_image("x.jpg", (1388, 415), "left", 0.05)
+        return precio_a_retornar

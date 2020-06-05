@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/ContadorEstrategia.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SeguimientoRangos.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ejecucion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ejecucion.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExtraccionDatos10s.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExtraccionDatos10s.py" afterDir="false" />
@@ -40,7 +42,6 @@
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -54,7 +55,7 @@
       <recent name="C:\Users\g_reg\Desktop\bot binarias" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.prueba">
+  <component name="RunManager" selected="Python.main">
     <configuration name="analisis_y_estrategia" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="bot binarias" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -141,24 +142,12 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.prueba" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.prueba" />
         <item itemvalue="Python.imagesearch" />
         <item itemvalue="Python.analisis_y_estrategia" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -170,13 +159,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1578051824094</updated>
-    </task>
-    <task id="LOCAL-00025" summary="- pulida estrategia 2 para tomar en cuenta soportes y resistencias a 5 minutos cuando se este haciendo SeguimientoIchimoku.py&#10;- agregado codigo para preguntar cuantas noticias de 3 estrellas habrá en el periodo de tiempo de ejecucion y preguntar que hora seria 30 minutos antes de que sea las noticias para hacer un sleep desde 30 minutos antes y hasta 30 minutos despues de la noticia">
-      <created>1579565899938</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1579565899938</updated>
     </task>
     <task id="LOCAL-00026" summary="- pulida estrategia 3 para tomar en cuenta que el precio esté sobre o bajo la nube kumo a la hora de operar a favor de la tendencia como un filtro extra y tomar en cuenta que precio esté dentro de la nube kumo en periodos de 1 minutos y no de 5 minutos a la hora de operar en contra la tendencia">
       <created>1579615258892</created>
@@ -514,7 +496,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587688014637</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="- creada función de seguimientobollinger cuando salga fuera de la banda en 5 minutos&#10;- optimizado código de seguimiento y guardado de datos en cada estrategia">
+      <created>1589240566181</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1589240566183</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -522,17 +511,15 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- pulida estrategia ichimoku" />
     <MESSAGE value="- diseñada estrategia #3 para el seguimiento de una tendencia consolidada&#10;- creada funcion Seguimiento_ichimoku2 para el seguimiento de la estrategia #3" />
     <MESSAGE value="- editado código del módulo Ejecucion.py para adaptarse a binary.com &#10;- editado código en main.py para ahorrar código a la hora de calcular soporte y resistencias editando la función de cálculo de la misma&#10;- editado analisis_y_estrategia.py para solo tomar en cuenta la estrategia principal" />
     <MESSAGE value="- editado código de extraccion y creación de velas de 5 segundos a 10 segundos&#10;- pulido modulo Ejecucion.py para crear operaciones en binary.com" />
@@ -557,45 +544,63 @@
     <MESSAGE value="- Mejorado función del modulo ExtraccionDatos10s.py para realizar una llamada recursiva a si misma en caso de alguna excepcion" />
     <MESSAGE value="- Mejorado módulo Ejecucion.py para interactuar mejor con la interfaz de la pagina a la hora de seleccionar divisas" />
     <MESSAGE value="- Creado módulo seguimiento estrategia #4 seguimiento_bollinger.py&#10;- Creada clase para configurar el monto de operacion según si la ultima operación fue ganadora o perdedora&#10;- Optimizada estrategia de SeguimientoIchimoku.py 1 y 2 para operar según si el soporte o la resistencia en 10s con la que choque esté por debajo o por encima de la nube ichimoku&#10;- Creado módulo cambiar_monto.py para función que cambie el monto de operación aumentandolo o disminuyendolo&#10;- Optimizados seguimientos para que guarde el precio en el momento en que se realice la operación y lo compare con el precio una vez finalizada la operación para disminuir o aumentar el martingala según sea el resultado" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Creado módulo seguimiento estrategia #4 seguimiento_bollinger.py&#10;- Creada clase para configurar el monto de operacion según si la ultima operación fue ganadora o perdedora&#10;- Optimizada estrategia de SeguimientoIchimoku.py 1 y 2 para operar según si el soporte o la resistencia en 10s con la que choque esté por debajo o por encima de la nube ichimoku&#10;- Creado módulo cambiar_monto.py para función que cambie el monto de operación aumentandolo o disminuyendolo&#10;- Optimizados seguimientos para que guarde el precio en el momento en que se realice la operación y lo compare con el precio una vez finalizada la operación para disminuir o aumentar el martingala según sea el resultado" />
+    <MESSAGE value="- creada función de seguimientobollinger cuando salga fuera de la banda en 5 minutos&#10;- optimizado código de seguimiento y guardado de datos en cada estrategia" />
+    <option name="LAST_COMMIT_MESSAGE" value="- creada función de seguimientobollinger cuando salga fuera de la banda en 5 minutos&#10;- optimizado código de seguimiento y guardado de datos en cada estrategia" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="710" y="322" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1587421935302">
+    <state x="552" y="160" key="#Plugins" timestamp="1590953644004">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="552" y="160" key="#Plugins/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1590953644004" />
+    <state x="833" y="1385" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1590021517059">
+      <screen x="360" y="1080" width="1280" height="984" />
+    </state>
+    <state x="833" y="1385" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/360.1080.1280.984@360.1080.1280.984" timestamp="1590021517059" />
     <state x="710" y="322" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1587421935302" />
     <state x="640" y="396" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1583708276392">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="640" y="396" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1583708276392" />
-    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1581539286218">
+    <state x="0" y="92" key="CommitChangelistDialog2" timestamp="1589240539470">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1581539286218" />
-    <state x="798" y="178" key="CommitChangelistDialog2" timestamp="1587688001627">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="798" y="178" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1587688001627" />
+    <state x="0" y="92" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1589240539470" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1587424370673">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="739" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1587424370673" />
-    <state width="1899" height="153" key="GridCell.Tab.0.bottom" timestamp="1589074332736">
+    <state width="1899" height="220" key="GridCell.Tab.0.bottom" timestamp="1590693070506">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="153" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589074332736" />
-    <state width="1899" height="153" key="GridCell.Tab.0.center" timestamp="1589074332735">
+    <state width="1232" height="91" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1589764313533" />
+    <state width="1259" height="140" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1280.984@1920.0.1280.984" timestamp="1589950159015" />
+    <state width="1259" height="206" key="GridCell.Tab.0.bottom/0.0.1920.1040/360.1080.1280.984@360.1080.1280.984" timestamp="1590117738056" />
+    <state width="1899" height="220" key="GridCell.Tab.0.bottom/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1590693070506" />
+    <state width="1899" height="220" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1590381478741" />
+    <state width="1899" height="220" key="GridCell.Tab.0.center" timestamp="1590693070505">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="153" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589074332735" />
-    <state width="1899" height="153" key="GridCell.Tab.0.left" timestamp="1589074332735">
+    <state width="1232" height="91" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1589764313532" />
+    <state width="1259" height="140" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1280.984@1920.0.1280.984" timestamp="1589950159015" />
+    <state width="1259" height="206" key="GridCell.Tab.0.center/0.0.1920.1040/360.1080.1280.984@360.1080.1280.984" timestamp="1590117738056" />
+    <state width="1899" height="220" key="GridCell.Tab.0.center/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1590693070505" />
+    <state width="1899" height="220" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1590381478741" />
+    <state width="1899" height="220" key="GridCell.Tab.0.left" timestamp="1590693070505">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="153" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589074332735" />
-    <state width="1899" height="153" key="GridCell.Tab.0.right" timestamp="1589074332735">
+    <state width="1232" height="91" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1589764313532" />
+    <state width="1259" height="140" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1280.984@1920.0.1280.984" timestamp="1589950159015" />
+    <state width="1259" height="206" key="GridCell.Tab.0.left/0.0.1920.1040/360.1080.1280.984@360.1080.1280.984" timestamp="1590117738055" />
+    <state width="1899" height="220" key="GridCell.Tab.0.left/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1590693070505" />
+    <state width="1899" height="220" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1590381478741" />
+    <state width="1899" height="220" key="GridCell.Tab.0.right" timestamp="1590693070506">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1899" height="153" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589074332735" />
+    <state width="1232" height="91" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1589764313532" />
+    <state width="1259" height="140" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1280.984@1920.0.1280.984" timestamp="1589950159015" />
+    <state width="1259" height="206" key="GridCell.Tab.0.right/0.0.1920.1040/360.1080.1280.984@360.1080.1280.984" timestamp="1590117738056" />
+    <state width="1899" height="220" key="GridCell.Tab.0.right/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1590693070506" />
+    <state width="1899" height="220" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1590381478741" />
     <state width="1882" height="180" key="GridCell.Tab.1.bottom" timestamp="1588896136991">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -612,25 +617,24 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1882" height="180" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588896136991" />
-    <state x="512" y="158" key="SettingsEditor" timestamp="1581055407181">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1589240549155">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="512" y="158" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1581055407181" />
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1587688022446">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1587688022446" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589240549155" />
     <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1588897858506">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588897858506" />
-    <state x="764" y="581" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1587422589227">
+    <state x="764" y="581" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590620463216">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="764" y="581" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1587422589227" />
-    <state x="701" y="164" key="refactoring.ChangeSignatureDialog" timestamp="1580943093147">
+    <state x="869" y="1630" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/360.1080.1280.984@360.1080.1280.984" timestamp="1590117456931" />
+    <state x="764" y="581" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1590620463216" />
+    <state x="764" y="581" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1590375283998" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1590619954901">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="701" y="164" key="refactoring.ChangeSignatureDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1580943093147" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1590619954901" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1590379926276" />
   </component>
 </project>
