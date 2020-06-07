@@ -100,7 +100,7 @@ def ejecucion(signal, par, tiempo, monto, array_de_precios):
         time.sleep(2)
         timeout = time.time() + 300
         # Esperar a que el precio esté en la posición optima para ejecutar la operación y por un lapso de 5 minutos
-        while array_de_precios[0] >= array_de_precios[1] or time.time() >= timeout:
+        while array_de_precios[0] <= array_de_precios[1] or time.time() >= timeout:
             pass
         if time.time() >= timeout:
             return 0
@@ -150,7 +150,7 @@ def ejecucion(signal, par, tiempo, monto, array_de_precios):
         time.sleep(2)
         timeout = time.time() + 300
         # Esperar a que el precio esté en la posición optima para ejecutar la operación y por un lapso de 5 minutos
-        while array_de_precios[0] <= array_de_precios[2] or time.time() >= timeout:
+        while array_de_precios[0] >= array_de_precios[2] or time.time() >= timeout:
             pass
         if time.time() >= timeout:
             return 0
@@ -162,7 +162,7 @@ def ejecucion(signal, par, tiempo, monto, array_de_precios):
         click_image("x.jpg", (1388, 415), "left", 0.05)
         return precio_a_retornar
     elif signal == "venta2":
-        print("venta a favor")
+        print("venta variacion 2")
         print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
         pyautogui.doubleClick(x=685, y=540)
         pyautogui.doubleClick(x=685, y=540)
@@ -175,7 +175,7 @@ def ejecucion(signal, par, tiempo, monto, array_de_precios):
         time.sleep(2)
         timeout = time.time() + 300
         # Esperar a que el precio esté en la posición optima para ejecutar la operación y por un lapso de 5 minutos
-        while array_de_precios[0] <= array_de_precios[1] or time.time() >= timeout:
+        while array_de_precios[0] >= array_de_precios[1] or time.time() >= timeout:
             pass
         if time.time() >= timeout:
             return 0

@@ -70,8 +70,8 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
             # variación cuando el precio se encuentra en cualquier parte de la parte inferior del 30% del
             # rango y la resistencia superior no está validada signigicando un rebote en el precio del rango
             # superior
-            if (not array_rangos_validos[3]) and (array_de_precios[0] <= array_de_precios[2]):
-                if contador.return_estrategia("venta", "estrategia4") <= 2:
+            if (not array_rangos_validos[3]) and (not array_rangos_validos[0]):
+                if contador.return_estrategia("venta", "estrategia4") < 2:
                     precio = ejecucion("venta1", par, tiempo_de_operacion, monto, array_de_precios)
                     if precio == 0:
                         return
@@ -126,7 +126,7 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
                                             f"en resistencia 30m: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n"
                                             f"sobre resistencia 1m: {res_max_1min <= ohlc_10s['c'].iloc[-1]} \n"
                                             f"sobre resistencia 5m: {res_max_5min <= ohlc_10s['c'].iloc[-1]} \n"
-                                            "rebote superior \n"
+                                            "variacion 1 \n"
                                             f"venta \n")
                     if precio >= precio2:
                         print("operacion ganada, disminuyendo martingala")
@@ -139,7 +139,7 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
                         tiempo_limite = time.time() + 600
             # Variacion #2 precio por encima del 70% del rango
             elif (array_rangos_validos[3]) and (array_de_precios[0] >= array_de_precios[1]):
-                if contador.return_estrategia("venta", "estrategia4") <= 2:
+                if contador.return_estrategia("venta", "estrategia4") < 2:
                     precio = ejecucion("venta2", par, tiempo_de_operacion, monto, array_de_precios)
                     if precio == 0:
                         return
@@ -194,7 +194,7 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
                                             f"en resistencia 30m: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n"
                                             f"sobre resistencia 1m: {res_max_1min <= ohlc_10s['c'].iloc[-1]} \n"
                                             f"sobre resistencia 5m: {res_max_5min <= ohlc_10s['c'].iloc[-1]} \n"
-                                            "precio sobre resistencia \n"
+                                            "variacion 2 \n"
                                             f"venta \n")
                     if precio >= precio2:
                         print("operacion ganada, disminuyendo martingala")
@@ -245,17 +245,13 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
     elif tipo_de_operacion == "comprac":
         adx_1m = ADX(ohlc_1m)
         rsi_1m = RSI(ohlc_1m, periodo=7)
-        ichimoku_10s = ichimoku(ohlc_10s)
         tiempo_limite = time.time() + 600
         while (adx_1m["ADX"].iloc[-1] < 32.0) and (rsi_1m.iloc[-1] < 70) and \
                 (ohlc_10s['c'].iloc[-1] < bollinger_1m["BB_up"].iloc[-1]) and time.time() < tiempo_limite:
             try:
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
-                ichimoku_10s = ichimoku(ohlc_10s)
             except:
                 pass
-            starttime = time.time()
-            adx_10s = ADX(ohlc_10s)
             """
             Indice de valores de los arrays:
                 array_de_precios = [ultimo_precio, rango_setenta, rango_treinta]
@@ -267,8 +263,8 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
             # variación cuando el precio se encuentra en cualquier parte de la parte superior del 70% del
             # rango y el soporte inferior no está validada signigicando un rebote en el precio del rango
             # inferior
-            if (not array_rangos_validos[2]) and (array_de_precios[0] >= array_de_precios[1]):
-                if contador.return_estrategia("compra", "estrategia4") <= 2:
+            if (not array_rangos_validos[2]) and (not array_rangos_validos[1]):
+                if contador.return_estrategia("compra", "estrategia4") < 2:
                     precio = ejecucion("compra1", par, tiempo_de_operacion, monto, array_de_precios)
                     if precio == 0:
                         return
@@ -323,7 +319,7 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
                                             f"en soporte 30m: {sop_min_30m < ohlc_10s['c'].iloc[-1] < sop_max_30m} \n"
                                             f"debajo soporte 1m: {ohlc_10s['c'].iloc[-1] <= sop_min_1min} \n"
                                             f"debajo soporte 5m: {ohlc_10s['c'].iloc[-1] <= sop_min_5min} \n"
-                                            "rebote inferior \n"
+                                            "variacion 1 \n"
                                             f"compra \n")
                     if precio <= precio2:
                         print("operacion ganada, disminuyendo martingala")
@@ -335,7 +331,7 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
                         cambio_de_monto(monto, "aumentar")
                         tiempo_limite = time.time() + 600
             elif (array_rangos_validos[2]) and (array_de_precios[0] <= array_de_precios[2]):
-                if contador.return_estrategia("compra", "estrategia4") <= 2:
+                if contador.return_estrategia("compra", "estrategia4") < 2:
                     precio = ejecucion("compra2", par, tiempo_de_operacion, monto, array_de_precios)
                     if precio == 0:
                         return
@@ -386,7 +382,7 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
                                             f"en soporte 30m: {sop_min_30m < ohlc_10s['c'].iloc[-1] < sop_max_30m} \n"
                                             f"debajo soporte 1m: {ohlc_10s['c'].iloc[-1] <= sop_min_1min} \n"
                                             f"debajo soporte 5m: {ohlc_10s['c'].iloc[-1] <= sop_min_5min} \n"
-                                            "precio debajo de soporte \n"
+                                            "variacion 2 \n"
                                             f"compra \n")
                     if precio <= precio2:
                         print("operacion ganada, disminuyendo martingala")
@@ -445,17 +441,13 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
     if tipo_de_operacion == "ventac":
         adx_5m = ADX(ohlc_5m)
         rsi_5m = RSI(ohlc_5m, periodo=7)
-        ichimoku_10s = ichimoku(ohlc_10s)
         tiempo_limite = time.time() + 600
         while (adx_5m["ADX"].iloc[-1] < 32.0) and (rsi_5m.iloc[-1] < 70) and \
                 (ohlc_10s['c'].iloc[-1] > bollinger_5m["BB_dn"].iloc[-1]) and time.time() < tiempo_limite:
             try:
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
-                ichimoku_10s = ichimoku(ohlc_10s)
             except:
                 pass
-            starttime = time.time()
-            adx_10s = ADX(ohlc_10s)
             print("posible venta")
             """
             Indice de valores de los arrays:
@@ -467,8 +459,8 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
             # variación cuando el precio se encuentra en cualquier parte de la parte inferior del 30% del
             # rango y la resistencia superior no está validada signigicando un rebote en el precio del rango
             # superior
-            if (not array_rangos_validos[3]) and (array_de_precios[0] <= array_de_precios[2]):
-                if contador.return_estrategia("venta", "estrategia5") <= 2:
+            if (not array_rangos_validos[3]) and (not array_rangos_validos[0]):
+                if contador.return_estrategia("venta", "estrategia5") < 2:
                     precio = ejecucion("venta1", par, tiempo_de_operacion, monto, array_de_precios)
                     if precio == 0:
                         return
@@ -524,7 +516,7 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
                                             f"sobre resistencia 1m: {res_max_1min <= ohlc_10s['c'].iloc[-1]} \n"
                                             f"sobre resistencia 5m: {res_max_5min <= ohlc_10s['c'].iloc[-1]} \n"
                                             f"precio encima de la nube 10s\n"
-                                            "rebote superior \n"
+                                            "variacion 1 \n"
                                             f"venta \n")
                     if precio >= precio2:
                         print("operacion ganada, disminuyendo martingala")
@@ -537,7 +529,7 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
                         tiempo_limite = time.time() + 600
             # variacion #2 precio encima de resistencia
             elif (array_rangos_validos[3]) and (array_de_precios[0] >= array_de_precios[1]):
-                if contador.return_estrategia("venta", "estrategia5") <= 2:
+                if contador.return_estrategia("venta", "estrategia5") < 2:
                     precio = ejecucion("venta2", par, tiempo_de_operacion, monto, array_de_precios)
                     if precio == 0:
                         return
@@ -593,7 +585,7 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
                                             f"sobre resistencia 1m: {res_max_1min <= ohlc_10s['c'].iloc[-1]} \n"
                                             f"sobre resistencia 5m: {res_max_5min <= ohlc_10s['c'].iloc[-1]} \n"
                                             f"precio encima de la nube 10s\n"
-                                            "precio encima de resistencia \n"
+                                            "variacion 2\n"
                                             f"venta \n")
                     if precio >= precio2:
                         print("operacion ganada, disminuyendo martingala")
@@ -646,7 +638,6 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
     elif tipo_de_operacion == "comprac":
         adx_5m = ADX(ohlc_5m)
         rsi_5m = RSI(ohlc_5m, periodo=7)
-        ichimoku_10s = ichimoku(ohlc_10s)
         tiempo_limite = time.time() + 600
         while (adx_5m["ADX"].iloc[-1] < 32.0) and (rsi_5m.iloc[-1] < 70) and \
                 (ohlc_10s['c'].iloc[-1] < bollinger_5m["BB_up"].iloc[-1]) and time.time() < tiempo_limite:
@@ -655,8 +646,6 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
                 ichimoku_10s = ichimoku(ohlc_10s)
             except:
                 pass
-            starttime = time.time()
-            adx_10s = ADX(ohlc_10s)
             print("posible compra")
             """
             Indice de valores de los arrays:
@@ -668,8 +657,8 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
             # variación cuando el precio se encuentra en cualquier parte de la parte superior del 70% del
             # rango y el soporte inferior no está validado signigicando un rebote en el precio del rango
             # inferior
-            if (not array_rangos_validos[2]) and (array_de_precios[0] >= array_de_precios[1]):
-                if contador.return_estrategia("compra", "estrategia5") <= 2:
+            if (not array_rangos_validos[2]) and (not array_rangos_validos[1]):
+                if contador.return_estrategia("compra", "estrategia5") < 2:
                     precio = ejecucion("compra1", par, tiempo_de_operacion, monto, array_de_precios)
                     if precio == 0:
                         return
@@ -725,12 +714,12 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
                                             f"sobre resistencia 1m: {res_max_1min <= ohlc_10s['c'].iloc[-1]} \n"
                                             f"sobre resistencia 5m: {res_max_5min <= ohlc_10s['c'].iloc[-1]} \n"
                                             f"precio encima de la nube 10s\n"
-                                            "rebote inferior \n"
+                                            "variacion 1 \n"
                                             f"compra \n")
                     if precio >= precio2:
                         print("operacion ganada, disminuyendo martingala")
                         cambio_de_monto(monto, "disminuir")
-                        contador.sumar_estrategia("venta")
+                        contador.sumar_estrategia("compra")
                         return
                     elif precio < precio2:
                         print("operacion perdida, aumentando martingala")
@@ -738,7 +727,7 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
                         tiempo_limite = time.time() + 600
             # Variacion cuando el precio se encuentra debajo del 30% del rango y el soporte está validado
             elif (array_rangos_validos[2]) and (array_de_precios[0] <= array_de_precios[2]):
-                if contador.return_estrategia("compra", "estrategia5") <= 2:
+                if contador.return_estrategia("compra", "estrategia5") < 2:
                     precio = ejecucion("compra2", par, tiempo_de_operacion, monto, array_de_precios)
                     if precio == 0:
                         return
@@ -794,12 +783,12 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
                                             f"sobre resistencia 1m: {res_max_1min <= ohlc_10s['c'].iloc[-1]} \n"
                                             f"sobre resistencia 5m: {res_max_5min <= ohlc_10s['c'].iloc[-1]} \n"
                                             f"precio encima de la nube 10s\n"
-                                            "precio debajo de soporte \n"
+                                            "variacion 2\n"
                                             f"compra \n")
                     if precio >= precio2:
                         print("operacion ganada, disminuyendo martingala")
                         cambio_de_monto(monto, "disminuir")
-                        contador.sumar_estrategia("venta")
+                        contador.sumar_estrategia("compra")
                         return
                     elif precio < precio2:
                         print("operacion perdida, aumentando martingala")

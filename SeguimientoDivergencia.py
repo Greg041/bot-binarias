@@ -63,7 +63,6 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
         punto_ultimo_macd = punto_ultimo
         adx_1m = ADX(ohlc_1m)
         rsi_1m = RSI(ohlc_1m)
-        res_max_1m, res_min_1m, sop_min_1m, sop_max_1m = calcular_rango_sop_res(ohlc_1m, 10)
         adx_5m = ADX(ohlc_5m)
         rsi_5m = RSI(ohlc_5m)
         tiempo_limite = time.time() + 600
@@ -73,13 +72,10 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                 adx_10s = ADX(ohlc_10s)
                 rsi_10s = RSI(ohlc_10s)
-                ichimoku_10s = ichimoku(ohlc_10s)
-                res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
             except Exception as e:
                 print(f"excepcion {e}: {type(e)}")
                 print("reintentando lectura ohlc_10s")
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
-                res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
             try:
                 """
                 Indice de valores de los arrays:
@@ -91,8 +87,8 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                 # variación cuando el precio se encuentra en cualquier parte de la parte inferior del 30% del
                 # rango y la resistencia superior no está validada signigicando un rebote en el precio del rango
                 # superior
-                if (not array_rangos_validos[3]) and (array_de_precios[0] <= array_de_precios[2]):
-                    if contador.return_estrategia("venta", "estrategia2") <= 2:
+                if (not array_rangos_validos[3]) and (not array_rangos_validos[0]):
+                    if contador.return_estrategia("venta", "estrategia2") < 2:
                         precio = ejecucion("venta1", par, tiempo_de_operacion, monto, array_de_precios)
                         if precio == 0:
                             return
@@ -128,7 +124,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                               f"DI+ 10s: {adx_10s['DI+'].iloc[-2]}, {adx_10s['DI+'].iloc[-1]} \n"
                                               f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
                                               f"rsi 10s: {rsi_10s.iloc[-2]} {rsi_10s.iloc[-1]} \n"
-                                              "soporte no validado \n"
+                                              "variacion 1 \n"
                                               "venta \n")
                         if precio >= precio2:
                             print("operacion ganada, disminyendo martingala")
@@ -140,7 +136,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                             cambio_de_monto(monto, "aumentar")
                             tiempo_limite = time.time() + 600
                 elif (array_rangos_validos[3]) and (array_de_precios[0] >= array_de_precios[1]):
-                    if contador.return_estrategia("venta", "estrategia2") <= 2:
+                    if contador.return_estrategia("venta", "estrategia2") < 2:
                         precio = ("venta2", par, tiempo_de_operacion, monto, array_de_precios)
                         if precio == 0:
                             return
@@ -174,7 +170,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                               f"DI+ 10s: {adx_10s['DI+'].iloc[-2]}, {adx_10s['DI+'].iloc[-1]} \n"
                                               f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
                                               f"rsi 10s: {rsi_10s.iloc[-2]} {rsi_10s.iloc[-1]} \n"
-                                              "precio encima de resistencia \n"
+                                              "variacion 2\n"
                                               "venta \n")
                         if precio >= precio2:
                             print("operacion ganada, disminyendo martingala")
@@ -227,23 +223,18 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
         punto_ultimo_macd = punto_ultimo
         adx_1m = ADX(ohlc_1m)
         rsi_1m = RSI(ohlc_1m)
-        res_max_1m, res_min_1m, sop_min_1m, sop_max_1m = calcular_rango_sop_res(ohlc_1m, 10)
         adx_5m = ADX(ohlc_5m)
         rsi_5m = RSI(ohlc_5m)
         tiempo_limite = time.time() + 600
         while punto_ultimo_macd > punto_min_macd and time.time() < tiempo_limite:
-            starttime = time.time()
             try:
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
                 adx_10s = ADX(ohlc_10s)
                 rsi_10s = RSI(ohlc_10s)
-                ichimoku_10s = ichimoku(ohlc_10s)
-                res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
             except Exception as e:
                 print(f"excepcion {e}: {type(e)}")
                 print("reintentando lectura ohlc_10s")
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
-                res_max_10s, res_min_10s, sop_min_10s, sop_max_10s = calcular_rango_sop_res(ohlc_10s, 30)
             try:
                 """
                 Indice de valores de los arrays:
@@ -255,8 +246,8 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                 # variación cuando el precio se encuentra en cualquier parte de la parte superior del 70% del
                 # rango y el soporte inferior no está validado signigicando un rebote en el precio del rango
                 # superior
-                if (not array_rangos_validos[2]) and (array_de_precios[0] >= array_de_precios[1]):
-                    if contador.return_estrategia("compra", "estrategia2") <= 2:
+                if (not array_rangos_validos[2]) and (not array_rangos_validos[1]):
+                    if contador.return_estrategia("compra", "estrategia2") < 2:
                         precio = ejecucion("compra1", par, tiempo_de_operacion, monto, array_de_precios)
                         if precio == 0:
                             return
@@ -289,7 +280,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                               f"DI+ 10s: {adx_10s['DI+'].iloc[-2]}, {adx_10s['DI+'].iloc[-1]} \n"
                                               f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
                                               f"rsi 10s: {rsi_10s.iloc[-2]} {rsi_10s.iloc[-1]} \n"
-                                              "rebote inferior \n"
+                                              "variacion 1\n"
                                               "compra \n")
                         if precio <= precio2:
                             print("operacion ganada, disminyendo martingala")
@@ -302,7 +293,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                             tiempo_limite = time.time() + 600
                 # Variacion con el precio debajo del 30%
                 elif array_de_precios[0] <= array_de_precios[2] and array_rangos_validos[2]:
-                    if contador.return_estrategia("compra", "estrategia2") <= 2:
+                    if contador.return_estrategia("compra", "estrategia2") < 2:
                         precio = ejecucion("compra2", par, tiempo_de_operacion, monto, array_de_precios)
                         if precio ==0:
                             return
@@ -335,7 +326,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                               f"DI+ 10s: {adx_10s['DI+'].iloc[-2]}, {adx_10s['DI+'].iloc[-1]} \n"
                                               f"DI- 10s: {adx_10s['DI-'].iloc[-2]}, {adx_10s['DI-'].iloc[-1]} \n"
                                               f"rsi 10s: {rsi_10s.iloc[-2]} {rsi_10s.iloc[-1]} \n"
-                                              "precio debajo de soporte \n"
+                                              "variacion 2\n"
                                               "compra \n")
                         if precio <= precio2:
                             print("operacion ganada, disminyendo martingala")

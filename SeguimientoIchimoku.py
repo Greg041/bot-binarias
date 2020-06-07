@@ -61,7 +61,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichimoku_1m, par, tipo_de_o
     print("estamos en seguimiento")
     tiempo_de_operacion = "6"
     if tipo_de_operacion == "compraf":
-        tiempo_limite = time.time() + 1500
+        tiempo_limite = time.time() + 600
         while (ichimoku_1m["tenkan-sen"].iloc[-1] >= ichimoku_1m["kijun-sen"].iloc[-1]) and (
                 ichimoku_1m["Senkou span A"].iloc[-2] <= ichimoku_1m["Senkou span A"].iloc[-1]) and (time.time() <
                                                                                                      tiempo_limite):
@@ -96,8 +96,9 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichimoku_1m, par, tipo_de_o
             # variación cuando el precio se encuentra en cualquier parte de la parte superior del 70% del
             # rango y el soporte inferior no está validado signigicando un rebote en el precio del rango
             # inferior
-            if (not array_rangos_validos[2]) and (array_de_precios[0] >= array_de_precios[1]):
-                if contador.return_estrategia("compra", "estrategia1") <= 2:
+            if (not array_rangos_validos[2]) and (not array_rangos_validos[1]):
+                # si se ha ejecutado la misma operación 2 veces antes, entonces no ejecutar una 3ra
+                if contador.return_estrategia("compra", "estrategia1") < 2:
                     # al ejecutar la operacion se retorna el precio aproximado donde estaba al momento de
                     # ejecutarse, si retorna 0 es porque la operación no se ejecutó porque pasó mucho tiempo
                     precio = ejecucion("compra1", par, tiempo_de_operacion, monto, array_de_precios)
@@ -165,10 +166,10 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichimoku_1m, par, tipo_de_o
                                             f"DI+ 1m: {adx_1m['DI+'].iloc[-2]}, {adx_1m['DI+'].iloc[-1]} \n"
                                             f"DI- 1m: {adx_1m['DI-'].iloc[-2]}, {adx_1m['DI-'].iloc[-1]} \n"
                                             f"rsi 5m: {rsi_5m.iloc[-2]}, {rsi_5m.iloc[-1]} \n"
-                                            f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n"
+                                            f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n" 
                                             f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
                                             f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
-                                            "rebote inferior \n"
+                                            "variacion 1 \n"
                                             f"compra \n")
                     print("se sale del seguimiento porque se ejecutó operacion")
                     if precio <= precio2:
@@ -179,10 +180,10 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichimoku_1m, par, tipo_de_o
                     elif precio > precio2:
                         print("operacion perdida, aumentando martingala")
                         cambio_de_monto(monto, "aumentar")
-                        tiempo_limite = time.time() + 1500
+                        tiempo_limite = time.time() + 600
             # variación cuando el precio se encuentra debajo del rango del 30%
             elif array_de_precios[0] <= array_de_precios[2] and array_rangos_validos[2]:
-                if contador.return_estrategia("compra", "estrategia1") <= 2:
+                if contador.return_estrategia("compra", "estrategia1") < 2:
                     precio = ejecucion("compra2", par, tiempo_de_operacion, monto, array_de_precios)
                     if precio == 0:
                         return
@@ -251,7 +252,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichimoku_1m, par, tipo_de_o
                                             f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n"
                                             f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
                                             f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
-                                            "precio debajo del 30% \n"
+                                            "variacion 2\n"
                                             f"compra \n")
                     print("se sale del seguimiento porque se ejecutó operacion")
                     if precio <= precio2:
@@ -262,7 +263,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichimoku_1m, par, tipo_de_o
                     elif precio > precio2:
                         print("operacion perdida, aumentando martingala")
                         cambio_de_monto(monto, "aumentar")
-                        tiempo_limite = time.time() + 1500
+                        tiempo_limite = time.time() + 600
             # Se verifica que el dataframe esté actualizado tomando en cuenta el minuto actual y el ultimo
             # minuto del dataframe para actualizar los valores del ichimoku
             # try:
@@ -304,7 +305,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichimoku_1m, par, tipo_de_o
                ichimoku_1m["tenkan-sen"].iloc[-1] >= ichimoku_1m["kijun-sen"].iloc[-1]) and (
                       ichimoku_1m["Senkou span A"].iloc[-2] <= ichimoku_1m["Senkou span A"].iloc[-1]))
     elif tipo_de_operacion == "ventaf":
-        tiempo_limite = time.time() + 1500
+        tiempo_limite = time.time() + 600
         while (ichimoku_1m["tenkan-sen"].iloc[-1] <= ichimoku_1m["kijun-sen"].iloc[-1]) and (
                 ichimoku_1m["Senkou span A"].iloc[-2] >= ichimoku_1m["Senkou span A"].iloc[-1]) and (time.time() <
                                                                                                      tiempo_limite):
@@ -336,8 +337,8 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichimoku_1m, par, tipo_de_o
             # variación cuando el precio se encuentra en cualquier parte de la parte inferior 30% del
             # rango y la resistencia superior no está validada signigicando un rebote en el precio del rango
             # superior
-            if (not array_rangos_validos[3]) and (array_de_precios[0] <= array_de_precios[2]):
-                if contador.return_estrategia("venta", "estrategia1") <= 2:
+            if (not array_rangos_validos[3]) and (not array_rangos_validos[0]):
+                if contador.return_estrategia("venta", "estrategia1") < 2:
                     precio = ejecucion("venta1", par, tiempo_de_operacion, monto, array_de_precios)
                     if precio == 0:
                         return
@@ -406,7 +407,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichimoku_1m, par, tipo_de_o
                                             f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n"
                                             f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
                                             f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
-                                            "rebote superior \n"
+                                            "variacion 1\n"
                                             f"venta \n")
                     print("se sale del seguimiento porque se ejecutó operacion")
                     if precio >= precio2:
@@ -417,10 +418,10 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichimoku_1m, par, tipo_de_o
                     elif precio < precio2:
                         print("operacion perdida, aumentando martingala")
                         cambio_de_monto(monto, "aumentar")
-                        tiempo_limite = time.time() + 1500
+                        tiempo_limite = time.time() + 600
             # Variacion del precio encima del rango al 70%
             elif array_de_precios[0] >= array_de_precios[1] and array_rangos_validos[3]:
-                if contador.return_estrategia("venta", "estrategia1") <= 2:
+                if contador.return_estrategia("venta", "estrategia1") < 2:
                     precio = ejecucion("venta2", par, tiempo_de_operacion, monto, array_de_precios)
                     if precio == 0:
                         return
@@ -489,7 +490,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichimoku_1m, par, tipo_de_o
                                             f"adx 5m: {adx_5m['ADX'].iloc[-2]}, {adx_5m['ADX'].iloc[-1]} \n"
                                             f"DI+ 5m: {adx_5m['DI+'].iloc[-2]}, {adx_5m['DI+'].iloc[-1]} \n"
                                             f"DI- 5m: {adx_5m['DI-'].iloc[-2]}, {adx_5m['DI-'].iloc[-1]} \n"
-                                            "encima de resistencia \n"
+                                            "variacion 2 \n"
                                             f"venta \n")
                     print("se sale del seguimiento porque se ejecutó operacion")
                     if precio >= precio2:
@@ -500,7 +501,7 @@ def seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichimoku_1m, par, tipo_de_o
                     elif precio < precio2:
                         print("operacion perdida, aumentando martingala")
                         cambio_de_monto(monto, "aumentar")
-                        tiempo_limite = time.time() + 1500
+                        tiempo_limite = time.time() + 600
             # Se verifica que el dataframe esté actualizado tomando en cuenta el minuto actual y el ultimo
             # minuto del dataframe para actualizar los valores del ichimoku
         #     try:
@@ -578,8 +579,8 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
             # variación cuando el precio se encuentra en cualquier parte de la parte superior del 70% del
             # rango y el soporte inferior no está validado signigicando un rebote en el precio del rango
             # inferior
-            if (not array_rangos_validos[2]) and (array_de_precios[0] >= array_de_precios[1]):
-                if contador.return_estrategia("compra", "estrategia3") <= 2:
+            if (not array_rangos_validos[2]) and (not array_rangos_validos[1]):
+                if contador.return_estrategia("compra", "estrategia3") < 2:
                     precio = ejecucion("compra1", par, tiempo_de_operacion, monto, array_de_precios)
                     if precio == 0:
                         return
@@ -634,7 +635,7 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                                             f"ichimoku 10s sspan B -26: {ichimoku_10s['Senkou span B'].iloc[-26]} \n"
                                             f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-2]}, {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
                                             f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-2]}, {ichimoku_10s['kijun-sen'].iloc[-1]} \n"
-                                            "rebote inferior \n"
+                                            "variacion 1 \n"
                                             f"compra \n")
                     if precio <= precio2:
                         print("operacion ganada, disminuyendo martingala")
@@ -702,7 +703,7 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                                             f"ichimoku 10s sspan B -26: {ichimoku_10s['Senkou span B'].iloc[-26]} \n"
                                             f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-2]}, {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
                                             f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-2]}, {ichimoku_10s['kijun-sen'].iloc[-1]} \n"
-                                            "resistencia no validada \n"
+                                            "variacion 2 \n"
                                             f"compra \n")
                     if precio <= precio2:
                         print("operacion ganada, disminuyendo martingala")
@@ -781,7 +782,7 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
             # variación cuando el precio se encuentra en cualquier parte de la parte inferior del 30% del
             # rango y la resistencia superior no está validada signigicando un rebote en el precio del rango
             # superior
-            if (not array_rangos_validos[3]) and (array_de_precios[0] <= array_de_precios[2]):
+            if (not array_rangos_validos[3]) and (not array_rangos_validos[0]):
                 if contador.return_estrategia("venta", "estrategia3") <= 2:
                     precio = ejecucion("venta1", par, tiempo_de_operacion, monto, array_de_precios)
                     if precio == 0:
@@ -837,7 +838,7 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                                             f"ichimoku 10s sspan B -26: {ichimoku_10s['Senkou span B'].iloc[-26]} \n"
                                             f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-2]}, {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
                                             f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-2]}, {ichimoku_10s['kijun-sen'].iloc[-1]} \n"
-                                            "rebote superior \n"
+                                            "variacion 1 \n"
                                             f"venta \n")
                     if precio >= precio2:
                         print("operacion ganada, disminuyendo martingala")
@@ -849,8 +850,8 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                         cambio_de_monto(monto, "aumentar")
                         tiempo_limite = time.time() + 600
             # Variacion #2 precio encima de la resistencia al 70%
-            elif array_de_precios[0] > array_de_precios[1] and array_rangos_validos[3]:
-                if contador.return_estrategia("venta", "estrategia3") <= 2:
+            elif array_de_precios[0] >= array_de_precios[1] and array_rangos_validos[3]:
+                if contador.return_estrategia("venta", "estrategia3") < 2:
                     precio = ejecucion("venta2", par, tiempo_de_operacion, monto, array_de_precios)
                     if precio == 0:
                         return
@@ -905,7 +906,7 @@ def seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_operacion, re
                                             f"ichimoku 10s sspan B -26: {ichimoku_10s['Senkou span B'].iloc[-26]} \n"
                                             f"tenkan-sen 10s: {ichimoku_10s['tenkan-sen'].iloc[-2]}, {ichimoku_10s['tenkan-sen'].iloc[-1]} \n"
                                             f"kijun-sen 10s: {ichimoku_10s['kijun-sen'].iloc[-2]}, {ichimoku_10s['kijun-sen'].iloc[-1]} \n"
-                                            "precio encima de resistencia \n"
+                                            "variacion 2 \n"
                                             f"venta \n")
                     if precio >= precio2:
                         print("operacion ganada, disminuyendo martingala")
