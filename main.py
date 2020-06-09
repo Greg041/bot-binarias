@@ -51,7 +51,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, numero_noti
     cantidad = dinero_invertido(monto)
     contador_est = ContadorEstrategias()
     objeto_rango = SeguimientoRangos()
-    array_de_precios = Array('d', [0.0, 0.0, 0.0])
+    array_de_precios = Array('d', [0.0, 0.0, 0.0, 0.0, 0.0])
     array_rangos_validos = Array('b', [False, False, False, False])
     timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
     divisa = f"{primera_divisa}_{segunda_divisa}"

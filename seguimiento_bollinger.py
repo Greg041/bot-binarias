@@ -44,7 +44,8 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
                      bollinger_1m, tipo_de_operacion, par, monto, client, request, contador, array_de_precios,
                      array_rangos_validos):
     print("seguimiento bollinger")
-    tiempo_de_operacion = "6"
+    tiempo_variacion_1 = "6"
+    tiempo_variacion_2 = "6"
     if tipo_de_operacion == "ventac":
         adx_1m = ADX(ohlc_1m)
         rsi_1m = RSI(ohlc_1m, periodo=7)
@@ -62,17 +63,17 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
             print("posible venta")
             """
             Indice de valores de los arrays:
-                array_de_precios = [ultimo_precio, rango_setenta, rango_treinta]
+                array_de_precios = [ultimo_precio, rango_setenta, rango_treinta, rango_ochenta, rango_veinte]
                 array_rangos_validos = [soporte_treinta, resistencia_setenta, soporte_inferior, resistencia_superior]
             """
             print(f"precio: {array_de_precios[0]}", "soporte validado: ",
                   array_rangos_validos[0], "resistencia superior validada: ", array_rangos_validos[3])
             # variación cuando el precio se encuentra en cualquier parte de la parte inferior del 30% del
-            # rango y la resistencia superior no está validada signigicando un rebote en el precio del rango
+            # rango y la resistencia superior no está validada significando un rebote en el precio del rango
             # superior
             if (not array_rangos_validos[3]) and (not array_rangos_validos[0]):
                 if contador.return_estrategia("venta", "estrategia4") < 2:
-                    precio = ejecucion("venta1", par, tiempo_de_operacion, monto, array_de_precios)
+                    precio = ejecucion("venta1", par, tiempo_variacion_1, monto, array_de_precios)
                     if precio == 0:
                         return
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
@@ -95,7 +96,7 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
-                    time.sleep(int(tiempo_de_operacion) * 60)
+                    time.sleep(int(tiempo_varicion_1) * 60)
                     precio2 = array_de_precios[0]
                     ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                     ichi_1m = ichimoku(ohlc_1m)
@@ -138,9 +139,9 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
                         cambio_de_monto(monto, "aumentar")
                         tiempo_limite = time.time() + 600
             # Variacion #2 precio por encima del 70% del rango
-            elif (array_rangos_validos[3]) and (array_de_precios[0] >= array_de_precios[1]):
+            elif (array_rangos_validos[3]) and (array_de_precios[0] >= array_de_precios[1]) and (array_rangos_validos[2]):
                 if contador.return_estrategia("venta", "estrategia4") < 2:
-                    precio = ejecucion("venta2", par, tiempo_de_operacion, monto, array_de_precios)
+                    precio = ejecucion("venta2", par, tiempo_variacion_2, monto, array_de_precios)
                     if precio == 0:
                         return
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
@@ -163,7 +164,7 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
-                    time.sleep(int(tiempo_de_operacion) * 60)
+                    time.sleep(int(tiempo_variacion_2) * 60)
                     precio2 = array_de_precios[0]
                     ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                     ichi_1m = ichimoku(ohlc_1m)
@@ -254,7 +255,7 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
                 pass
             """
             Indice de valores de los arrays:
-                array_de_precios = [ultimo_precio, rango_setenta, rango_treinta]
+                array_de_precios = [ultimo_precio, rango_setenta, rango_treinta, rango_ochenta, rango_veinte]
                 array_rangos_validos = [soporte_treinta, resistencia_setenta, soporte_inferior, resistencia_superior]
             """
             print("posible compra")
@@ -265,7 +266,7 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
             # inferior
             if (not array_rangos_validos[2]) and (not array_rangos_validos[1]):
                 if contador.return_estrategia("compra", "estrategia4") < 2:
-                    precio = ejecucion("compra1", par, tiempo_de_operacion, monto, array_de_precios)
+                    precio = ejecucion("compra1", par, tiempo_variacion_1, monto, array_de_precios)
                     if precio == 0:
                         return
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
@@ -288,7 +289,7 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
-                    time.sleep(int(tiempo_de_operacion) * 60)
+                    time.sleep(int(tiempo_variacion_1) * 60)
                     precio2 = array_de_precios[0]
                     ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                     ichi_1m = ichimoku(ohlc_1m)
@@ -330,9 +331,10 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
                         print("operacion perdida, aumentando martingala")
                         cambio_de_monto(monto, "aumentar")
                         tiempo_limite = time.time() + 600
-            elif (array_rangos_validos[2]) and (array_de_precios[0] <= array_de_precios[2]):
+            # Variacion #2
+            elif (array_rangos_validos[2]) and (array_de_precios[0] <= array_de_precios[2]) and (array_rangos_validos[3]):
                 if contador.return_estrategia("compra", "estrategia4") < 2:
-                    precio = ejecucion("compra2", par, tiempo_de_operacion, monto, array_de_precios)
+                    precio = ejecucion("compra2", par, tiempo_variacion_2, monto, array_de_precios)
                     if precio == 0:
                         return
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
@@ -355,7 +357,7 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
-                    time.sleep(int(tiempo_de_operacion) * 60)
+                    time.sleep(int(tiempo_variacion_2) * 60)
                     precio2 = array_de_precios[0]
                     ichi_1m = ichimoku(ohlc_1m)
                     rsi_5m = RSI(ohlc_5m)
@@ -437,7 +439,8 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
                       bollinger_5m, tipo_de_operacion, par, monto, client, request, contador, array_de_precios,
                       array_rangos_validos):
     print("seguimiento bollinger")
-    tiempo_de_operacion = "6"
+    tiempo_variacion_1 = "6"
+    tiempo_variacion_2 = "6"
     if tipo_de_operacion == "ventac":
         adx_5m = ADX(ohlc_5m)
         rsi_5m = RSI(ohlc_5m, periodo=7)
@@ -451,7 +454,7 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
             print("posible venta")
             """
             Indice de valores de los arrays:
-                array_de_precios = [ultimo_precio, rango_setenta, rango_treinta]
+                array_de_precios = [ultimo_precio, rango_setenta, rango_treinta, rango_ochenta, rango_veinte]
                 array_rangos_validos = [soporte_treinta, resistencia_setenta, soporte_inferior, resistencia_superior]
             """
             print(f"precio: {array_de_precios[0]}", "soporte validado: ",
@@ -461,7 +464,7 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
             # superior
             if (not array_rangos_validos[3]) and (not array_rangos_validos[0]):
                 if contador.return_estrategia("venta", "estrategia5") < 2:
-                    precio = ejecucion("venta1", par, tiempo_de_operacion, monto, array_de_precios)
+                    precio = ejecucion("venta1", par, tiempo_variacion_1, monto, array_de_precios)
                     if precio == 0:
                         return
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
@@ -484,7 +487,7 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
-                    time.sleep(int(tiempo_de_operacion) * 60)
+                    time.sleep(int(tiempo_variacion_1) * 60)
                     precio2 = array_de_precios[0]
                     ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                     ichi_1m = ichimoku(ohlc_1m)
@@ -528,9 +531,9 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
                         cambio_de_monto(monto, "aumentar")
                         tiempo_limite = time.time() + 600
             # variacion #2 precio encima de resistencia
-            elif (array_rangos_validos[3]) and (array_de_precios[0] >= array_de_precios[1]):
+            elif (array_rangos_validos[3]) and (array_de_precios[0] >= array_de_precios[1]) and (array_rangos_validos[2]):
                 if contador.return_estrategia("venta", "estrategia5") < 2:
-                    precio = ejecucion("venta2", par, tiempo_de_operacion, monto, array_de_precios)
+                    precio = ejecucion("venta2", par, tiempo_variacion_2, monto, array_de_precios)
                     if precio == 0:
                         return
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
@@ -553,7 +556,7 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
-                    time.sleep(int(tiempo_de_operacion) * 60)
+                    time.sleep(int(tiempo_variacion_2) * 60)
                     precio2 = array_de_precios[0]
                     ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                     ichi_1m = ichimoku(ohlc_1m)
@@ -649,7 +652,7 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
             print("posible compra")
             """
             Indice de valores de los arrays:
-                array_de_precios = [ultimo_precio, rango_setenta, rango_treinta]
+                array_de_precios = [ultimo_precio, rango_setenta, rango_treinta, rango_ochenta, rango_veinte]
                 array_rangos_validos = [soporte_treinta, resistencia_setenta, soporte_inferior, resistencia_superior]
             """
             print(f"precio: {array_de_precios[0]}", "resistencia validada: ",
@@ -659,7 +662,7 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
             # inferior
             if (not array_rangos_validos[2]) and (not array_rangos_validos[1]):
                 if contador.return_estrategia("compra", "estrategia5") < 2:
-                    precio = ejecucion("compra1", par, tiempo_de_operacion, monto, array_de_precios)
+                    precio = ejecucion("compra1", par, tiempo_variacion_1, monto, array_de_precios)
                     if precio == 0:
                         return
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
@@ -682,7 +685,7 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
-                    time.sleep(int(tiempo_de_operacion) * 60)
+                    time.sleep(int(tiempo_variacion_1) * 60)
                     precio2 = array_de_precios[0]
                     ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                     ichi_1m = ichimoku(ohlc_1m)
@@ -726,9 +729,9 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
                         cambio_de_monto(monto, "aumentar")
                         tiempo_limite = time.time() + 600
             # Variacion cuando el precio se encuentra debajo del 30% del rango y el soporte está validado
-            elif (array_rangos_validos[2]) and (array_de_precios[0] <= array_de_precios[2]):
+            elif (array_rangos_validos[2]) and (array_de_precios[0] <= array_de_precios[2]) and (array_rangos_validos[3]):
                 if contador.return_estrategia("compra", "estrategia5") < 2:
-                    precio = ejecucion("compra2", par, tiempo_de_operacion, monto, array_de_precios)
+                    precio = ejecucion("compra2", par, tiempo_variacion_2, monto, array_de_precios)
                     if precio == 0:
                         return
                     if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
@@ -751,7 +754,7 @@ def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, re
                             client = oandapyV20.API(
                                 access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                 environment="practice")
-                    time.sleep(int(tiempo_de_operacion) * 60)
+                    time.sleep(int(tiempo_variacion_2) * 60)
                     precio2 = array_de_precios[0]
                     ohlc_1m = pd.read_csv("datos_M1.csv", index_col="time")
                     ichi_1m = ichimoku(ohlc_1m)

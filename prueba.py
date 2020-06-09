@@ -25,23 +25,8 @@ pos : array containing the position of the top left corner of the image [x,y]
 action : button of the mouse to activate : "left" "right" "middle", see pyautogui.click documentation for more info
 time : time taken for the mouse to move from where it was to the new position
 '''
-class sumar:
-    def __init__(self):
-        self.numero = 0
-
-def sumar_numero(objeto, valor_a_retornar):
-    while True:
-        print(objeto.numero)
-        objeto.numero += 1
-        valor_a_retornar[1] = True
-        time.sleep(1)
 
 
 if __name__ == "__main__":
-    objeto_sumar = sumar()
-    manager = Manager().Array('b', [True, False, True])
-    proceso = Process(target=sumar_numero, args=(objeto_sumar, manager))
-    proceso.start()
-    time.sleep(20)
-    print(manager[:])
+    pass
 

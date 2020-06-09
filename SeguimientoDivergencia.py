@@ -57,7 +57,8 @@ def setenta_por_ciento(ohlc_vela, alcista_o_bajista: str) -> bool:
 def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_max_min_macd, punto_ultimo,
                     monto, client, request, contador, array_de_precios, array_rangos_validos):
     print("estamos en seguimiento divergencia")
-    tiempo_de_operacion = "5"
+    tiempo_variacion_1 = "5"
+    tiempo_variacion_2 = "5"
     if tipo_de_divergencia == "bajista":
         punto_max_macd = punto_max_min_macd
         punto_ultimo_macd = punto_ultimo
@@ -78,10 +79,10 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
             try:
                 """
-                Indice de valores de los arrays:
-                    array_de_precios = [ultimo_precio, rango_setenta, rango_treinta]
-                    array_rangos_validos = [soporte_treinta, resistencia_setenta, soporte_inferior, resistencia_superior]
-                """
+            Indice de valores de los arrays:
+                array_de_precios = [ultimo_precio, rango_setenta, rango_treinta, rango_ochenta, rango_veinte]
+                array_rangos_validos = [soporte_treinta, resistencia_setenta, soporte_inferior, resistencia_superior]
+            """
                 print("posible venta, precio: ", array_de_precios[0], "soporte valido: ",
                       array_rangos_validos[0], "resistencia superior valida: ", array_rangos_validos[3])
                 # variación cuando el precio se encuentra en cualquier parte de la parte inferior del 30% del
@@ -89,7 +90,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                 # superior
                 if (not array_rangos_validos[3]) and (not array_rangos_validos[0]):
                     if contador.return_estrategia("venta", "estrategia2") < 2:
-                        precio = ejecucion("venta1", par, tiempo_de_operacion, monto, array_de_precios)
+                        precio = ejecucion("venta1", par, tiempo_variacion_1, monto, array_de_precios)
                         if precio == 0:
                             return
                         if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
@@ -105,7 +106,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                 client = oandapyV20.API(
                                     access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                     environment="practice")
-                        time.sleep(int(tiempo_de_operacion) * 60)
+                        time.sleep(int(tiempo_variacion_1) * 60)
                         live_price_data = client.request(request)
                         precio2 = (float(live_price_data["prices"][0]["closeoutBid"])
                                    + float(live_price_data["prices"][0]["closeoutAsk"])) / 2
@@ -135,9 +136,9 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                             print("operacion perdida, aumentando martingala")
                             cambio_de_monto(monto, "aumentar")
                             tiempo_limite = time.time() + 600
-                elif (array_rangos_validos[3]) and (array_de_precios[0] >= array_de_precios[1]):
+                elif (array_rangos_validos[3]) and (array_de_precios[0] >= array_de_precios[1]) and array_rangos_validos[2]:
                     if contador.return_estrategia("venta", "estrategia2") < 2:
-                        precio = ("venta2", par, tiempo_de_operacion, monto, array_de_precios)
+                        precio = ("venta2", par, tiempo_variacion_2, monto, array_de_precios)
                         if precio == 0:
                             return
                         if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
@@ -153,7 +154,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                 client = oandapyV20.API(
                                     access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                     environment="practice")
-                        time.sleep(int(tiempo_de_operacion) * 60)
+                        time.sleep(int(tiempo_variacion_2) * 60)
                         precio2 = array_de_precios[0]
                         with open("datos divergencias.txt", "at") as fichero_div:
                             fichero_div.write(f"precio anterior: {ohlc_1m.iloc[-2]} \n"
@@ -237,10 +238,10 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                 ohlc_10s = pd.read_csv("datos_10s.csv", index_col="time")
             try:
                 """
-                Indice de valores de los arrays:
-                    array_de_precios = [ultimo_precio, rango_setenta, rango_treinta]
-                    array_rangos_validos = [soporte_treinta, resistencia_setenta, soporte_inferior, resistencia_superior]
-                """
+            Indice de valores de los arrays:
+                array_de_precios = [ultimo_precio, rango_setenta, rango_treinta, rango_ochenta, rango_veinte]
+                array_rangos_validos = [soporte_treinta, resistencia_setenta, soporte_inferior, resistencia_superior]
+            """
                 print("posible compra, precio: ", array_de_precios[0], "resistencia valida: ",
                       array_rangos_validos[1], "soporte inferior valido: ", array_rangos_validos[2])
                 # variación cuando el precio se encuentra en cualquier parte de la parte superior del 70% del
@@ -248,7 +249,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                 # superior
                 if (not array_rangos_validos[2]) and (not array_rangos_validos[1]):
                     if contador.return_estrategia("compra", "estrategia2") < 2:
-                        precio = ejecucion("compra1", par, tiempo_de_operacion, monto, array_de_precios)
+                        precio = ejecucion("compra1", par, tiempo_variacion_1, monto, array_de_precios)
                         if precio == 0:
                             return
                         if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" !=
@@ -263,7 +264,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                 client = oandapyV20.API(
                                     access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                     environment="practice")
-                        time.sleep(int(tiempo_de_operacion) * 60)
+                        time.sleep(int(tiempo_variacion_1) * 60)
                         precio2 = array_de_precios[0]
                         with open("datos divergencias.txt", "at") as fichero_div:
                             fichero_div.write(f"precio anterior: {ohlc_1m.iloc[-2]} \n"
@@ -292,9 +293,9 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                             cambio_de_monto(monto, "aumentar")
                             tiempo_limite = time.time() + 600
                 # Variacion con el precio debajo del 30%
-                elif array_de_precios[0] <= array_de_precios[2] and array_rangos_validos[2]:
+                elif array_de_precios[0] <= array_de_precios[2] and array_rangos_validos[2] and array_rangos_validos[3]:
                     if contador.return_estrategia("compra", "estrategia2") < 2:
-                        precio = ejecucion("compra2", par, tiempo_de_operacion, monto, array_de_precios)
+                        precio = ejecucion("compra2", par, tiempo_variacion_2, monto, array_de_precios)
                         if precio ==0:
                             return
                         if (f"{(int(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))[14:16]) - 1):02}" != \
@@ -309,7 +310,7 @@ def seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, tipo_de_divergencia, punto_
                                 client = oandapyV20.API(
                                     access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
                                     environment="practice")
-                        time.sleep(int(tiempo_de_operacion) * 60)
+                        time.sleep(int(tiempo_variacion_2) * 60)
                         precio2 = array_de_precios[0]
                         with open("datos divergencias.txt", "at") as fichero_div:
                             fichero_div.write(f"precio anterior: {ohlc_1m.iloc[-2]} \n"

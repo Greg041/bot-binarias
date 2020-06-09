@@ -6,6 +6,10 @@ class SeguimientoRangos:
         self.posible_nuevo_inferior = 0
         self.posible_nuevo_setenta = 0
         self.posible_nuevo_treinta = 0
+        self.posible_nuevo_ochenta = 0
+        self.posible_nuevo_veinte = 0
+        self.rango_ochenta = 0
+        self.rango_veinte = 0
         self.rango_setenta = 0
         self.rango_treinta = 0
         self.rango_punto_medio = 0
@@ -35,6 +39,8 @@ class SeguimientoRangos:
         self.posible_nuevo_inferior = f"{str(self.ultimo_precio)[:lugar_digito_pertinente]}{str(self.ultimo_precio)[lugar_digito_pertinente]}00"
         self.posible_nuevo_setenta = f"{self.posible_nuevo_inferior[:lugar_digito_pertinente + 1]}{self.posible_nuevo_inferior[(lugar_digito_pertinente+1)].replace('0', '7')}00"
         self.posible_nuevo_treinta = f"{self.posible_nuevo_inferior[:lugar_digito_pertinente + 1]}{self.posible_nuevo_inferior[(lugar_digito_pertinente + 1)].replace('0', '3')}00"
+        self.posible_nuevo_ochenta = f"{self.posible_nuevo_inferior[:lugar_digito_pertinente + 1]}{self.posible_nuevo_inferior[(lugar_digito_pertinente + 1)].replace('0', '8')}00"
+        self.posible_nuevo_veinte = f"{self.posible_nuevo_inferior[:lugar_digito_pertinente + 1]}{self.posible_nuevo_inferior[(lugar_digito_pertinente + 1)].replace('0', '2')}00"
         self.rango_punto_medio = f"{self.posible_nuevo_inferior[:lugar_digito_pertinente + 1]}{self.posible_nuevo_inferior[(lugar_digito_pertinente + 1)].replace('0', '5')}00"
         self.posible_nuevo_superior, self.posible_nuevo_inferior, self.posible_nuevo_setenta, self.posible_nuevo_treinta, self.rango_punto_medio = \
             float(self.posible_nuevo_superior), float(self.posible_nuevo_inferior), float(self.posible_nuevo_setenta), \
@@ -54,6 +60,8 @@ class SeguimientoRangos:
             self.rango_inferior = self.posible_nuevo_inferior
             self.rango_setenta = self.posible_nuevo_setenta
             self.rango_treinta = self.posible_nuevo_treinta
+            self.rango_ochenta = self.posible_nuevo_ochenta
+            self.rango_veinte = self.posible_nuevo_veinte
             self.resistencia_superior_validada = True
             self.soporte_inferior_validada = True
             self.resistencia_setenta_validada = True

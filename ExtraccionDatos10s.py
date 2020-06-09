@@ -43,6 +43,8 @@ def extraccion_10s_continua(divisa, tiempo_finalizacion, objeto_rango, array_de_
                 array_de_precios[0] = objeto_rango.ultimo_precio
                 array_de_precios[1] = objeto_rango.rango_setenta
                 array_de_precios[2] = objeto_rango.rango_treinta
+                array_de_precios[3] = objeto_rango.rango_ochenta
+                array_de_precios[4] = objeto_rango.rango_veinte
                 array_rangos_validos[0] = objeto_rango.soporte_treinta_validada
                 array_rangos_validos[1] = objeto_rango.resistencia_setenta_validada
                 array_rangos_validos[2] = objeto_rango.soporte_inferior_validada
