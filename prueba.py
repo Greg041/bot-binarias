@@ -1,7 +1,7 @@
 import pandas as pd
 import cv2
 import time
-from imagesearch import imagesearch, imagesearcharea
+from imagesearch import imagesearch, imagesearcharea, click_image
 from analisis_y_estrategia import engulfing
 import pyautogui
 import random
@@ -28,5 +28,16 @@ time : time taken for the mouse to move from where it was to the new position
 
 
 if __name__ == "__main__":
-    pass
+    imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 715, 1250, 770)
+    while imagen_ver_compra == [-1, -1]:
+        click_image("x.jpg", (1388, 415), "left", 0.05)
+        while -1 >= 0:
+            pass
+        click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
+        click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
+        precio_a_retornar = 5
+        time.sleep(4)
+        imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 700, 1250, 770)
+        print(imagen_ver_compra)
+    click_image("x.jpg", (1388, 415), "left", 0.05)
 

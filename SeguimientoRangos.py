@@ -42,9 +42,9 @@ class SeguimientoRangos:
         self.posible_nuevo_ochenta = f"{self.posible_nuevo_inferior[:lugar_digito_pertinente + 1]}{self.posible_nuevo_inferior[(lugar_digito_pertinente + 1)].replace('0', '8')}00"
         self.posible_nuevo_veinte = f"{self.posible_nuevo_inferior[:lugar_digito_pertinente + 1]}{self.posible_nuevo_inferior[(lugar_digito_pertinente + 1)].replace('0', '2')}00"
         self.rango_punto_medio = f"{self.posible_nuevo_inferior[:lugar_digito_pertinente + 1]}{self.posible_nuevo_inferior[(lugar_digito_pertinente + 1)].replace('0', '5')}00"
-        self.posible_nuevo_superior, self.posible_nuevo_inferior, self.posible_nuevo_setenta, self.posible_nuevo_treinta, self.rango_punto_medio = \
+        self.posible_nuevo_superior, self.posible_nuevo_inferior, self.posible_nuevo_setenta, self.posible_nuevo_treinta, self.rango_punto_medio, self.posible_nuevo_veinte, self.posible_nuevo_ochenta = \
             float(self.posible_nuevo_superior), float(self.posible_nuevo_inferior), float(self.posible_nuevo_setenta), \
-            float(self.posible_nuevo_treinta), float(self.rango_punto_medio)
+            float(self.posible_nuevo_treinta), float(self.rango_punto_medio), float(self.posible_nuevo_veinte), float(self.posible_nuevo_ochenta)
 
     def check_nuevo_rango(self):
         if self.posible_nuevo_inferior > self.rango_inferior and self.ultimo_precio >= self.posible_nuevo_treinta:

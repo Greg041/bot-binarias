@@ -101,7 +101,8 @@ def ejecucion(signal, par, tiempo, monto, array_de_precios):
         timeout = time.time() + 300
         precio_a_retornar = 0
         # Esperar a que el precio esté en la posición optima para ejecutar la operación y por un lapso de 5 minutos
-        while imagesearcharea("imagen_ver_compra.jpg", 1130, 715, 1250, 770) == [-1, -1]:
+        imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 715, 1250, 770)
+        while imagen_ver_compra == [-1, -1]:
             click_image("x.jpg", (1388, 415), "left", 0.05)
             while array_de_precios[0] >= array_de_precios[3] or time.time() >= timeout:
                 pass
@@ -111,7 +112,8 @@ def ejecucion(signal, par, tiempo, monto, array_de_precios):
             click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
             precio_a_retornar = array_de_precios[0]
             winsound.Beep(440, 1000)
-            time.sleep(3)
+            time.sleep(4)
+            imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 690, 1250, 770)
         click_image("x.jpg", (1388, 415), "left", 0.05)
         return precio_a_retornar
     elif signal == "compra2":
@@ -129,7 +131,8 @@ def ejecucion(signal, par, tiempo, monto, array_de_precios):
         timeout = time.time() + 300
         # Esperar a que el precio esté en la posición optima para ejecutar la operación y por un lapso de 5 minutos
         precio_a_retornar = array_de_precios[0]
-        while imagesearcharea("imagen_ver_compra.jpg", 1130, 715, 1250, 770) == [-1, -1]:
+        imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 690, 1250, 770)
+        while imagen_ver_compra == [-1, -1]:
             click_image("x.jpg", (1388, 415), "left", 0.05)
             while array_de_precios[0] >= array_de_precios[2] or time.time() >= timeout:
                 pass
@@ -139,7 +142,8 @@ def ejecucion(signal, par, tiempo, monto, array_de_precios):
             click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
             precio_a_retornar = array_de_precios[0]
             winsound.Beep(440, 1000)
-            time.sleep(3)
+            time.sleep(4)
+            imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 690, 1250, 770)
         click_image("x.jpg", (1388, 415), "left", 0.05)
         return precio_a_retornar
     elif signal == "venta1":
@@ -156,8 +160,9 @@ def ejecucion(signal, par, tiempo, monto, array_de_precios):
         time.sleep(2)
         timeout = time.time() + 300
         # Esperar a que el precio esté en la posición optima para ejecutar la operación y por un lapso de 5 minutos
+        imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 690, 1250, 770)
         precio_a_retornar = array_de_precios[0]
-        while imagesearcharea("imagen_ver_compra.jpg", 1130, 715, 1250, 770) == [-1, -1]:
+        while imagen_ver_compra == [-1, -1]:
             click_image("x.jpg", (1388, 415), "left", 0.05)
             while array_de_precios[0] <= array_de_precios[4] or time.time() >= timeout:
                 pass
@@ -167,7 +172,8 @@ def ejecucion(signal, par, tiempo, monto, array_de_precios):
             click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
             precio_a_retornar = array_de_precios[0]
             winsound.Beep(440, 1000)
-            time.sleep(3)
+            time.sleep(4)
+            imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 690, 1250, 770)
         click_image("x.jpg", (1388, 415), "left", 0.05)
         return precio_a_retornar
     elif signal == "venta2":
@@ -185,7 +191,8 @@ def ejecucion(signal, par, tiempo, monto, array_de_precios):
         timeout = time.time() + 300
         # Esperar a que el precio esté en la posición optima para ejecutar la operación y por un lapso de 5 minutos
         precio_a_retornar = array_de_precios[0]
-        while imagesearcharea("imagen_ver_compra.jpg", 1130, 715, 1250, 770) == [-1, -1]:
+        imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 715, 1250, 770)
+        while imagen_ver_compra == [-1, -1]:
             click_image("x.jpg", (1388, 415), "left", 0.05)
             while array_de_precios[0] <= array_de_precios[1] or time.time() >= timeout:
                 pass
@@ -195,6 +202,7 @@ def ejecucion(signal, par, tiempo, monto, array_de_precios):
             click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
             precio_a_retornar = array_de_precios[0]
             winsound.Beep(440, 1000)
-            time.sleep(3)
+            time.sleep(4)
+            imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 715, 1250, 770)
         click_image("x.jpg", (1388, 415), "left", 0.05)
         return precio_a_retornar
