@@ -51,8 +51,6 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, numero_noti
     cantidad = dinero_invertido(monto)
     contador_est = ContadorEstrategias()
     objeto_rango = SeguimientoRangos()
-    array_de_precios = Array('d', [0.0, 0.0, 0.0, 0.0, 0.0])
-    array_rangos_validos = Array('b', [False, False, False, False])
     timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
     divisa = f"{primera_divisa}_{segunda_divisa}"
     client = oandapyV20.API(access_token="e51f5c80499fd16ae7e9ff6676b3c53f-3ac97247f6df3ad7b2b3731a4b1c2dc3",
@@ -61,8 +59,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, numero_noti
     ExtraccionOanda(client, 500, 'M1', divisa)
     ExtraccionOanda(client, 500, 'M5', divisa)
     ExtraccionOanda(client, 500, 'M30', divisa)
-    proceso_10s = Process(target=extraccion_10s_continua, args=(divisa, timeout, objeto_rango, array_de_precios,
-                                                                array_rangos_validos))
+    proceso_10s = Process(target=extraccion_10s_continua, args=(divisa, timeout, objeto_rango, monto))
     proceso_10s.start()
     time.sleep(30)	
     datos_1min = pd.read_csv("datos_M1.csv", index_col="time")
@@ -146,7 +143,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, numero_noti
                               resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
                               soporte_punto_menor_5m, soporte_punto_mayor_5m, resistencia_punto_mayor_30m,
                               resistencia_punto_menor_30m, soporte_punto_menor_30m, soporte_punto_mayor_30m,
-                              cantidad, client, live_price_request, contador_est, array_de_precios, array_rangos_validos)
+                              cantidad, client, live_price_request, contador_est)
         time.sleep(10)
 
 

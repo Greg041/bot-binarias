@@ -2,7 +2,8 @@
 from RSI import RSI
 from ichimoku import ichimoku
 from macd import MACD, detectar_div_macd, detectar_div_historigrama
-from SeguimientoIchimoku import seguimiento_ichimoku, seguimiento_ichimoku2
+from SeguimientoIchimoku import seguimiento_ichimoku2
+from Ejecucion import ejecucion
 from BollingerBands import boll_bnd
 from SeguimientoDivergencia import seguimiento_div
 from seguimiento_bollinger import seguimiento_boll, seguimiento_boll5
@@ -38,11 +39,12 @@ def setenta_por_ciento(ohlc_vela, alcista_o_bajista: str) -> bool:
 def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1min, res_min_1min, res_max_5min,
                           res_min_5min,
                           sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min, res_max_30m, res_min_30m, sop_min_30m,
-                          sop_max_30m, monto, client, request, contador, array_de_precios, array_rangos_validos):
+                          sop_max_30m, monto, client, request, contador):
     ichi_1m = ichimoku(ohlc_1m)
     macd_5m = MACD(ohlc_5m)
     adx_1m = ADX(ohlc_1m)
     rsi_1m = RSI(ohlc_1m)
+    bollinger_1m = boll_bnd(ohlc_1m)
     ichi_5m = ichimoku(ohlc_5m)
     adx_5m = ADX(ohlc_5m)
     rsi_5m = RSI(ohlc_5m)
@@ -54,56 +56,6 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
           (adx_5m["ADX"].iloc[-2] < adx_5m["ADX"].iloc[-1] > 20.0),
           (adx_5m["DI-"].iloc[-1] > adx_5m["DI+"].iloc[-1]), (rsi_5m.iloc[-2] > rsi_5m.iloc[-1]))
     # estrategia #1 predicción de comienzo de tendencia
-    if (ichi_5m["Senkou span A"].iloc[-26] <= ohlc_5m['o'].iloc[-1] <= ichi_5m["Senkou span B"].iloc[-26] or
-        ichi_5m["Senkou span B"].iloc[-26] <= ohlc_5m['o'].iloc[-1] <= ichi_5m["Senkou span A"].iloc[-26]) and \
-            ichi_5m["Senkou span A"].iloc[-26] < ohlc_5m['c'].iloc[-1] > ichi_5m["Senkou span B"].iloc[-26]:
-        print("estrategia 1 fase 2 compra")
-        print(f"tenkan-sen: {ichi_1m['tenkan-sen'].iloc[-2]}, {ichi_1m['tenkan-sen'].iloc[-1]}")
-        print(f"kijun-sen: {ichi_1m['kijun-sen'].iloc[-1]}")
-        print(f"precio: {ohlc_1m['c'].iloc[-1]}")
-        print(f"senkou span A y B -26: {ichi_1m['Senkou span A'].iloc[-26]}, {ichi_1m['Senkou span B'].iloc[-26]}")
-        print(f"senkou span A -1: {ichi_1m['Senkou span A'].iloc[-2]}, {ichi_1m['Senkou span A'].iloc[-1]}")
-        if (ichi_1m["tenkan-sen"].iloc[-2] <= ichi_1m["tenkan-sen"].iloc[-1] and ichi_1m["tenkan-sen"].iloc[-1]
-            >= ichi_1m["kijun-sen"].iloc[-1]) and \
-                (ichi_1m["Senkou span A"].iloc[-26] <= ohlc_1m['c'].iloc[-1] <= ichi_1m["Senkou span B"].iloc[-26] or
-                 ichi_1m["Senkou span B"].iloc[-26] <= ohlc_1m['c'].iloc[-1] <= ichi_1m["Senkou span A"].iloc[-26] or
-                 ichi_1m["Senkou span A"].iloc[-26] < ohlc_1m['c'].iloc[-1] > ichi_1m["Senkou span B"].iloc[-26]) and \
-                (ichi_1m["Senkou span A"].iloc[-2] <= ichi_1m["Senkou span A"].iloc[-1]):
-            if res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min or res_max_30m > ohlc_10s['c'].iloc[
-                -1] > res_min_30m:
-                print("Se encuentra en una resistencia fuerte")
-                pass
-            else:
-                seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichi_1m, par, "compraf", res_max_30m, res_min_30m,
-                                     sop_min_30m, sop_max_30m, res_max_5min, res_min_5min,
-                                     sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                                     sop_min_1min, sop_max_1min, monto, client, request, contador, array_de_precios,
-                                     array_rangos_validos)
-    elif (ichi_5m["Senkou span A"].iloc[-26] <= ohlc_5m['o'].iloc[-1] <= ichi_5m["Senkou span B"].iloc[-26] or
-          ichi_5m["Senkou span B"].iloc[-26] <= ohlc_5m['o'].iloc[-1] <= ichi_5m["Senkou span A"].iloc[-26]) and \
-            ichi_5m["Senkou span A"].iloc[-26] > ohlc_5m['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]:
-        print("estrategia 1 fase 2 venta")
-        print(f"tenkan-sen: {ichi_1m['tenkan-sen'].iloc[-2]}, {ichi_1m['tenkan-sen'].iloc[-1]}")
-        print(f"kijun-sen: {ichi_1m['kijun-sen'].iloc[-1]}")
-        print(f"precio: {ohlc_1m['c'].iloc[-1]}")
-        print(f"senkou span A y B -26: {ichi_1m['Senkou span A'].iloc[-26]}, {ichi_1m['Senkou span B'].iloc[-26]}")
-        print(f"senkou span A -1: {ichi_1m['Senkou span A'].iloc[-2]}, {ichi_1m['Senkou span A'].iloc[-1]}")
-        if (ichi_1m["tenkan-sen"].iloc[-2] >= ichi_1m["tenkan-sen"].iloc[-1] and ichi_1m["tenkan-sen"].iloc[-1]
-            <= ichi_1m["kijun-sen"].iloc[-1]) and \
-                (ichi_1m["Senkou span A"].iloc[-26] <= ohlc_1m['c'].iloc[-1] <= ichi_1m["Senkou span B"].iloc[-26] or
-                 ichi_1m["Senkou span B"].iloc[-26] <= ohlc_1m['c'].iloc[-1] <= ichi_1m["Senkou span A"].iloc[-26] or
-                 ichi_1m["Senkou span A"].iloc[-26] > ohlc_1m['c'].iloc[-1] < ichi_1m["Senkou span B"].iloc[-26]) and \
-                (ichi_1m["Senkou span A"].iloc[-2] >= ichi_1m["Senkou span A"].iloc[-1]):
-            if sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min or sop_min_30m < ohlc_10s['c'].iloc[
-                -1] < sop_max_30m:
-                print("Se encuentra en un soporte fuerte")
-                pass
-            else:
-                seguimiento_ichimoku(ohlc_10s, ohlc_1m, ohlc_5m, ichi_1m, par, "ventaf", res_max_30m, res_min_30m,
-                                     sop_min_30m, sop_max_30m, res_max_5min, res_min_5min,
-                                     sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                                     sop_min_1min, sop_max_1min, monto, client, request, contador, array_de_precios,
-                                     array_rangos_validos)
     # estrategia #2 divergencias
     if adx_5m["ADX"].iloc[-1] > 25.0 and adx_5m["DI+"].iloc[-1] > adx_5m["DI-"].iloc[-1]:
         print("en res 1 min", ohlc_10s['c'].iloc[-1] > res_min_1min)
@@ -115,8 +67,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                                       f"en res 5 min: {res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min} \n"
                                       f"en res 30 min: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n")
                 seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_5m["MACD"].iloc[-2],
-                                macd_5m["MACD"].iloc[-1], monto, client, request, contador, array_de_precios,
-                                array_rangos_validos)
+                                macd_5m["MACD"].iloc[-1], monto, client, request, contador)
         else:
             if ohlc_10s['c'].iloc[-1] > res_min_5min and detectar_div_macd(macd_5m, ohlc_5m, "bajista"):
                 with open("datos divergencias.txt", "at") as fichero_div:
@@ -124,8 +75,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                                       f"en res 5 min: {res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min} \n"
                                       f"en res 30 min: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n")
                 seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_5m["MACD"].iloc[-2],
-                                macd_5m["MACD"].iloc[-1], monto, client, request, contador, array_de_precios,
-                                array_rangos_validos)
+                                macd_5m["MACD"].iloc[-1], monto, client, request, contador)
         if res_min_30m != res_max_30m:
             if res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m and detectar_div_macd(macd_5m, ohlc_5m, "bajista") \
                     and detectar_div_historigrama(macd_5m, ohlc_5m, "bajista"):
@@ -134,8 +84,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                                       f"en res 5 min: {res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min} \n"
                                       f"en res 30 min: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n")
                 seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_5m["MACD"].iloc[-2],
-                                macd_5m["MACD"].iloc[-1], monto, client, request, contador, array_de_precios,
-                                array_rangos_validos)
+                                macd_5m["MACD"].iloc[-1], monto, client, request, contador)
         else:
             if ohlc_10s['c'].iloc[-1] > res_min_30m and detectar_div_macd(macd_5m, ohlc_5m, "bajista") \
                     and detectar_div_historigrama(macd_5m, ohlc_5m, "bajista"):
@@ -144,8 +93,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                                       f"en res 5 min: {res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min} \n"
                                       f"en res 30 min: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n")
                 seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_5m["MACD"].iloc[-2],
-                                macd_5m["MACD"].iloc[-1], monto, client, request, contador, array_de_precios,
-                                array_rangos_validos)
+                                macd_5m["MACD"].iloc[-1], monto, client, request, contador)
     elif adx_5m["ADX"].iloc[-1] > 25.0 and adx_5m["DI-"].iloc[-1] > adx_5m["DI+"].iloc[-1]:
         print("en sop 1 min", ohlc_10s['c'].iloc[-1] < sop_max_1min)
         print("en sop 5 min", ohlc_10s['c'].iloc[-1] < sop_max_5min)
@@ -156,8 +104,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                                       f"en sop 5 min: {sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min} \n"
                                       f"en sop 30 min: {sop_min_30m > ohlc_10s['c'].iloc[-1] > sop_max_30m} \n")
                 seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "alcista", macd_5m["MACD"].iloc[-2],
-                                macd_5m["MACD"].iloc[-1], monto, client, request, contador, array_de_precios,
-                                array_rangos_validos)
+                                macd_5m["MACD"].iloc[-1], monto, client, request, contador)
         else:
             if ohlc_10s['c'].iloc[-1] < sop_max_5min and detectar_div_macd(macd_5m, ohlc_5m, "alcista"):
                 with open("datos divergencias.txt", "at") as fichero_div:
@@ -165,8 +112,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                                       f"en sop 5 min: {sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min} \n"
                                       f"en sop 30 min: {sop_min_30m > ohlc_10s['c'].iloc[-1] > sop_max_30m} \n")
                 seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "alcista", macd_5m["MACD"].iloc[-2],
-                                macd_5m["MACD"].iloc[-1], monto, client, request, contador, array_de_precios,
-                                array_rangos_validos)
+                                macd_5m["MACD"].iloc[-1], monto, client, request, contador)
         if sop_min_30m != sop_max_30m:
             if sop_max_30m > ohlc_10s['c'].iloc[-1] > sop_min_30m and detectar_div_macd(macd_5m, ohlc_5m, "bajista") \
                     and detectar_div_historigrama(macd_5m, ohlc_5m, "bajista"):
@@ -175,8 +121,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                                       f"en res 5 min: {res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min} \n"
                                       f"en res 30 min: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n")
                 seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_5m["MACD"].iloc[-2],
-                                macd_5m["MACD"].iloc[-1], monto, client, request, contador, array_de_precios,
-                                array_rangos_validos)
+                                macd_5m["MACD"].iloc[-1], monto, client, request, contador)
         else:
             if ohlc_10s['c'].iloc[-1] < sop_max_30m and detectar_div_macd(macd_5m, ohlc_5m, "bajista") \
                     and detectar_div_historigrama(macd_5m, ohlc_5m, "bajista"):
@@ -185,8 +130,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                                       f"en res 5 min: {res_max_5min > ohlc_10s['c'].iloc[-1] > res_min_5min} \n"
                                       f"en res 30 min: {res_max_30m > ohlc_10s['c'].iloc[-1] > res_min_30m} \n")
                 seguimiento_div(ohlc_5m, ohlc_1m, ohlc_10s, par, "bajista", macd_5m["MACD"].iloc[-2],
-                                macd_5m["MACD"].iloc[-1], monto, client, request, contador, array_de_precios,
-                                array_rangos_validos)
+                                macd_5m["MACD"].iloc[-1], monto, client, request, contador)
     # estrategia #3 seguimiento de tendencia consolidada
     if (ichi_5m["Senkou span A"].iloc[-26] < ohlc_5m['c'].iloc[-1] > ichi_5m["Senkou span B"].iloc[-26]) and \
             (adx_5m["ADX"].iloc[-2] < adx_5m["ADX"].iloc[-1] > 20.0) and \
@@ -207,8 +151,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                 seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, "compraf", res_max_30m, res_min_30m, sop_min_30m,
                                       sop_max_30m, res_max_5min, res_min_5min,
                                       sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                                      sop_min_1min, sop_max_1min, monto, client, request, contador, array_de_precios,
-                                array_rangos_validos)
+                                      sop_min_1min, sop_max_1min, monto, client, request, contador)
     elif (ichi_5m["Senkou span A"].iloc[-26] > ohlc_5m['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]) and \
             (adx_5m["ADX"].iloc[-2] < adx_5m["ADX"].iloc[-1] > 20.0) and \
             (adx_5m["DI-"].iloc[-1] > adx_5m["DI+"].iloc[-1]) and (rsi_5m.iloc[-2] > rsi_5m.iloc[-1]):
@@ -229,13 +172,10 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                 seguimiento_ichimoku2(ohlc_5m, ohlc_1m, ohlc_10s, par, "ventaf", res_max_30m, res_min_30m, sop_min_30m,
                                       sop_max_30m, res_max_5min, res_min_5min,
                                       sop_min_5min, sop_max_5min, res_max_1min, res_min_1min,
-                                      sop_min_1min, sop_max_1min, monto, client, request, contador, array_de_precios,
-                                array_rangos_validos)
+                                      sop_min_1min, sop_max_1min, monto, client, request, contador)
     # estrategia #4
     if (ichi_5m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_5m["Senkou span B"].iloc[-26]) or \
             (ichi_5m["Senkou span B"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_5m["Senkou span A"].iloc[-26]):
-        bollinger_1m = boll_bnd(ohlc_1m)
-        adx_1m = ADX(ohlc_1m, 14)
         rsi_1m = RSI(ohlc_1m, periodo=7)
         print(bollinger_1m["BB_up"].iloc[-1])
         print(bollinger_1m["BB_dn"].iloc[-1])
@@ -256,8 +196,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                 fichero_est_4.write("\nencima de bollinger 1m")
             seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
                              res_max_30m, res_min_30m, sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min,
-                             sop_min_30m, sop_max_30m, bollinger_1m, "ventac", par, monto, client, request, contador,
-                             array_de_precios, array_rangos_validos)
+                             sop_min_30m, sop_max_30m, bollinger_1m, "ventac", par, monto, client, request, contador)
         elif (ohlc_10s['c'].iloc[-1] < bollinger_1m["BB_dn"].iloc[-1]) and (adx_1m["ADX"].iloc[-1] < 32.0) and (
                 rsi_1m.iloc[-1] > 30) and (
                 ((sop_min_1min < ohlc_10s['c'].iloc[-1] < sop_max_1min or ohlc_10s['c'].iloc[-1] <= sop_min_1min) and
@@ -270,8 +209,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                 fichero_est_4.write("\ndebajo de bollinger 1m")
             seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
                              res_max_30m, res_min_30m, sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min,
-                             sop_min_30m, sop_max_30m, bollinger_1m, "comprac", par, monto, client, request, contador,
-                             array_de_precios, array_rangos_validos)
+                             sop_min_30m, sop_max_30m, bollinger_1m, "comprac", par, monto, client, request, contador)
     if (ichi_30m["Senkou span A"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_30m["Senkou span B"].iloc[-26]) or \
     (ichi_30m["Senkou span B"].iloc[-26] < ohlc_10s['c'].iloc[-1] < ichi_30m["Senkou span A"].iloc[-26]):
         bollinger_5m = boll_bnd(ohlc_5m)
@@ -293,8 +231,7 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                 fichero_est_4.write("\nencima de bollinger 5m")
             seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
                              res_max_30m, res_min_30m, sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min,
-                             sop_min_30m, sop_max_30m, bollinger_5m, "ventac", par, monto, client, request, contador,
-                              array_de_precios, array_rangos_validos)
+                             sop_min_30m, sop_max_30m, bollinger_5m, "ventac", par, monto, client, request, contador)
         elif (ohlc_10s['c'].iloc[-1] < bollinger_5m["BB_dn"].iloc[-1]) and (adx_5m["ADX"].iloc[-1] < 32.0) and (
                 rsi_5m.iloc[-1] > 30) and (
                 ((sop_min_5min < ohlc_10s['c'].iloc[-1] < sop_max_5min or ohlc_10s['c'].iloc[-1] <= sop_min_5min) and
@@ -304,5 +241,4 @@ def analisis_y_estrategia(ohlc_10s, ohlc_1m, ohlc_5m, ohlc_30m, par, res_max_1mi
                 fichero_est_4.write("\ndebajo de bollinger 5m")
             seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res_max_5min, res_min_5min,
                              res_max_30m, res_min_30m, sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min,
-                             sop_min_30m, sop_max_30m, bollinger_5m, "comprac", par, monto, client, request, contador,
-                              array_de_precios, array_rangos_validos)
+                             sop_min_30m, sop_max_30m, bollinger_5m, "comprac", par, monto, client, request, contador)

@@ -1,92 +1,50 @@
+from estrategia6 import chequear_estrategia_6
+
 class SeguimientoRangos:
     def __init__(self):
         self.rango_superior = 0
         self.rango_inferior = 0
-        self.posible_nuevo_superior = 0
-        self.posible_nuevo_inferior = 0
-        self.posible_nuevo_setenta = 0
-        self.posible_nuevo_treinta = 0
-        self.posible_nuevo_ochenta = 0
-        self.posible_nuevo_veinte = 0
-        self.rango_ochenta = 0
-        self.rango_veinte = 0
-        self.rango_setenta = 0
-        self.rango_treinta = 0
-        self.rango_punto_medio = 0
-        self.resistencia_superior_validada = False
-        self.soporte_inferior_validada = False
-        self.resistencia_setenta_validada = False
-        self.soporte_treinta_validada = False
+        self.estrategia_6_check = False
         self.precio_anterior = 0
         self.ultimo_precio = 0
-        self.rango_actual_validado = False
 
-    def seguimiento_precio(self, live_data):
+    def seguimiento_precio(self, live_data, divisa):
         self.precio_anterior = self.ultimo_precio
         self.ultimo_precio = (float(live_data["prices"][0]["closeoutBid"])
                   + float(live_data["prices"][0]["closeoutAsk"])) / 2
+        print(self.ultimo_precio)
         if self.rango_inferior == 0:
-            self.establecer_posible_rango(4)
-        elif self.ultimo_precio > self.posible_nuevo_superior or self.ultimo_precio < self.posible_nuevo_inferior:
-            self.establecer_posible_rango(4)
-        self.validar_rango()
+            self.establecer_rango_inicial(4)
+        chequear_estrategia_6(self.ultimo_precio, self.rango_inferior, self.rango_superior, divisa)
         self.check_nuevo_rango()
-        self.validar_soporte_resistencia()
 
-    def establecer_posible_rango(self, lugar_digito_pertinente: int):
-        self.posible_nuevo_superior = f"{str(self.ultimo_precio)[:lugar_digito_pertinente]}" \
-                              f"{int(str(self.ultimo_precio)[lugar_digito_pertinente]) + 1}00"
-        self.posible_nuevo_inferior = f"{str(self.ultimo_precio)[:lugar_digito_pertinente]}{str(self.ultimo_precio)[lugar_digito_pertinente]}00"
-        self.posible_nuevo_setenta = f"{self.posible_nuevo_inferior[:lugar_digito_pertinente + 1]}{self.posible_nuevo_inferior[(lugar_digito_pertinente+1)].replace('0', '7')}00"
-        self.posible_nuevo_treinta = f"{self.posible_nuevo_inferior[:lugar_digito_pertinente + 1]}{self.posible_nuevo_inferior[(lugar_digito_pertinente + 1)].replace('0', '3')}00"
-        self.posible_nuevo_ochenta = f"{self.posible_nuevo_inferior[:lugar_digito_pertinente + 1]}{self.posible_nuevo_inferior[(lugar_digito_pertinente + 1)].replace('0', '8')}00"
-        self.posible_nuevo_veinte = f"{self.posible_nuevo_inferior[:lugar_digito_pertinente + 1]}{self.posible_nuevo_inferior[(lugar_digito_pertinente + 1)].replace('0', '2')}00"
-        self.rango_punto_medio = f"{self.posible_nuevo_inferior[:lugar_digito_pertinente + 1]}{self.posible_nuevo_inferior[(lugar_digito_pertinente + 1)].replace('0', '5')}00"
-        self.posible_nuevo_superior, self.posible_nuevo_inferior, self.posible_nuevo_setenta, self.posible_nuevo_treinta, self.rango_punto_medio, self.posible_nuevo_veinte, self.posible_nuevo_ochenta = \
-            float(self.posible_nuevo_superior), float(self.posible_nuevo_inferior), float(self.posible_nuevo_setenta), \
-            float(self.posible_nuevo_treinta), float(self.rango_punto_medio), float(self.posible_nuevo_veinte), float(self.posible_nuevo_ochenta)
+    def establecer_rango_inicial(self, lugar_digito_pertinente: int):
+        self.rango_superior = float(f"{str(self.ultimo_precio)[:lugar_digito_pertinente]}{str(self.ultimo_precio)[lugar_digito_pertinente]}") \
+        + 0.001
+        self.rango_inferior = float(f"{str(self.ultimo_precio)[:lugar_digito_pertinente]}{str(self.ultimo_precio)[lugar_digito_pertinente]}") \
+        - 0.001
+        print(self.rango_superior, self.rango_inferior)
+
+    def establecer_rango(self, lugar_digito_pertinente: int):
+        if self.ultimo_precio >= self.rango_superior:
+            self.rango_superior = float(
+                f"{str(self.ultimo_precio)[:lugar_digito_pertinente]}{str(self.ultimo_precio)[lugar_digito_pertinente]}") \
+                                  + 0.001
+            self.rango_inferior = float(
+                f"{str(self.ultimo_precio)[:lugar_digito_pertinente]}{str(self.ultimo_precio)[lugar_digito_pertinente]}") \
+                                  - 0.001
+        elif self.ultimo_precio <= self.rango_inferior:
+            self.rango_superior = float(
+                f"{str(self.ultimo_precio)[:lugar_digito_pertinente]}{str(self.ultimo_precio)[lugar_digito_pertinente]}") \
+                                  + 0.002
+            self.rango_inferior = float(
+                f"{str(self.ultimo_precio)[:lugar_digito_pertinente]}{str(self.ultimo_precio)[lugar_digito_pertinente]}00")
+        print(self.rango_superior, self.rango_inferior)
 
     def check_nuevo_rango(self):
-        if self.posible_nuevo_inferior > self.rango_inferior and self.ultimo_precio >= self.posible_nuevo_treinta:
-            self.rango_actual_validado = False
-        elif self.posible_nuevo_inferior < self.rango_inferior and self.ultimo_precio <= self.posible_nuevo_setenta:
-            self.rango_actual_validado = False
+        if self.ultimo_precio >= self.rango_superior:
+            self.establecer_rango(4)
+        elif self.ultimo_precio <= self.rango_inferior:
+            self.establecer_rango(4)
 
-    def validar_rango(self):
-        if self.precio_anterior != 0 and self.precio_anterior < self.rango_punto_medio < self.ultimo_precio and \
-                self.posible_nuevo_inferior != self.rango_inferior:
-            self.rango_actual_validado = True
-            self.rango_superior = self.posible_nuevo_superior
-            self.rango_inferior = self.posible_nuevo_inferior
-            self.rango_setenta = self.posible_nuevo_setenta
-            self.rango_treinta = self.posible_nuevo_treinta
-            self.rango_ochenta = self.posible_nuevo_ochenta
-            self.rango_veinte = self.posible_nuevo_veinte
-            self.resistencia_superior_validada = True
-            self.soporte_inferior_validada = True
-            self.resistencia_setenta_validada = True
-            self.soporte_treinta_validada = True
-        elif self.precio_anterior != 0 and self.precio_anterior > self.rango_punto_medio > self.ultimo_precio and \
-                self.posible_nuevo_inferior != self.rango_inferior:
-            self.rango_actual_validado = True
-            self.rango_superior = self.posible_nuevo_superior
-            self.rango_inferior = self.posible_nuevo_inferior
-            self.rango_setenta = self.posible_nuevo_setenta
-            self.rango_treinta = self.posible_nuevo_treinta
-            self.resistencia_superior_validada = True
-            self.soporte_inferior_validada = True
-            self.resistencia_setenta_validada = True
-            self.soporte_treinta_validada = True
-
-    def validar_soporte_resistencia(self):
-        if self.ultimo_precio <= self.rango_treinta and self.rango_actual_validado:
-            self.resistencia_setenta_validada = True
-            self.soporte_treinta_validada = False
-        elif self.ultimo_precio >= self.rango_setenta and self.rango_actual_validado:
-            self.resistencia_setenta_validada = False
-            self.soporte_treinta_validada = True
-        if self.ultimo_precio <= self.rango_inferior:
-            self.soporte_inferior_validada = False
-        elif self.ultimo_precio >= self.rango_superior:
-            self.resistencia_superior_validada = False
 
