@@ -1,8 +1,24 @@
-import oandapyV20
+﻿import oandapyV20
 import oandapyV20.endpoints.instruments as instruments
 import oandapyV20.endpoints.pricing as pricing
 import pandas as pd
 import time
+from multiprocessing import Value
+
+"""La siguiente clase se usará exclusivamente para medir el tiempo en el que el módulo SeguimientoRangos se dejará
+de ejecutar a través de un cronometro"""
+class CronometroEjecucionModulo:
+    def __init__(self):
+        self.tiempo_de_espera_minutos = Value('i', 0)
+
+    def retornar_cronometro(self):
+        return self.tiempo_de_espera_minutos.value
+
+    # Este método siempre se debe de ejecutar a través de un subproceso
+    def comenzar_cronometro(self, tiempo_de_espera_minutos):
+        self.tiempo_de_espera_minutos.value = tiempo_de_espera_minutos
+        time.sleep(int(tiempo_de_espera_minutos) * 60)
+        self.tiempo_de_espera_minutos.value = 0
 
 
 def extraccion_10s_continua(divisa, tiempo_finalizacion, objeto_rango, monto):
@@ -31,6 +47,7 @@ def extraccion_10s_continua(divisa, tiempo_finalizacion, objeto_rango, monto):
     live_data = []  # precios que recorre el par de divisa en el timeframe seleccionado
     live_price_request = pricing.PricingInfo(accountID=account_id, params={"instruments": divisa})
     rango_precios = []
+    cronometro = CronometroEjecucionModulo()
     actual_time = time.time()
     while actual_time < tiempo_finalizacion:
         try:
@@ -39,7 +56,7 @@ def extraccion_10s_continua(divisa, tiempo_finalizacion, objeto_rango, monto):
             while starttime <= timeout2:  # Se cuenta 10 segundos de extraccion de datos para luego filtrar
                 live_price_data = client.request(live_price_request)
                 live_data.append(live_price_data)
-                objeto_rango.seguimiento_precio(live_price_data, divisa, monto)
+                objeto_rango.seguimiento_precio(live_price_data, divisa, monto, cronometro)
                 starttime = time.time()
                 time.sleep(1)
             for i in range(len(live_data) - 1):  # Se saca la media entre el Bid y el ask para tener el precio real
@@ -63,4 +80,4 @@ def extraccion_10s_continua(divisa, tiempo_finalizacion, objeto_rango, monto):
                 return
             print(f"excepcion {e}: {type(e)}")
             print("hubo error, verificar si la ejecucion continua")
-            extraccion_10s_continua(divisa, tiempo_finalizacion, objeto_rango)
+            extraccion_10s_continua(divisa, tiempo_finalizacion, objeto_rango, monto)

@@ -41,8 +41,7 @@ def calcular_rango_sop_res(ohlc, rango_velas):
 
 def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res_max_5min, res_min_5min, res_max_30m,
                      res_min_30m, sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min, sop_min_30m, sop_max_30m,
-                     bollinger_1m, tipo_de_operacion, par, monto, client, request, contador, array_de_precios,
-                     array_de_rangos_validos):
+                     bollinger_1m, tipo_de_operacion, par, monto, client, request, contador):
     print("seguimiento bollinger")
     tiempo_de_operacion = "6"
     if tipo_de_operacion == "ventac":
@@ -257,9 +256,8 @@ def seguimiento_boll(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res
 
 def seguimiento_boll5(ohlc_5m, ohlc_1m, ohlc_10s, res_max_1min, res_min_1min, res_max_5min, res_min_5min, res_max_30m,
                      res_min_30m, sop_min_1min, sop_max_1min, sop_min_5min, sop_max_5min, sop_min_30m, sop_max_30m,
-                     bollinger_5m, tipo_de_operacion, par, monto, client, request, contador, array_de_precios,
-                     array_rangos_validos):
-    print("seguimiento bollinger")
+                     bollinger_5m, tipo_de_operacion, par, monto, client, request, contador):
+    print("seguimiento bollinger 5m")
     tiempo_de_operacion = "6"
     if tipo_de_operacion == "ventac":
         adx_5m = ADX(ohlc_5m)

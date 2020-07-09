@@ -48,7 +48,7 @@ def calcular_rango_sop_res(ohlc, rango_velas):
 def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, numero_noticias,
         horas_noticias, monto):
     print("comenzando")
-    cantidad = dinero_invertido(monto)
+    monto = dinero_invertido(monto)
     contador_est = ContadorEstrategias()
     objeto_rango = SeguimientoRangos()
     timeout = time.time() + (tiempo_de_ejecucion_minutos * 60)
@@ -143,7 +143,7 @@ def run(tiempo_de_ejecucion_minutos, primera_divisa, segunda_divisa, numero_noti
                               resistencia_punto_menor_5m, soporte_punto_menor_1m, soporte_punto_mayor_1m,
                               soporte_punto_menor_5m, soporte_punto_mayor_5m, resistencia_punto_mayor_30m,
                               resistencia_punto_menor_30m, soporte_punto_menor_30m, soporte_punto_mayor_30m,
-                              cantidad, client, live_price_request, contador_est)
+                              monto, client, live_price_request, contador_est)
         time.sleep(10)
 
 

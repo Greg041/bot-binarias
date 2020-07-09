@@ -61,7 +61,7 @@ def click_image(image, pos, action, timestamp, offset=5):
     pyautogui.click(button=action)
 
 
-def ejecucion(signal, par, tiempo, monto):
+def ejecucion(signal, par, tiempo, monto, ultimo_precio, rango_superior, rango_inferior):
     if signal != "":
         click_image("par.jpg", (489, 338), "left", 0.05)
         time.sleep(0.3)
@@ -98,10 +98,23 @@ def ejecucion(signal, par, tiempo, monto):
         except:
             pass
         time.sleep(2)
-        click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
-        click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
-        winsound.Beep(440, 1000)
-        time.sleep(4)
+        timeout = time.time() + 300
+        # Esperar a que el precio esté en la posición optima para ejecutar la operación y por un lapso de 5 minutos
+        imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 690, 1250, 770)
+        while imagen_ver_compra == [-1, -1]:
+            click_image("x.jpg", (1388, 415), "left", 0.05)
+            while ultimo_precio > rango_inferior or time.time() >= timeout:
+                print("ultimo precio debe ser menor a rango: ", ultimo_precio)
+                print("rango inferior: ", rango_inferior)
+                time.sleep(1)
+                pass
+                if time.time() >= timeout:
+                    return 0
+            click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
+            click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
+            winsound.Beep(440, 1000)
+            time.sleep(4)
+            imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 690, 1250, 770)
         click_image("x.jpg", (1388, 415), "left", 0.05)
     elif signal == "compraf":
         print("compra a favor")
@@ -115,10 +128,23 @@ def ejecucion(signal, par, tiempo, monto):
         except:
             pass
         time.sleep(2)
-        click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
-        click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
-        winsound.Beep(440, 1000)
-        time.sleep(4)
+        timeout = time.time() + 300
+        # Esperar a que el precio esté en la posición optima para ejecutar la operación y por un lapso de 5
+        # minutos
+        imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 690, 1250, 770)
+        while imagen_ver_compra == [-1, -1]:
+            click_image("x.jpg", (1388, 415), "left", 0.05)
+            while ultimo_precio > (rango_superior + 0.0001) or time.time() >= timeout:
+                print("ultimo precio debe ser menor a rango: ", ultimo_precio)
+                print("rango inferior: ", (rango_superior + 0.0001))
+                pass
+                if time.time() >= timeout:
+                    return 0
+            click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
+            click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
+            winsound.Beep(440, 1000)
+            time.sleep(4)
+            imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 690, 1250, 770)
         click_image("x.jpg", (1388, 415), "left", 0.05)
     elif signal == "ventac":
         print("venta contratendencia")
@@ -132,10 +158,23 @@ def ejecucion(signal, par, tiempo, monto):
         except:
             pass
         time.sleep(2)
-        click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
-        click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
-        winsound.Beep(440, 1000)
-        time.sleep(4)
+        timeout = time.time() + 300
+        # Esperar a que el precio esté en la posición optima para ejecutar la operación y por un lapso de 5 minutos
+        imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 690, 1250, 770)
+        while imagen_ver_compra == [-1, -1]:
+            click_image("x.jpg", (1388, 415), "left", 0.05)
+            while ultimo_precio < rango_superior or time.time() >= timeout:
+                print("ultimo precio debe ser mayor a rango: ", ultimo_precio)
+                print("rango inferior: ", rango_superior)
+                time.sleep(1)
+                pass
+                if time.time() >= timeout:
+                    return 0
+            click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
+            click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
+            winsound.Beep(440, 1000)
+            time.sleep(4)
+            imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 690, 1250, 770)
         click_image("x.jpg", (1388, 415), "left", 0.05)
     elif signal == "ventaf":
         print("venta a favor")
@@ -149,8 +188,22 @@ def ejecucion(signal, par, tiempo, monto):
         except:
             pass
         time.sleep(2)
-        click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
-        click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
+        timeout = time.time() + 300
+        # Esperar a que el precio esté en la posición optima para ejecutar la operación y por un lapso de 5 minutos
+        imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 690, 1250, 770)
+        while imagen_ver_compra == [-1, -1]:
+            while ultimo_precio < (rango_inferior - 0.0001) or time.time() >= timeout:
+                print("ultimo precio debe ser mayor a rango: ", ultimo_precio)
+                print("rango inferior: ", (rango_inferior - 0.0001))
+                time.sleep(1)
+                pass
+                if time.time() >= timeout:
+                    return 0
+            click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
+            click_image("imagen compra.jpg", (1089, 630), "left", 0.05)
+            winsound.Beep(440, 1000)
+            time.sleep(4)
+            imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 690, 1250, 770)
         winsound.Beep(440, 1000)
         time.sleep(4)
         click_image("x.jpg", (1388, 415), "left", 0.05)

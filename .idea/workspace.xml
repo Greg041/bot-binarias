@@ -2,20 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="efedeb59-f94a-4df5-b93e-1946b01acc0d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/estrategia6.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Ejecucion2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ejecucion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ejecucion.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ExtraccionDatos10s.py" beforeDir="false" afterPath="$PROJECT_DIR$/ExtraccionDatos10s.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SeguimientoIchimoku.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoIchimoku.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SeguimientoDivergencia.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoDivergencia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SeguimientoRangos.py" beforeDir="false" afterPath="$PROJECT_DIR$/SeguimientoRangos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/analisis_y_estrategia.py" beforeDir="false" afterPath="$PROJECT_DIR$/analisis_y_estrategia.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos estrategia 3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/datos estrategia 3.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_10s.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_10s.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M1.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M30.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M30.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/datos_M5.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datos_M5.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/estrategia6.py" beforeDir="false" afterPath="$PROJECT_DIR$/estrategia6.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/prueba.py" beforeDir="false" afterPath="$PROJECT_DIR$/prueba.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/seguimiento_bollinger.py" beforeDir="false" afterPath="$PROJECT_DIR$/seguimiento_bollinger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testarea.png" beforeDir="false" afterPath="$PROJECT_DIR$/testarea.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +54,7 @@
       <recent name="C:\Users\g_reg\Desktop\bot binarias" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.prueba">
     <configuration name="SeguimientoRangos" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="bot binarias" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -160,9 +162,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.prueba" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.SeguimientoRangos" />
-        <item itemvalue="Python.prueba" />
         <item itemvalue="Python.imagesearch" />
         <item itemvalue="Python.analisis_y_estrategia" />
       </list>
@@ -178,13 +180,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1578051824094</updated>
-    </task>
-    <task id="LOCAL-00029" summary="- pulida estrategia 3 reduciendo codigo para mejor lectura&#10;- creada funcion para calcular el rango de soportes y resistencias para reducir codigo repetitivo en la funcion run y para mejor lectura">
-      <created>1579667399823</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1579667399824</updated>
     </task>
     <task id="LOCAL-00030" summary="- pulida estrategia 3 reduciendo codigo para mejor lectura&#10;- creada funcion para calcular el rango de soportes y resistencias para reducir codigo repetitivo en la funcion run y para mejor lectura">
       <created>1579667558280</created>
@@ -522,7 +517,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591665621555</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="- diseñado módulo estrategia6.py para operar junto a el modulo SeguimientoRangos.py&#10;- editados parametros pasados al subproceso ExtraccionDatos10s.py para que lleguen hasta la estrategia6.py">
+      <created>1592619168243</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1592619168261</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -539,7 +541,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="- editado estrategia general, a favor y toda para recibir el monto a recibir en caso de que se escoja una de las 2 para hacer martingala.&#10;- agregado argumentos a las funciones de SeguimientoDivergencia.py y SeguimientoIchimoku.py para recibir monto en caso de haber uno y pasarlo a la funcion Ejecucion.py  para introducirlo antes de hacer la operación" />
     <MESSAGE value="- modificado modulo ExtraccionDatosOanda.py para que contenga solo una función y no una subclase de un subproceso (para ahorrar memoria y código) a la cual se le pasará como atributo el cliente de oanda y solo se encargará de extraer los datos de las velas y modificados los módulos main.py, SeguimientoIchimoku.py y SeguimientoDivergencia.py para adaptarse a esta nueva edición del módulo ExtraccionDatosOanda.py&#10;- pulido modulo Ejecucion.py para mayor precisión a la hora de realizar operaciones en binary.com" />
     <MESSAGE value="- modificado modulo ExtraccionDatosOanda.py para que contenga solo una función y no una subclase de un subproceso (para ahorrar memoria y código) a la cual se le pasará como atributo el cliente de oanda y solo se encargará de extraer los datos de las velas y modificados los módulos main.py, SeguimientoIchimoku.py y SeguimientoDivergencia.py para adaptarse a esta nueva edición del módulo ExtraccionDatosOanda.py&#10;- pulido modulo Ejecucion.py para mayor precisión a la hora de realizar operaciones en binary.com&#10;- modificada estrategia #3 de seguimiento ichimoku2 para tomar en cuenta los soportes y las resistencias en rangos de 1 minuto" />
     <MESSAGE value="- pulidas estrategias debido a diferentes bugs" />
@@ -564,7 +565,8 @@
     <MESSAGE value="- cambiado modos de seguimiento de estrategias para esperar a que el precio esté sobre el 70% del rango o debajo del 30%&#10;- Creado modulo que se encarga de actualizar los arrays para hacer seguimiento de los rangos y el ultimo precio&#10;- modificado el modulo de ExtraccionDatos10s.py para que llame a la función del modulo SeguimientoRangos.py y actualice sus valores de forma constante &#10;- creado modulo ContadorEstrategia.py para hacer seguimiento a la cantidad de veces que se ha ejecutado una estrategia de forma seguida&#10;- modificado seguimientos de estrategias para usar el objeto ContadorEstrategia.py y llevar cuenta de cuantas veces se ha ejecutado una estrategia en especifico de forma seguida" />
     <MESSAGE value="- corregidos bugs en los seguimientos de todas las estrategias y optimizado el código&#10;- optimizado código en el modulo Ejecucion.py" />
     <MESSAGE value="- agregado código en el módulo Ejecucion.py para detectar si la ejecucion de la operacion fue exitosa y en caso de no serlo repetir el proceso de la compra&#10;- modificado código en el módulo Ejecucion.py para que en la variacion #1 de las estrategias tome en cuenta el rango 80 y 20 en vez del 70 y 30" />
-    <option name="LAST_COMMIT_MESSAGE" value="- agregado código en el módulo Ejecucion.py para detectar si la ejecucion de la operacion fue exitosa y en caso de no serlo repetir el proceso de la compra&#10;- modificado código en el módulo Ejecucion.py para que en la variacion #1 de las estrategias tome en cuenta el rango 80 y 20 en vez del 70 y 30" />
+    <MESSAGE value="- diseñado módulo estrategia6.py para operar junto a el modulo SeguimientoRangos.py&#10;- editados parametros pasados al subproceso ExtraccionDatos10s.py para que lleguen hasta la estrategia6.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="- diseñado módulo estrategia6.py para operar junto a el modulo SeguimientoRangos.py&#10;- editados parametros pasados al subproceso ExtraccionDatos10s.py para que lleguen hasta la estrategia6.py" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="160" key="#Plugins" timestamp="1590953644004">
@@ -576,51 +578,51 @@
     </state>
     <state x="833" y="1385" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/360.1080.1280.984@360.1080.1280.984" timestamp="1590021517059" />
     <state x="710" y="322" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1587421935302" />
-    <state x="648" y="1159" key="CommitChangelistDialog2" timestamp="1591665595733">
-      <screen x="376" y="1080" width="1280" height="984" />
+    <state x="184" y="83" key="CommitChangelistDialog2" timestamp="1592619145597">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="184" y="83" key="CommitChangelistDialog2/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1591568921679" />
+    <state x="184" y="83" key="CommitChangelistDialog2/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1592619145597" />
     <state x="648" y="1159" key="CommitChangelistDialog2/0.0.1920.1040/376.1080.1280.984@376.1080.1280.984" timestamp="1591665595733" />
     <state x="0" y="92" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1589240539470" />
     <state x="739" y="295" key="FileChooserDialogImpl" timestamp="1587424370673">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="739" y="295" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1587424370673" />
-    <state width="1899" height="218" key="GridCell.Tab.0.bottom" timestamp="1592606620134">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1259" height="203" key="GridCell.Tab.0.bottom" timestamp="1594097435119">
+      <screen x="376" y="1080" width="1280" height="984" />
     </state>
     <state width="1232" height="91" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1589764313533" />
     <state width="1259" height="140" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1280.984@1920.0.1280.984" timestamp="1589950159015" />
     <state width="1259" height="206" key="GridCell.Tab.0.bottom/0.0.1920.1040/360.1080.1280.984@360.1080.1280.984" timestamp="1590117738056" />
-    <state width="1899" height="218" key="GridCell.Tab.0.bottom/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1592606620134" />
-    <state width="1259" height="205" key="GridCell.Tab.0.bottom/0.0.1920.1040/376.1080.1280.984@376.1080.1280.984" timestamp="1591718482577" />
+    <state width="1899" height="218" key="GridCell.Tab.0.bottom/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1593110362738" />
+    <state width="1259" height="203" key="GridCell.Tab.0.bottom/0.0.1920.1040/376.1080.1280.984@376.1080.1280.984" timestamp="1594097435119" />
     <state width="1899" height="220" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1590381478741" />
-    <state width="1899" height="218" key="GridCell.Tab.0.center" timestamp="1592606620134">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1259" height="203" key="GridCell.Tab.0.center" timestamp="1594097435118">
+      <screen x="376" y="1080" width="1280" height="984" />
     </state>
     <state width="1232" height="91" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1589764313532" />
     <state width="1259" height="140" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1280.984@1920.0.1280.984" timestamp="1589950159015" />
     <state width="1259" height="206" key="GridCell.Tab.0.center/0.0.1920.1040/360.1080.1280.984@360.1080.1280.984" timestamp="1590117738056" />
-    <state width="1899" height="218" key="GridCell.Tab.0.center/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1592606620134" />
-    <state width="1259" height="205" key="GridCell.Tab.0.center/0.0.1920.1040/376.1080.1280.984@376.1080.1280.984" timestamp="1591718482576" />
+    <state width="1899" height="218" key="GridCell.Tab.0.center/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1593110362738" />
+    <state width="1259" height="203" key="GridCell.Tab.0.center/0.0.1920.1040/376.1080.1280.984@376.1080.1280.984" timestamp="1594097435118" />
     <state width="1899" height="220" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1590381478741" />
-    <state width="1899" height="218" key="GridCell.Tab.0.left" timestamp="1592606620133">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1259" height="203" key="GridCell.Tab.0.left" timestamp="1594097435118">
+      <screen x="376" y="1080" width="1280" height="984" />
     </state>
     <state width="1232" height="91" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1589764313532" />
     <state width="1259" height="140" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1280.984@1920.0.1280.984" timestamp="1589950159015" />
     <state width="1259" height="206" key="GridCell.Tab.0.left/0.0.1920.1040/360.1080.1280.984@360.1080.1280.984" timestamp="1590117738055" />
-    <state width="1899" height="218" key="GridCell.Tab.0.left/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1592606620133" />
-    <state width="1259" height="205" key="GridCell.Tab.0.left/0.0.1920.1040/376.1080.1280.984@376.1080.1280.984" timestamp="1591718482576" />
+    <state width="1899" height="218" key="GridCell.Tab.0.left/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1593110362737" />
+    <state width="1259" height="203" key="GridCell.Tab.0.left/0.0.1920.1040/376.1080.1280.984@376.1080.1280.984" timestamp="1594097435118" />
     <state width="1899" height="220" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1590381478741" />
-    <state width="1899" height="218" key="GridCell.Tab.0.right" timestamp="1592606620134">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1259" height="203" key="GridCell.Tab.0.right" timestamp="1594097435118">
+      <screen x="376" y="1080" width="1280" height="984" />
     </state>
     <state width="1232" height="91" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1280.984@0.0.1920.1040" timestamp="1589764313532" />
     <state width="1259" height="140" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1280.984@1920.0.1280.984" timestamp="1589950159015" />
     <state width="1259" height="206" key="GridCell.Tab.0.right/0.0.1920.1040/360.1080.1280.984@360.1080.1280.984" timestamp="1590117738056" />
-    <state width="1899" height="218" key="GridCell.Tab.0.right/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1592606620134" />
-    <state width="1259" height="205" key="GridCell.Tab.0.right/0.0.1920.1040/376.1080.1280.984@376.1080.1280.984" timestamp="1591718482576" />
+    <state width="1899" height="218" key="GridCell.Tab.0.right/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1593110362738" />
+    <state width="1259" height="203" key="GridCell.Tab.0.right/0.0.1920.1040/376.1080.1280.984@376.1080.1280.984" timestamp="1594097435118" />
     <state width="1899" height="220" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1590381478741" />
     <state width="1882" height="180" key="GridCell.Tab.1.bottom" timestamp="1588896136991">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -638,29 +640,31 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1882" height="180" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588896136991" />
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1591568958942">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1592620012972">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1591568958942" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1592620012972" />
     <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589240549155" />
     <state x="655" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1588897858506">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="655" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588897858506" />
-    <state x="764" y="581" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590620463216">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="885" y="1630" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1593644990357">
+      <screen x="376" y="1080" width="1280" height="984" />
     </state>
     <state x="869" y="1630" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/360.1080.1280.984@360.1080.1280.984" timestamp="1590117456931" />
     <state x="764" y="581" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1590620463216" />
+    <state x="885" y="1630" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/376.1080.1280.984@376.1080.1280.984" timestamp="1593644990357" />
     <state x="764" y="581" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1590375283998" />
     <state x="125" y="0" width="1442" height="1028" key="dock-window-1" timestamp="1592363096070">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="125" y="0" width="1442" height="1028" key="dock-window-1/0.0.1920.1040@0.0.1920.1040" timestamp="1592363096070" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1590619954901">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="791" y="1293" width="672" height="642" key="search.everywhere.popup" timestamp="1594265343696">
+      <screen x="376" y="1080" width="1280" height="984" />
     </state>
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/376.1080.1280.984@0.0.1920.1040" timestamp="1590619954901" />
+    <state x="791" y="1293" width="672" height="642" key="search.everywhere.popup/0.0.1920.1040/376.1080.1280.984@376.1080.1280.984" timestamp="1594265343696" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1590379926276" />
   </component>
 </project>

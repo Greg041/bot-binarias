@@ -10,8 +10,22 @@ from multiprocessing import Process, Value, Array, Manager
 import array
 from ExtraccionDatos10s import extraccion_10s_continua
 import os
-def r(num, rand):
-    return num + rand * random.random()
+from estrategia6 import chequear_estrategia_6
+
+
+class CronometroEjecucionModulo:
+    def __init__(self):
+        self.tiempo_de_espera_minutos = Value('i', 0)
+
+    def retornar_cronometro(self):
+        return self.tiempo_de_espera_minutos.value
+
+    # Este método siempre se debe de ejecutar a través de un subproceso
+    def comenzar_cronometro(self, tiempo_de_espera_minutos):
+        self.tiempo_de_espera_minutos.value = tiempo_de_espera_minutos
+        print("comienza a correr cronometro")
+        time.sleep(int(tiempo_de_espera_minutos) * 60)
+        self.tiempo_de_espera_minutos.value = 0
 
 
 '''
@@ -28,16 +42,8 @@ time : time taken for the mouse to move from where it was to the new position
 
 
 if __name__ == "__main__":
-    imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 715, 1250, 770)
-    while imagen_ver_compra == [-1, -1]:
-        click_image("x.jpg", (1388, 415), "left", 0.05)
-        while -1 >= 0:
-            pass
-        click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
-        click_image("imagen compra.jpg", (1089, 470), "left", 0.05)
-        precio_a_retornar = 5
-        time.sleep(4)
-        imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 700, 1250, 770)
-        print(imagen_ver_compra)
-    click_image("x.jpg", (1388, 415), "left", 0.05)
+    imagen_ver_compra = imagesearcharea("imagen_ver_compra.jpg", 1130, 690, 1250, 770)
+    print(imagen_ver_compra)
+
+
 
